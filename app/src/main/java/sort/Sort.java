@@ -3,6 +3,12 @@ package sort;
 import android.util.Log;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by chenming on 16/12/23.
@@ -170,11 +176,13 @@ public class Sort {
 
     /**
      * 归并排序,原理:分治思想，划分两个子序列，然后将两个排好的子序列合并.空间复杂度O(n), 时间复杂度O(nlgn)
+     *
      * @param arr
      */
-    public static void mergeSort(int[] arr){
-        mergeSort(arr, 0, arr.length-1);
+    public static void mergeSort(int[] arr) {
+        mergeSort(arr, 0, arr.length - 1);
     }
+
     /**
      * 递归分治
      *
@@ -188,7 +196,7 @@ public class Sort {
         }
         int mid = (left + right) / 2;
         mergeSort(arr, left, mid);
-        mergeSort(arr, mid+1, right);
+        mergeSort(arr, mid + 1, right);
         mergeArr(arr, left, mid, right);
     }
 
@@ -229,5 +237,82 @@ public class Sort {
 
         printArray(arr);
 
+    }
+
+    /**
+     * 计数排序:找到数组最大值max, 创建引入数组tmp[max+1],
+     * 然后遍历待排序数组arr[i],做tmp[arr[i]]++操作,这样
+     * tmp每个位置就记录了arr的元素分布，最后从低到高，将元素还原，实现排序
+     *空间复杂度O(n),时间复杂度O(n)!
+     * @param arr
+     */
+    public static void countSort(int[] arr) {
+        int max = max(arr);
+        int[] countArr = new int[max+1];
+        Arrays.fill(countArr, 0);
+
+        for(int i = 0; i < arr.length; i++){
+            countArr[arr[i]]++;//相应的索引值+1
+        }
+        printArray(countArr);
+        int scanIndex = 0;
+        //还原数组
+        for(int i = 0; i < countArr.length; i++){
+            for(int j = 0; j < countArr[i]; j++){
+                arr[scanIndex++] = i;
+            }
+        }
+
+        printArray(arr);
+
+    }
+
+    private static int max(int[] arr) {
+        int max = Integer.MIN_VALUE;
+        for (int ele : arr) {
+            if (ele > max)
+                max = ele;
+        }
+
+        return max;
+
+    }
+
+    /**
+     * 将数组划分M个桶，每个桶最多N个元素,两者关系 M = max/N+1,然后将每个元素根据索引映射函数确定属于哪个桶
+     * 桶划分好之后，分别进行快速排序,空间复杂度M+N,时间复杂度:O(n+M*(N*logN)),最佳可以达到O(n)，
+     * 弊端:数组的最大值对桶的个数有决定影响,当max和均值差距比较大时，会造成空间的急剧浪费
+     * @param arr
+     */
+    public static void bucketSort(int[] arr){
+        int bucketNum = max(arr)/10+1;//每个桶10个元素
+        List<List<Integer>> buckets = new LinkedList<>();
+
+        for(int i = 0; i < bucketNum; i++){
+            buckets.add(new ArrayList<Integer>());
+        }
+
+        for(int i = 0; i<arr.length; i++){
+            int bucketIndex = arr[i]/10;
+            buckets.get(bucketIndex).add(arr[i]);
+        }
+
+        //每个桶排序
+        for(int i = 0; i<buckets.size(); i++){
+            List<Integer> integers = buckets.get(i);
+            if(!integers.isEmpty()){
+                Collections.sort(integers);
+            }
+        }
+
+        //还原排序数组
+        int k = 0;
+        for(int i = 0; i<buckets.size(); i++){
+            for(Integer item: buckets.get(i)){
+                arr[k++] = item;
+            }
+        }
+
+        printArray(arr);
     }
 }
