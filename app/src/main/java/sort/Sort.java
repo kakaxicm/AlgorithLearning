@@ -125,5 +125,38 @@ public class Sort {
         Log.e("TAG", sb.toString());
     }
 
+    /**
+     * @param arr
+     */
+    private static void shellInsert(int[] arr, int d){
+        for(int i = d; i < arr.length; i++){
+            int toInsertValue = arr[i];//新来的"牌"
+            int j = i;//从右往左遍历
+            while(j > 0 && arr[j-d] > toInsertValue){
+                arr[j] = arr[j-d];//后移
+                j = j - d;
+            }
+            arr[j] = toInsertValue;//合适位置
+        }
+        printArray(arr);
+    }
+
+    /**
+     * 原理:按增量对数组分组，分别进行插入排序.它比直接插入排序算法效率高的原因:
+     * 1.当文件初态基本有序时直接插入排序所需的比较和移动次数均较少。
+     * 2.在希尔排序开始时增量较大，分组较多，每组的记录数目少，故各组内直接插入较快，后来增量d逐渐缩小，
+     * 分组数逐渐减少，而各组的记录数目逐渐增多，但由于已经按di-1作为距离排过序，使文件较接近于有序状态，
+     * 所以新的一趟排序过程也较快。
+     * @param arr
+     */
+    public static void shellSort(int[] arr){
+        int gap = arr.length/2;
+        while (gap >= 1){
+            shellInsert(arr, gap);
+            gap /= 2;
+        }
+    }
+
+
 
 }

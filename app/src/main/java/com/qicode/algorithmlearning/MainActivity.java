@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 //        Sort.bubbleSort(mArray);
 //        Sort.selectSort(mArray);
 //        Sort.insertSort(mArray);
-        Sort.puickSort(mArray);
+//        Sort.puickSort(mArray);
+        Sort.shellSort(mArray);
     }
 }
