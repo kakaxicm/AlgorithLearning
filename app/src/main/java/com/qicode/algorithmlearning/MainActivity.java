@@ -9,6 +9,7 @@ import List.Iterator;
 import List.LinkedList;
 import List.Person;
 import sort.Sort;
+import stack.Stack;
 
 public class MainActivity extends AppCompatActivity {
     private int[] mArray = {5,3,4,6,2,7,10,8,12,4,1};
@@ -25,23 +26,36 @@ public class MainActivity extends AppCompatActivity {
 //        Sort.countSort(mArray);
 //        Sort.bucketSort(mArray);
         //List测试
-        LinkedList<Person> list = new LinkedList<Person>();
-        Person removePerson = new Person("2");
-        list.add(new Person("1"));
-        list.add(new Person("2"));
-        list.add(new Person("3"));
-        list.add(new Person("4"));
-        list.remove(new Person("2"));
+//        LinkedList<Person> list = new LinkedList<Person>();
+//        Person removePerson = new Person("2");
+//        list.add(new Person("1"));
+//        list.add(new Person("2"));
+//        list.add(new Person("3"));
+//        list.add(new Person("4"));
+//        list.remove(new Person("2"));
 //        for(int i = 0; i < list.size(); i++){
 //            Log.e("TAG", list.get(i).toString());
 //        }
-        Iterator<Person> iterator = list.iterator();
-        while(iterator.hasNext()){
-            Log.e("TAG==", iterator.next().toString());
-            iterator.remove();
+//        Iterator<Person> iterator = list.iterator();
+//        while(iterator.hasNext()){
+//            Log.e("TAG==", iterator.next().toString());
+//            iterator.remove();
+//        }
+//
+//        Log.e("TAG", list.size()+"");
+
+        //Stack测试
+        Stack<Integer> stack = new Stack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.pop();
+        stack.push(4);
+        Log.e("TAG", stack.size()+"=="+stack.peek());
+//        stack.clear();
+        while (!stack.isEmpty()){
+            Log.e("TAG", stack.pop()+"");
         }
-
-        Log.e("TAG", list.size()+"");
-
+        Log.e("TAG", stack.size()+"==");
     }
 }
