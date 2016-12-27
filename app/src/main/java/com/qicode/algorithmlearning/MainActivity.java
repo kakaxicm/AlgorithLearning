@@ -9,10 +9,12 @@ import List.Iterator;
 import List.LinkedList;
 import List.Person;
 import sort.Sort;
+import stack.HanoiTower;
 import stack.Stack;
 
 public class MainActivity extends AppCompatActivity {
-    private int[] mArray = {5,3,4,6,2,7,10,8,12,4,1};
+    private int[] mArray = {5, 3, 4, 6, 2, 7, 10, 8, 12, 4, 1};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +53,23 @@ public class MainActivity extends AppCompatActivity {
         stack.push(3);
         stack.pop();
         stack.push(4);
-        Log.e("TAG", stack.size()+"=="+stack.peek());
+//        Log.e("TAG", stack.size()+"=="+stack.peek());
 //        stack.clear();
-        while (!stack.isEmpty()){
-            Log.e("TAG", stack.pop()+"");
+//        while (!stack.isEmpty()){
+//            Log.e("TAG", stack.pop()+"");
+//        }
+//        Log.e("TAG", stack.size()+"==");
+        //hanoitest
+        Stack<Integer> x = new Stack<>();
+        Stack<Integer> y = new Stack<>();
+        Stack<Integer> z = new Stack<>();
+        x.ID = "x";
+        y.ID = "y";
+        z.ID = "z";
+        int n = 5;
+        for (int i = 1; i <= n; i++) {
+            x.push(i);
         }
-        Log.e("TAG", stack.size()+"==");
+        new HanoiTower().hanoi(n, x, y, z);
     }
 }

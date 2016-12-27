@@ -1,5 +1,4 @@
 package stack;
-
 import List.Node;
 
 /**
@@ -7,7 +6,8 @@ import List.Node;
  */
 
 public class Stack<T> {
-    private Node<T> mTop;//栈顶指针
+    public String ID;
+    public Node<T> mTop;//栈顶指针
     private int mSize;
 
     /**
@@ -75,4 +75,5 @@ public class Stack<T> {
         item = mTop.mData;
         return item;
     }
+
 }
