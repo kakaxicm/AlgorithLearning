@@ -11,6 +11,7 @@ import List.Person;
 import queue.Queue;
 import sort.Sort;
 import stack.HanoiTower;
+import stack.PostFixExpression;
 import stack.Stack;
 
 public class MainActivity extends AppCompatActivity {
@@ -93,5 +94,12 @@ public class MainActivity extends AppCompatActivity {
 //        for(int i = 0; i < queue.size(); i++){
 //            Log.e("TAG", queue.getItem(i).toString());
 //        }
+
+        /**
+         * a+b*c+(d*e+f)*g
+         */
+//        new PostFixExpression().convertMidToPostFixExpression("a+b*c+(d*e+f)*g");
+        new PostFixExpression().convertMidToPostFixExpression("((2+3)*8+5+3)*6");
+        new PostFixExpression().calulateExpression("((2+3)*8+5+9/3)*6");
     }
 }

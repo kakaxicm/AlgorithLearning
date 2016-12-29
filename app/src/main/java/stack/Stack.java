@@ -72,7 +72,9 @@ public class Stack<T> {
      */
     public T peek(){
         T item = null;
-        item = mTop.mData;
+        if(mTop != null){
+            item = mTop.mData;
+        }
         return item;
     }
 
