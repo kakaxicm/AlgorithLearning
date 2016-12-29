@@ -8,6 +8,7 @@ import List.ArrayList;
 import List.Iterator;
 import List.LinkedList;
 import List.Person;
+import queue.Queue;
 import sort.Sort;
 import stack.HanoiTower;
 import stack.Stack;
@@ -28,20 +29,20 @@ public class MainActivity extends AppCompatActivity {
 //        Sort.countSort(mArray);
 //        Sort.bucketSort(mArray);
         //List测试
-        LinkedList<Person> list = new LinkedList<Person>();
-        Person removePerson = new Person("2");
-        list.add(new Person("1"));
-        list.add(new Person("2"));
-        list.add(new Person("3"));
-        list.add(new Person("4"));
+//        LinkedList<Person> list = new LinkedList<Person>();
+//        Person removePerson = new Person("2");
+//        list.add(new Person("1"));
+//        list.add(new Person("2"));
+//        list.add(new Person("3"));
+//        list.add(new Person("4"));
 //        list.remove(new Person("2"));
 //        list.removeFromHead();
 //        list.addToHead(new Person("headperson"));
 //        list.removeFromtail();
 //        list.removeFromtail();
-        for(int i = 0; i < list.size(); i++){
-            Log.e("TAG", list.get(i).toString());
-        }
+//        for(int i = 0; i < list.size(); i++){
+//            Log.e("TAG", list.get(i).toString());
+//        }
 //        Iterator<Person> iterator = list.iterator();
 //        while(iterator.hasNext()){
 //            Log.e("TAG==", iterator.next().toString());
@@ -64,16 +65,33 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        Log.e("TAG", stack.size()+"==");
         //hanoitest
-        Stack<Integer> x = new Stack<>();
-        Stack<Integer> y = new Stack<>();
-        Stack<Integer> z = new Stack<>();
-        x.ID = "x";
-        y.ID = "y";
-        z.ID = "z";
-        int n = 5;
-        for (int i = n; i >= 1; i--) {
-            x.push(i);
-        }
-        new HanoiTower().hanoi(n, x, y, z);
+//        Stack<Integer> x = new Stack<>();
+//        Stack<Integer> y = new Stack<>();
+//        Stack<Integer> z = new Stack<>();
+//        x.ID = "x";
+//        y.ID = "y";
+//        z.ID = "z";
+//        int n = 5;
+//        for (int i = n; i >= 1; i--) {
+//            x.push(i);
+//        }
+//        new HanoiTower().hanoi(n, x, y, z);
+//        /**
+//         *队列测试
+//         */
+//        Queue<Integer> queue = new Queue<>();
+//        queue.enquene(1);
+//        queue.enquene(2);
+//        queue.enquene(3);
+//        queue.enquene(4);
+//
+//        queue.dequeue();
+//
+//        while (!queue.isEmpty()){
+//            Log.e("TAG", queue.dequeue().toString());
+//        }
+//        for(int i = 0; i < queue.size(); i++){
+//            Log.e("TAG", queue.getItem(i).toString());
+//        }
     }
 }
