@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Created by chenming on 16/12/26.
+ * 双向链表实现
  */
 
 public class LinkedList<T> implements List<T> {
@@ -102,6 +103,38 @@ public class LinkedList<T> implements List<T> {
         mSize--;
         mModifyCount++;
         return node.mData;
+    }
+
+    /**
+     * 从头结点移除
+     * @return
+     */
+    public T removeFromHead(){
+       return removeNode(getNode(0));
+    }
+
+    /**
+     * 从尾结点添加
+     * @param item
+     */
+    public void addToTail(T item){
+        add(size(), item);
+    }
+
+    /**
+     * 从尾部移除
+     * @return
+     */
+    public T removeFromtail(){
+       return remove(size()-1);
+    }
+
+    /**
+     * 从头部添加
+     * @param item
+     */
+    public void addToHead(T item){
+        add(0, item);
     }
 
     @Override

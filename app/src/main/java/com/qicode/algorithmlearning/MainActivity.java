@@ -28,31 +28,35 @@ public class MainActivity extends AppCompatActivity {
 //        Sort.countSort(mArray);
 //        Sort.bucketSort(mArray);
         //List测试
-//        LinkedList<Person> list = new LinkedList<Person>();
-//        Person removePerson = new Person("2");
-//        list.add(new Person("1"));
-//        list.add(new Person("2"));
-//        list.add(new Person("3"));
-//        list.add(new Person("4"));
+        LinkedList<Person> list = new LinkedList<Person>();
+        Person removePerson = new Person("2");
+        list.add(new Person("1"));
+        list.add(new Person("2"));
+        list.add(new Person("3"));
+        list.add(new Person("4"));
 //        list.remove(new Person("2"));
-//        for(int i = 0; i < list.size(); i++){
-//            Log.e("TAG", list.get(i).toString());
-//        }
+//        list.removeFromHead();
+//        list.addToHead(new Person("headperson"));
+//        list.removeFromtail();
+//        list.removeFromtail();
+        for(int i = 0; i < list.size(); i++){
+            Log.e("TAG", list.get(i).toString());
+        }
 //        Iterator<Person> iterator = list.iterator();
 //        while(iterator.hasNext()){
 //            Log.e("TAG==", iterator.next().toString());
 //            iterator.remove();
 //        }
-//
+
 //        Log.e("TAG", list.size()+"");
 
         //Stack测试
-        Stack<Integer> stack = new Stack<>();
-        stack.push(1);
-        stack.push(2);
-        stack.push(3);
-        stack.pop();
-        stack.push(4);
+//        Stack<Integer> stack = new Stack<>();
+//        stack.push(1);
+//        stack.push(2);
+//        stack.push(3);
+//        stack.pop();
+//        stack.push(4);
 //        Log.e("TAG", stack.size()+"=="+stack.peek());
 //        stack.clear();
 //        while (!stack.isEmpty()){
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         y.ID = "y";
         z.ID = "z";
         int n = 5;
-        for (int i = 1; i <= n; i++) {
+        for (int i = n; i >= 1; i--) {
             x.push(i);
         }
         new HanoiTower().hanoi(n, x, y, z);
