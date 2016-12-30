@@ -13,6 +13,8 @@ import sort.Sort;
 import stack.HanoiTower;
 import stack.PostFixExpression;
 import stack.Stack;
+import tree.BinaryNode;
+import tree.BinaryTree;
 
 public class MainActivity extends AppCompatActivity {
     private int[] mArray = {5, 3, 4, 6, 2, 7, 10, 8, 12, 4, 1};
@@ -99,7 +101,21 @@ public class MainActivity extends AppCompatActivity {
          * a+b*c+(d*e+f)*g
          */
 //        new PostFixExpression().convertMidToPostFixExpression("a+b*c+(d*e+f)*g");
-        new PostFixExpression().convertMidToPostFixExpression("((2+3)*8+5+3)*6");
-        new PostFixExpression().calulateExpression("((2+3)*8+5+9/3)*6");
+//        new PostFixExpression().convertMidToPostFixExpression("((2+3)*8+5+3)*6");
+//        new PostFixExpression().calulateExpression("((2+3)*8+5+9/3)*6");
+        BinaryTree<Integer> tree = new BinaryTree<>();
+        tree.insert(5);
+        tree.insert(7);
+        tree.insert(3);
+        tree.insert(4);
+        tree.insert(3);
+        tree.insert(1);
+        tree.insert(6);
+        tree.insert(2);
+        tree.insert(8);
+//        BinaryNode<Integer> removedNode = tree.remove(1, tree.mRoot);
+//        Log.e("TAG", tree.findMax()+","+tree.findMin()+", size="+tree.size());
+        BinaryNode<Integer> node = tree.findNode(3);
+        Log.e("TAG", "node = "+tree.contains(8)+","+node.mDupCount);
     }
 }
