@@ -1,5 +1,7 @@
 package tree;
 
+import queue.Queue;
+
 /**
  * Created by chenming on 16/12/30.
  */
@@ -203,6 +205,7 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 查找节点
+     *
      * @param data
      * @return
      */
@@ -213,23 +216,24 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 递归查找元素
+     *
      * @param data
      * @param currentNode
      * @return
      */
-    public BinaryNode findNode(T data, BinaryNode<T> currentNode){
-        if(currentNode == null){
+    public BinaryNode findNode(T data, BinaryNode<T> currentNode) {
+        if (currentNode == null) {
             return null;
         }
 
         int compareResult = data.compareTo(currentNode.data);
-        if(compareResult == 0){
+        if (compareResult == 0) {
             return currentNode;
         }
 
-        if(compareResult > 0){
+        if (compareResult > 0) {
             currentNode = findNode(data, currentNode.right);//移动node指针
-        }else if(compareResult < 0){
+        } else if (compareResult < 0) {
             currentNode = findNode(data, currentNode.left);
         }
 
@@ -241,48 +245,135 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
         return contains(data, mRoot);
     }
 
-    public boolean contains(T data, BinaryNode<T> tree){
-        if(data == null){
+    public boolean contains(T data, BinaryNode<T> tree) {
+        if (data == null) {
             return false;
         }
 
-        if(tree == null){
+        if (tree == null) {
             return false;
         }
 
         int compareResult = data.compareTo(tree.data);
-        if(compareResult == 0){
+        if (compareResult == 0) {
             return true;
-        } else if(compareResult > 0){
-           return contains(data, tree.right);
-        }else if(compareResult < 0){
+        } else if (compareResult > 0) {
+            return contains(data, tree.right);
+        } else if (compareResult < 0) {
             return contains(data, tree.left);
         }
         return false;
     }
 
     /**
-     * 前序遍历,先遍历节点,
+     * 前序遍历,先遍历节点,再遍历左子树，最后遍历右子树
+     *
      * @return
      */
     @Override
     public String preOrder() {
-        return null;
+        return preOrder(mRoot);
     }
 
+    /**
+     * 前序遍历,先遍历节点,再遍历左子树，最后遍历右子树
+     *
+     * @return
+     */
+    public String preOrder(BinaryNode<T> root) {
+        StringBuilder sb = new StringBuilder();
+        if (root != null) {
+            sb.append(root.data + ", ");
+            sb.append(preOrder(root.left));
+            sb.append(preOrder(root.right));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 中序列遍历,先遍历左子树,再遍历根节点, 最后遍历右子树,在有序查找二叉树的中序遍历就是依次排序输出
+     *
+     * @return
+     */
     @Override
     public String inOrder() {
-        return null;
+        return inOrder(mRoot);
+    }
+
+    /**
+     * 递归中序遍历
+     *
+     * @param root
+     * @return
+     */
+    public String inOrder(BinaryNode<T> root) {
+        StringBuilder sb = new StringBuilder();
+        if (root != null) {
+            sb.append(inOrder(root.left));
+            sb.append(root.data + ", ");
+            sb.append(inOrder(root.right));
+        }
+        return sb.toString();
     }
 
     @Override
     public String postOrder() {
-        return null;
+        return postOrder(mRoot);
     }
 
+    /**
+     * 递归中序遍历
+     *
+     * @param root
+     * @return
+     */
+    public String postOrder(BinaryNode<T> root) {
+        StringBuilder sb = new StringBuilder();
+        if (root != null) {
+            sb.append(postOrder(root.left));
+            sb.append(postOrder(root.right));
+            sb.append(root.data + ", ");
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 层遍历:关键在于队列保存节点的两个孩子节点,每次迭代做如下操作:
+     * 1.将非空子节点入队
+     * 2.输出队列头节点
+     *
+     * @return
+     */
     @Override
     public String levelOrder() {
-        return null;
+        return levelOrder(mRoot);
+    }
+
+    /**
+     * 层遍历
+     * @param node
+     * @return
+     */
+    public String levelOrder(BinaryNode<T> node) {
+        StringBuilder sb = new StringBuilder();
+        Queue<BinaryNode<T>> queue = new Queue<>();
+        while (node != null) {
+            sb.append(node.data + ", ");
+            BinaryNode<T> leftNode = node.left;
+            BinaryNode<T> rightNode = node.right;
+            //同层的子节点入队
+            if (leftNode != null) {
+                queue.enquene(leftNode);
+            }
+            if (rightNode != null) {
+                queue.enquene(rightNode);
+            }
+
+            node = queue.dequeue();//遍历下个节点
+
+        }
+
+        return sb.toString();
     }
 
     @Override

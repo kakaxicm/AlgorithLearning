@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
         tree.insert(8);
 //        BinaryNode<Integer> removedNode = tree.remove(1, tree.mRoot);
 //        Log.e("TAG", tree.findMax()+","+tree.findMin()+", size="+tree.size());
-        BinaryNode<Integer> node = tree.findNode(3);
-        Log.e("TAG", "node = "+tree.contains(8)+","+node.mDupCount);
+//        BinaryNode<Integer> node = tree.findNode(3);
+//        Log.e("TAG", "node = "+tree.contains(8)+","+node.mDupCount);
+        Log.e("TAG", "trans = "+tree.levelOrder());
     }
 }
