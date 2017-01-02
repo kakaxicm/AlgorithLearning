@@ -117,6 +117,17 @@ public class MainActivity extends AppCompatActivity {
 //        Log.e("TAG", tree.findMax()+","+tree.findMin()+", size="+tree.size());
 //        BinaryNode<Integer> node = tree.findNode(3);
 //        Log.e("TAG", "node = "+tree.contains(8)+","+node.mDupCount);
-        Log.e("TAG", "trans = "+tree.levelOrder());
+//        Log.e("TAG", "pretrans = "+tree.preOrder());
+//        Log.e("TAG", "intrans = "+tree.inOrder());
+
+        //前序和中序数组构建二叉树测试
+        Integer[] preArr = {5,3,1,2,4,7,6,8};
+        Integer[] inArr = {1,2,3,4,5,6,7,8};
+        BinaryNode<Integer> root = new BinaryTree<Integer>().createBinaryTreeByPreIn(preArr, inArr, 0, preArr.length-1, 0, inArr.length-1);
+
+        Log.e("TAG", "pretrans = "+tree.preOrder(root));
+        Log.e("TAG", "intrans = "+tree.inOrder(root));
+
+
     }
 }

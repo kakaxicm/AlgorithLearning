@@ -376,6 +376,58 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
         return sb.toString();
     }
 
+    /**
+     * 根据前序和中序的结果，构造对应的二叉树,步骤如下:
+     * 1.前序数组的第一个元素为根节点,找到它在中序数组中的位置
+     * 2.根据中序数组计算左右子树的长度,且中序数组中的左右子树片段也已确定
+     * 3.根据左右子树的长度，在前序数组中找到对应左右子树的片段
+     * 4.确定了左右子树的
+     * @param preArray 前序结果
+     * @param inListArray 中序结果
+     * @param preStart 当前迭代的前序索引起始点
+     * @param preEnd 当前迭代的前序索引结束点
+     * @param inStart 当前迭代的中序索引起始点
+     * @param inEnd 当前迭代的中序索引结束点
+     * @return
+     */
+    public BinaryNode<T> createBinaryTreeByPreIn(T[] preArray, T[] inListArray, int preStart, int preEnd, int inStart, int inEnd){
+        //preList[preStart]必须根结点数据,创建根结点root
+        BinaryNode<T> root = new BinaryNode<>(preArray[preStart]);
+        //递归结束条件
+        if(preStart == preEnd && inStart == inEnd){
+            return root;
+        }
+
+        int rootIndex;
+        //查找中序数组中根节点索引
+        for(rootIndex = inStart; rootIndex < inEnd; rootIndex++){
+            T item = inListArray[rootIndex];
+            if(item.compareTo(root.data) == 0){
+                break;
+            }
+        }
+
+        //计算左右子树的长度
+        int leftLen = rootIndex - inStart;
+        int rightLen = inEnd - rootIndex;
+
+        //左子树中序片段: inStart--> rootIndex-1
+        //右子树中序片段: rootIndex+1 --> inEnd
+        //左子树前序片段: preStart+1 --> preStart + leftLen
+        //右子树前序片段: preStart+ leftLen + 1 --> preEnd
+
+        //构建左右子树
+        if(leftLen > 0){
+            root.left = createBinaryTreeByPreIn(preArray, inListArray, preStart+1, preStart + leftLen, inStart, rootIndex-1);
+        }
+
+        if(rightLen > 0){
+            root.right = createBinaryTreeByPreIn(preArray, inListArray, preStart+ leftLen + 1, preEnd, rootIndex+1, inEnd);
+        }
+
+        return root;
+    }
+
     @Override
     public void clear() {
         mRoot = null;
