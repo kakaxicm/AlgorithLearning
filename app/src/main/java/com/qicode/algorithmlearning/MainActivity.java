@@ -4,15 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import List.ArrayList;
-import List.Iterator;
-import List.LinkedList;
-import List.Person;
-import queue.Queue;
-import sort.Sort;
-import stack.HanoiTower;
-import stack.PostFixExpression;
-import stack.Stack;
 import tree.BinaryNode;
 import tree.BinaryTree;
 
@@ -125,9 +116,21 @@ public class MainActivity extends AppCompatActivity {
         Integer[] inArr = {1,2,3,4,5,6,7,8};
         BinaryNode<Integer> root = new BinaryTree<Integer>().createBinaryTreeByPreIn(preArr, inArr, 0, preArr.length-1, 0, inArr.length-1);
 
+
+        Integer[] test = {5,3,1,2};
+        BinaryNode<Integer> huffmanTree = new BinaryTree<>().createHuffmanTree(test);
+
         Log.e("TAG", "pretrans = "+tree.preOrder(root));
-        Log.e("TAG", "intrans = "+tree.inOrder(root));
+//        Log.e("TAG", "intrans = "+tree.inOrder(root));
 
+//        int[] arr = {1,2,1,3,3,1,4,1,2,1,3,1,1};
+//        int result = Leetcode.getMajorityItem(arr);
+//        Log.e("TAG", result+"");
 
+        int[] arr1 = {1,3,5,7,9,11,13};
+        int[] indexes = Leetcode.getSumIndexes(arr1, 14);
+        for(int i: indexes){
+            Log.e("TAG", i+"");
+        }
     }
 }

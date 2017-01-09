@@ -1,6 +1,8 @@
 package tree;
 
+import List.Node;
 import queue.Queue;
+import stack.Stack;
 
 /**
  * Created by chenming on 16/12/30.
@@ -351,6 +353,7 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 层遍历
+     *
      * @param node
      * @return
      */
@@ -382,27 +385,28 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
      * 2.根据中序数组计算左右子树的长度,且中序数组中的左右子树片段也已确定
      * 3.根据左右子树的长度，在前序数组中找到对应左右子树的片段
      * 4.确定了左右子树的
-     * @param preArray 前序结果
+     *
+     * @param preArray    前序结果
      * @param inListArray 中序结果
-     * @param preStart 当前迭代的前序索引起始点
-     * @param preEnd 当前迭代的前序索引结束点
-     * @param inStart 当前迭代的中序索引起始点
-     * @param inEnd 当前迭代的中序索引结束点
+     * @param preStart    当前迭代的前序索引起始点
+     * @param preEnd      当前迭代的前序索引结束点
+     * @param inStart     当前迭代的中序索引起始点
+     * @param inEnd       当前迭代的中序索引结束点
      * @return
      */
-    public BinaryNode<T> createBinaryTreeByPreIn(T[] preArray, T[] inListArray, int preStart, int preEnd, int inStart, int inEnd){
+    public BinaryNode<T> createBinaryTreeByPreIn(T[] preArray, T[] inListArray, int preStart, int preEnd, int inStart, int inEnd) {
         //preList[preStart]必须根结点数据,创建根结点root
         BinaryNode<T> root = new BinaryNode<>(preArray[preStart]);
         //递归结束条件
-        if(preStart == preEnd && inStart == inEnd){
+        if (preStart == preEnd && inStart == inEnd) {
             return root;
         }
 
         int rootIndex;
         //查找中序数组中根节点索引
-        for(rootIndex = inStart; rootIndex < inEnd; rootIndex++){
+        for (rootIndex = inStart; rootIndex < inEnd; rootIndex++) {
             T item = inListArray[rootIndex];
-            if(item.compareTo(root.data) == 0){
+            if (item.compareTo(root.data) == 0) {
                 break;
             }
         }
@@ -417,12 +421,12 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
         //右子树前序片段: preStart+ leftLen + 1 --> preEnd
 
         //构建左右子树
-        if(leftLen > 0){
-            root.left = createBinaryTreeByPreIn(preArray, inListArray, preStart+1, preStart + leftLen, inStart, rootIndex-1);
+        if (leftLen > 0) {
+            root.left = createBinaryTreeByPreIn(preArray, inListArray, preStart + 1, preStart + leftLen, inStart, rootIndex - 1);
         }
 
-        if(rightLen > 0){
-            root.right = createBinaryTreeByPreIn(preArray, inListArray, preStart+ leftLen + 1, preEnd, rootIndex+1, inEnd);
+        if (rightLen > 0) {
+            root.right = createBinaryTreeByPreIn(preArray, inListArray, preStart + leftLen + 1, preEnd, rootIndex + 1, inEnd);
         }
 
         return root;
@@ -431,5 +435,56 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
     @Override
     public void clear() {
         mRoot = null;
+    }
+
+    /**
+     * 根据优先级列表创建赫夫曼二叉树：
+     * 根据前两个节点,构造子树，然后与后面的节点合并成新的子树,挂载节点原则:
+     *
+     *
+     * @param priorityArr 元素权重递减的数组
+     * @return 赫夫曼根节点
+     */
+    public BinaryNode<Integer> createHuffmanTree(Integer[] priorityArr) {
+        Stack<BinaryNode<Integer>> stack = new Stack<>();
+        BinaryNode<Integer> newRootNode = null;//新建节点，连接新节点和之前生成的子树
+        if (priorityArr == null || priorityArr.length == 0) {
+            return newRootNode;
+        }
+
+        int i = 0;
+        //两两合并节点，构建子树入栈
+        while (i < priorityArr.length) {
+            BinaryNode<Integer> newNode = new BinaryNode<>(priorityArr[i]);//叶子节点
+            if (i == 0) {//第一个节点,无法构建子树,直接入栈
+                stack.push(newNode);
+                i++;
+                continue;
+            }
+            //每一次将上次构建的子树和新的节点合并成新子树入栈
+            BinaryNode<Integer> tempRootNode = new BinaryNode<>(0);//挂载叶子节点的新的根节点
+            BinaryNode<Integer> currentSubTree = stack.pop();
+            //合并节点
+            tempRootNode.left = newNode;
+            tempRootNode.right = currentSubTree;
+
+            /**
+             * 更新权重,权重为节点左右
+             */
+            if (tempRootNode.left != null) {
+                tempRootNode.data += tempRootNode.left.data;
+            }
+
+            if (tempRootNode.right != null) {
+                tempRootNode.data += tempRootNode.right.data;
+            }
+
+            stack.push(tempRootNode);
+            i++;
+        }
+
+        newRootNode = stack.pop();
+
+        return newRootNode;
     }
 }
