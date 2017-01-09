@@ -63,4 +63,51 @@ public class Leetcode {
 
         return result;
     }
+
+    /***
+     * You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+     * You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+     * Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+     * Output: 7 -> 0 -> 8
+     */
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode result;
+        ListNode L1ScanNode = l1;
+        ListNode L2ScanNode = l2;
+
+        ListNode LScanNode = new ListNode(0);
+        result = LScanNode;
+        boolean carry = false;//进位
+
+        while (L1ScanNode != null || L2ScanNode != null) {
+
+            int a = L1ScanNode == null ? 0 : L1ScanNode.val;
+            int b = L2ScanNode == null ? 0 : L2ScanNode.val;
+            int temp = a + b + (carry ? 1 : 0);
+            carry = temp >= 10;//进位
+            LScanNode.val = carry ? temp % 10 : temp;
+
+
+            if(L1ScanNode != null){
+                L1ScanNode = L1ScanNode.next;
+            }
+
+            if(L2ScanNode != null){
+                L2ScanNode = L2ScanNode.next;
+            }
+
+            if(L1ScanNode != null || L2ScanNode != null){//创建节点条件
+                /**
+                 * 下个Node
+                 */
+                LScanNode.next = new ListNode(0);
+                LScanNode = LScanNode.next;//链接下个节点
+            }
+        }
+        //最后的进位处理,如果有进位,追加最高位节点
+        if(carry){
+            LScanNode.next = new ListNode(1);
+        }
+        return result;
+    }
 }

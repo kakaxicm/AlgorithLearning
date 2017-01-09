@@ -120,17 +120,40 @@ public class MainActivity extends AppCompatActivity {
         Integer[] test = {5,3,1,2};
         BinaryNode<Integer> huffmanTree = new BinaryTree<>().createHuffmanTree(test);
 
-        Log.e("TAG", "pretrans = "+tree.preOrder(root));
+//        Log.e("TAG", "pretrans = "+tree.preOrder(root));
 //        Log.e("TAG", "intrans = "+tree.inOrder(root));
 
 //        int[] arr = {1,2,1,3,3,1,4,1,2,1,3,1,1};
 //        int result = Leetcode.getMajorityItem(arr);
 //        Log.e("TAG", result+"");
 
-        int[] arr1 = {1,3,5,7,9,11,13};
-        int[] indexes = Leetcode.getSumIndexes(arr1, 14);
-        for(int i: indexes){
-            Log.e("TAG", i+"");
+//        int[] arr1 = {1,3,5,7,9,11,13};
+//        int[] indexes = Leetcode.getSumIndexes(arr1, 14);
+//        for(int i: indexes){
+//            Log.e("TAG", i+"");
+//        }
+
+        ListNode l10 = new ListNode(2);
+        ListNode l11 = new ListNode(4);
+        ListNode l12 = new ListNode(5);
+
+        l10.next = l11;
+        l11.next = l12;
+
+        ListNode l20 = new ListNode(5);
+        ListNode l21 = new ListNode(6);
+        ListNode l22 = new ListNode(4);
+        ListNode l23 = new ListNode(9);
+
+        l20.next = l21;
+        l21.next = l22;
+        l22.next = l23;
+
+        ListNode result = Leetcode.addTwoNumbers(l10, l20);
+        ListNode node = result;
+        while(node != null){
+            Log.e("TAG", "--"+ node.val);
+            node = node.next;
         }
     }
 }
