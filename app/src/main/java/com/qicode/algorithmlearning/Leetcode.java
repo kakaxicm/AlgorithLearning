@@ -1,5 +1,7 @@
 package com.qicode.algorithmlearning;
 
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,6 +109,112 @@ public class Leetcode {
         //最后的进位处理,如果有进位,追加最高位节点
         if(carry){
             LScanNode.next = new ListNode(1);
+        }
+        return result;
+    }
+
+    /**
+     * Given a string, find the length of the longest substring without repeating characters.
+     Examples:
+     Given "abcabcbb", the answer is "abc", which the length is 3.
+     Given "bbbbb", the answer is "b", with the length of 1.
+     Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+     思路: 记录扫过的互斥元素及字串首尾指针(left, right):迭代处理如下
+     1.如果集合中不包含当前元素curItem,right指针继续右移
+     2.如果集合中包含当前元素curItem,处理包括以下三步
+        1> 当前得到的最大子串长度和上次最大子串长度比较,如果大于，则更新max_left和max的临时计算结果
+        2> 下一次遍历的准备工作:left = hittedIndex + 1
+     3.节点索引加入map，记录所有节点最后的索引
+     */
+
+    public static int lengthOfLongestSubstring(String s) {
+        if(s.length() <= 1){
+            return s.length();
+        }
+        Map<Character, Integer> map = new HashMap<>();
+        char[] chars = s.toCharArray();
+        //左右指针
+        int right;
+        int left = 0;
+        int max = 0;
+        int max_left = 0;
+        for(right = 0; right < chars.length; right++){
+            char item = chars[right];
+            if(map.containsKey(item)){
+                int preHittedIndex = map.get(item) + 1;
+                int curSubStringLen = right - left;
+                if(curSubStringLen > max){//保存位置
+                    max_left = left;
+                }
+                left = Math.max(left, preHittedIndex);
+            }
+            max = Math.max(max, right - left + 1);
+            map.put(item, right);
+        }
+        return max;
+    }
+
+    private static int mMaxSubStrLen;
+    private static int mMaxSubStartIndex;
+    /**
+     * Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+     * 最大回文问题,思路:
+     * 每次遍历, 以该元素为中心,分奇偶两种情况，向两边遍历,检测出回文长度
+     */
+    private static void checkPalindromicStr(char[] arr, int centerLeft, int centerRight){
+        int left = centerLeft;
+        int right = centerRight;
+        int subStrLen = 0;
+        while(left >= 0 && right < arr.length && arr[left] == arr[right]){
+            left--;
+            right++;
+        }
+        subStrLen = right - left - 1;
+        if(subStrLen > mMaxSubStrLen){
+            mMaxSubStrLen = subStrLen;
+            mMaxSubStartIndex = left + 1;
+        }
+    }
+
+    public static String longestPalindrome(String s) {
+        char[] chars = s.toCharArray();
+        for(int i = 0; i < chars.length; i++){
+            checkPalindromicStr(chars, i, i);//奇数子串查找
+            checkPalindromicStr(chars, i, i+1);//偶数子串查找
+        }
+        Log.e("TAG","mMaxSubStartIndex = " + mMaxSubStartIndex + ", mMaxSubStrLen = " + mMaxSubStrLen);
+        String result = s.substring(mMaxSubStartIndex, mMaxSubStartIndex+mMaxSubStrLen);
+        Log.e("TAG",result);
+        return result;
+    }
+
+    /**
+     * Reverse digits of an integer.
+     Example1: x = 123, return 321
+     Example2: x = -123, return -321
+     * 递归实现
+     * @param x
+     * @return
+     */
+    public static int reverse(int x){
+
+        if(x >= Integer.MAX_VALUE || x <= Integer.MIN_VALUE){
+            return 0;
+        }
+
+        if(Math.abs(x) < 10){
+            return x;
+        }
+
+        int pow = 0;
+        long temp = x/10;
+        while(Math.abs(temp) > 0){
+            pow ++;
+            temp /= 10;
+        }
+        int result = (int) (reverse(x/10)+ (x%10) *Math.pow(10, pow));
+        if(result >= Integer.MAX_VALUE || result <= Integer.MIN_VALUE){
+            return 0;
         }
         return result;
     }

@@ -149,11 +149,16 @@ public class MainActivity extends AppCompatActivity {
         l21.next = l22;
         l22.next = l23;
 
-        ListNode result = Leetcode.addTwoNumbers(l10, l20);
-        ListNode node = result;
-        while(node != null){
-            Log.e("TAG", "--"+ node.val);
-            node = node.next;
-        }
+//        ListNode result = Leetcode.addTwoNumbers(l10, l20);
+//        ListNode node = result;
+//        while(node != null){
+//            Log.e("TAG", "--"+ node.val);
+//            node = node.next;
+//        }
+        String s = "cabbad";
+//        Leetcode.lengthOfLongestSubstring(s);
+//        Leetcode.longestPalindrome(s);
+        int result = Leetcode.reverse(-1563847412);
+        Log.e("TAG", "" + result);
     }
 }
