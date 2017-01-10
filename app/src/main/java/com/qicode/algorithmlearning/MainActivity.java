@@ -159,6 +159,6 @@ public class MainActivity extends AppCompatActivity {
 //        Leetcode.lengthOfLongestSubstring(s);
 //        Leetcode.longestPalindrome(s);
         int result = Leetcode.reverse(-1563847412);
-        Log.e("TAG", "" + result);
+        Log.e("TAG", "" + Leetcode.isPalindrome(-2147447412));
     }
 }
