@@ -158,7 +158,10 @@ public class MainActivity extends AppCompatActivity {
         String s = "cabbad";
 //        Leetcode.lengthOfLongestSubstring(s);
 //        Leetcode.longestPalindrome(s);
-        int result = Leetcode.reverse(-1563847412);
-        Log.e("TAG", "" + Leetcode.isPalindrome(-2147447412));
+//        int result = Leetcode.reverse(-1563847412);
+//        Log.e("TAG", "" + Leetcode.isPalindrome(-2147447412));
+
+        int[] height = {1,2,3,4,5,6,7};
+        Log.e("TAG", Leetcode.maxArea(height)+"");
     }
 }

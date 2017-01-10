@@ -224,6 +224,7 @@ public class Leetcode {
     /**
      * Determine whether an integer is a palindrome. Do this without extra space.
      * 思路:回文遍历原则:从中间向两边遍历,centerIndex分奇数和偶数两种
+     *
      * @param x
      * @return
      */
@@ -231,7 +232,7 @@ public class Leetcode {
         if (x >= Integer.MAX_VALUE || x <= Integer.MIN_VALUE) {
             return false;
         }
-        if(x < 0){//排除负数
+        if (x < 0) {//排除负数
             return false;
         }
         int digitNum = digitNumberOf(x);
@@ -246,11 +247,11 @@ public class Leetcode {
             centerIndexRight = centerIndexLeft - 1;//right向右递减
         }
 
-        while(centerIndexLeft <= digitNum && centerIndexRight >= 0){
-            if(getDigitAt(centerIndexLeft, x) == getDigitAt(centerIndexRight, x)){
-                centerIndexLeft ++;
-                centerIndexRight --;
-            }else{
+        while (centerIndexLeft <= digitNum && centerIndexRight >= 0) {
+            if (getDigitAt(centerIndexLeft, x) == getDigitAt(centerIndexRight, x)) {
+                centerIndexLeft++;
+                centerIndexRight--;
+            } else {
                 return false;
             }
         }
@@ -259,6 +260,7 @@ public class Leetcode {
 
     /**
      * x的位数
+     *
      * @param x
      * @return
      */
@@ -287,5 +289,43 @@ public class Leetcode {
             pos++;
         }
         return result;
+    }
+
+    /**
+     * Given n non-negative integers a1, a2, ..., an,
+     * where each represents a point at coordinate (i, ai).
+     * n vertical lines are drawn such that the two endpoints
+     * of line i is at (i, ai) and (i, 0). Find two lines, which
+     * together with x-axis forms a container,
+     * such that the container contains the most water.
+     * Note: You may not slant the container and n is at least 2.
+     * 元素对条件搜索问题:关键在于如何剔除不必要的遍历:
+     * 对于搜索范围[left, right],如果height[right] < height[left]，
+     * 那么包含right的元素[left, (left+1,...,right-1)]对全部无效,因为包含right的元素高固定，
+     * 宽小于right-left,所以计算当前的判断值后，向中心移动较小边的指针
+     */
+    public static int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+        int maxArea = 0;
+        int maxLeft;
+        int maxRight;
+        while (left < right){
+            int curArea = Math.max(maxArea, (right - left) * Math.min(height[left], height[right]));
+            if(curArea > maxArea){
+                //存放结果
+                maxArea = curArea;
+                maxLeft = left;
+                maxRight = right;
+            }
+
+            if(height[left] < height[right]){
+                left++;
+            }else{
+                right--;
+            }
+        }
+
+        return maxArea;
     }
 }
