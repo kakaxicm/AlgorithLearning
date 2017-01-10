@@ -308,8 +308,8 @@ public class Leetcode {
         int left = 0;
         int right = height.length - 1;
         int maxArea = 0;
-        int maxLeft;
-        int maxRight;
+        int maxLeft = 0;
+        int maxRight = 0;
         while (left < right){
             int curArea = Math.max(maxArea, (right - left) * Math.min(height[left], height[right]));
             if(curArea > maxArea){
@@ -325,7 +325,7 @@ public class Leetcode {
                 right--;
             }
         }
-
+        Log.e("TAG", "maxLeft:" + maxLeft + "maxRight:" + maxRight);
         return maxArea;
     }
 }
