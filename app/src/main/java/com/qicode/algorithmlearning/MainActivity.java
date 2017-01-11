@@ -4,8 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.HashMap;
+
 import tree.BinaryNode;
 import tree.BinaryTree;
+import tree.HuffmanModel;
 
 public class MainActivity extends AppCompatActivity {
     private int[] mArray = {5, 3, 4, 6, 2, 7, 10, 8, 12, 4, 1};
@@ -117,8 +120,16 @@ public class MainActivity extends AppCompatActivity {
         BinaryNode<Integer> root = new BinaryTree<Integer>().createBinaryTreeByPreIn(preArr, inArr, 0, preArr.length-1, 0, inArr.length-1);
 
 
-        Integer[] test = {5,3,1,2};
-        BinaryNode<Integer> huffmanTree = new BinaryTree<>().createHuffmanTree(test);
+        /**
+         * 赫夫曼树的创建和编解码
+         */
+        Integer[] huffmanArr = {1,2,3,4,5};//简单起见,权重=编码数据,升序排列
+        BinaryNode<HuffmanModel> huffmanTree = BinaryTree.createHuffmanTree(huffmanArr);
+        HashMap<String, Integer> huffmanEncodeTable = new HashMap<>();
+        //赫夫曼编码huffmanEncodeTable保存赫夫曼编码
+        BinaryTree.huffmanEnCodeNode(huffmanTree, huffmanEncodeTable);
+        
+
 
 //        Log.e("TAG", "pretrans = "+tree.preOrder(root));
 //        Log.e("TAG", "intrans = "+tree.inOrder(root));
@@ -155,13 +166,14 @@ public class MainActivity extends AppCompatActivity {
 //            Log.e("TAG", "--"+ node.val);
 //            node = node.next;
 //        }
-        String s = "cabbad";
+
+//        String s = "cabbad";
 //        Leetcode.lengthOfLongestSubstring(s);
 //        Leetcode.longestPalindrome(s);
 //        int result = Leetcode.reverse(-1563847412);
 //        Log.e("TAG", "" + Leetcode.isPalindrome(-2147447412));
 
-        int[] height = {1,2,3,4,5,6,7};
-        Log.e("TAG", Leetcode.maxArea(height)+"");
+//        int[] height = {1,2,3,4,5,6,7};
+//        Log.e("TAG", Leetcode.maxArea(height)+"");
     }
 }
