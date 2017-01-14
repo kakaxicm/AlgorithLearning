@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.util.HashMap;
 
+import List.List;
 import tree.BinaryNode;
 import tree.BinaryTree;
 import tree.HuffmanModel;
@@ -128,7 +129,15 @@ public class MainActivity extends AppCompatActivity {
         HashMap<String, Integer> huffmanEncodeTable = new HashMap<>();
         //赫夫曼编码huffmanEncodeTable保存赫夫曼编码
         BinaryTree.huffmanEnCodeNode(huffmanTree, huffmanEncodeTable);
-        
+        /**
+         * 编码结果:
+         * 0    -- 5
+         * 10   -- 4
+         * 110  -- 3
+         * 1111 -- 2
+         * 1110 -- 1
+         */
+        //TODO 赫夫曼树解码
 
 
 //        Log.e("TAG", "pretrans = "+tree.preOrder(root));
@@ -175,5 +184,9 @@ public class MainActivity extends AppCompatActivity {
 
 //        int[] height = {1,2,3,4,5,6,7};
 //        Log.e("TAG", Leetcode.maxArea(height)+"");
+
+        java.util.List<java.util.List<Integer>> res = Leetcode.threeSum(new int[]{-1,0,1,2,-1,-4});
+        int i = 0;
+
     }
 }

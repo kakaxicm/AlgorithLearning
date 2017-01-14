@@ -44,14 +44,14 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
 
         BinaryNode<T> newNode = new BinaryNode<>(data, null, null);
 
-        if (rootNode == null) {
+        if (rootNode == null) {//遍历到叶子节点了，新建节点，返回
             rootNode = newNode;
         } else {
             //递归比较
             int compare = data.compareTo(rootNode.data);
 
             if (compare < 0) {//左
-                rootNode.left = insertNode(data, rootNode.left);//由于插入操作需要链接jiedian,所以需要将低层次的node返回给上一层次的rootNode
+                rootNode.left = insertNode(data, rootNode.left);//由于插入操作需要链接节点,所以需要将低层次的node返回给上一层次的rootNode
             } else if (compare > 0) {//右
                 rootNode.right = insertNode(data, rootNode.right);
             } else {//相等
@@ -525,4 +525,6 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
             huffmanEnCodeNode(node.right, codeTable);
         }
     }
+
+
 }

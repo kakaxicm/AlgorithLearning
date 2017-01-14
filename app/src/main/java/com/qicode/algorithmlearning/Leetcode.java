@@ -2,7 +2,11 @@ package com.qicode.algorithmlearning;
 
 import android.util.Log;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -310,22 +314,76 @@ public class Leetcode {
         int maxArea = 0;
         int maxLeft = 0;
         int maxRight = 0;
-        while (left < right){
+        while (left < right) {
             int curArea = Math.max(maxArea, (right - left) * Math.min(height[left], height[right]));
-            if(curArea > maxArea){
+            if (curArea > maxArea) {
                 //存放结果
                 maxArea = curArea;
                 maxLeft = left;
                 maxRight = right;
             }
 
-            if(height[left] < height[right]){
+            if (height[left] < height[right]) {
                 left++;
-            }else{
+            } else {
                 right--;
             }
         }
         Log.e("TAG", "maxLeft:" + maxLeft + "maxRight:" + maxRight);
         return maxArea;
+    }
+
+    /**
+     * Given an array S of n integers, are there elements a, b, c
+     * in S such that a + b + c = 0? Find all unique triplets in
+     * the array which gives the sum of zero.
+     * Note: The solution set must not contain duplicate triplets.
+     * For example, given array S = [-1, 0, 1, 2, -1, -4],
+     * <p>
+     * A solution set is:
+     * [
+     * [-1, 0, 1],
+     * [-1, -1, 2]
+     * ]
+     * <p>
+     * 思路:固定右边，从左向右遍历,由于涉及到三元素遍历，时间复杂度至少为o(n*n)，
+     * 为了加快查找速度,先对数组快排,不会增加时间复杂度,
+     * 每一次遍历a = nums[i],通过二分查找查找sum(元素对)=0-a，
+     * 如果找到,保存结果,继续向中间遍历,否则根据差值左移或者右移指针,遍历过程中
+     * 注意去重
+     *
+     * @param nums
+     * @return
+     */
+    public static List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new LinkedList<>();
+        if (nums == null || nums.length < 3) {
+            return result;
+        }
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length - 2; i++) {//固定右边，从左边遍历
+            if (i == 0 || (i > 0 && (nums[i] != nums[i - 1]))) {//注意:只能对已经遍历的元素a去重复，之前采用nums[i] != nums[i + 1]会错过a=b的情况
+                int low = i + 1;
+                int high = nums.length - 1;
+                int sum = -nums[i];//a = nums[i], 查找[[low], [high]]元素对
+                while (low < high) {
+                    if (sum == nums[low] + nums[high]) {
+                        result.add(Arrays.asList(nums[i], nums[low], nums[high]));
+                        //向中间遍历
+                        while (low < high && nums[low] == nums[low + 1]) low++;
+                        while (low < high && nums[high] == nums[high - 1]) high--;
+                        low++;
+                        high--;
+                    } else if (sum > nums[low] + nums[high]) {//偏小, 指针左
+                        while (low < high && nums[low] == nums[low + 1]) low++;
+                        low++;
+                    } else {
+                        while (low < high && nums[high] == nums[high - 1]) high--;
+                        high--;
+                    }
+                }
+            }
+        }
+        return result;
     }
 }
