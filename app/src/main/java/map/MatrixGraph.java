@@ -2,6 +2,10 @@ package map;
 
 import android.util.Log;
 
+//import java.util.PriorityQueue;
+
+import queue.Queue;
+
 /**
  * Created by chenming on 17/1/14.
  * 无方向图的邻接矩阵描述
@@ -35,15 +39,15 @@ public class MatrixGraph {
         }
     }
 
-//    private void printVisibles(boolean[] isVisiteds){
-//        StringBuilder sb = new StringBuilder();
-//        for(int i = 0; i < isVisiteds.length; i++){
-//            sb.append(", "+ isVisiteds[i]);
-//        }
-//        Log.e("TAG",sb.toString());
-//    }
+    private void printVisibles(boolean[] isVisiteds){
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < isVisiteds.length; i++){
+            sb.append(", "+ isVisiteds[i]);
+        }
+        Log.e("TAG",sb.toString());
+    }
 
-    public void tranverseDfs(){
+    public void transverseDfs(){
         boolean[] isVisiteds = new boolean[vertexes.length];
 
         for(int i = 0; i < vertexes.length; i++){
@@ -54,6 +58,41 @@ public class MatrixGraph {
             if(!isVisiteds[i]){
                 dfsVertex(i, isVisiteds);
             }
+        }
+    }
+
+    /**
+     * 广度优先遍历,类似树的程序遍历,引入队列，保存每一层未遍历的顶点
+     */
+    public void transverBfs(){
+        boolean[] isVisiteds = new boolean[vertexes.length];
+        Queue<Integer> unVisitVertexQueue = new Queue<>();
+        for(int i = 0; i < vertexes.length; i++){
+            isVisiteds[i] = false;
+        }
+
+        for(int i = 0; i < vertexes.length; i++){
+            if(!isVisiteds[i]){
+                unVisitVertexQueue.enquene(i);
+                Integer headIndex = unVisitVertexQueue.dequeue();
+                while(headIndex != null){
+                    //遍历当前节点
+                    Log.e("TAG", "BFS:" + vertexes[headIndex].value);
+                    isVisiteds[headIndex] = true;
+                    //将下一层节点未遍历顶点入队
+                    for(int j = 0; j < vertexes.length; j++){
+                        //连接点未遍历的元素入队列
+                        if(edges[headIndex][j] > 0 && !isVisiteds[j] && !unVisitVertexQueue.contains(j)){
+                            unVisitVertexQueue.enquene(j);
+//                            Log.e("TAG", "入队:" + j);
+                        }
+                    }
+
+                    headIndex = unVisitVertexQueue.dequeue();//遍历下一个顶点
+//                    Log.e("TAG", "出队:" + headIndex);
+                }
+            }
+
         }
     }
 }

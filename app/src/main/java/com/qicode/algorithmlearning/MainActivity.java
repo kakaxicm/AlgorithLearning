@@ -2,11 +2,9 @@ package com.qicode.algorithmlearning;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.util.HashMap;
 
-import List.List;
 import map.MatrixGraph;
 import map.Vertex;
 import tree.BinaryNode;
@@ -207,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
                 new int[]{6, 1, 0, 1, 0},
         };
         MatrixGraph graph = new MatrixGraph(vertexes, edges);
-        graph.tranverseDfs();
+//        graph.transverseDfs();
+        graph.transverBfs();
     }
 }

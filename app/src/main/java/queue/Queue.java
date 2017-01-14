@@ -12,7 +12,7 @@ public class Queue<T> {
     private Node<T> mTail;
     private int mSize;
 
-    public Queue(){
+    public Queue() {
         clear();
     }
 
@@ -83,6 +83,15 @@ public class Queue<T> {
         return node.mData;
     }
 
+    public boolean contains(T item) {
+        for (int i = 0; i < size(); i++){
+            if(getItem(i).equals(item)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * 清空
      */
@@ -100,7 +109,7 @@ public class Queue<T> {
         return mHead == null && mTail == null;
     }
 
-    public int size(){
+    public int size() {
         return mSize;
     }
 }
