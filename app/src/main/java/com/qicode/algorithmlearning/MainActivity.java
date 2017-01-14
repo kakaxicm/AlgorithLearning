@@ -7,6 +7,8 @@ import android.util.Log;
 import java.util.HashMap;
 
 import List.List;
+import map.MatrixGraph;
+import map.Vertex;
 import tree.BinaryNode;
 import tree.BinaryTree;
 import tree.HuffmanModel;
@@ -116,15 +118,15 @@ public class MainActivity extends AppCompatActivity {
 //        Log.e("TAG", "intrans = "+tree.inOrder());
 
         //前序和中序数组构建二叉树测试
-        Integer[] preArr = {5,3,1,2,4,7,6,8};
-        Integer[] inArr = {1,2,3,4,5,6,7,8};
-        BinaryNode<Integer> root = new BinaryTree<Integer>().createBinaryTreeByPreIn(preArr, inArr, 0, preArr.length-1, 0, inArr.length-1);
+        Integer[] preArr = {5, 3, 1, 2, 4, 7, 6, 8};
+        Integer[] inArr = {1, 2, 3, 4, 5, 6, 7, 8};
+        BinaryNode<Integer> root = new BinaryTree<Integer>().createBinaryTreeByPreIn(preArr, inArr, 0, preArr.length - 1, 0, inArr.length - 1);
 
 
         /**
          * 赫夫曼树的创建和编解码
          */
-        Integer[] huffmanArr = {1,2,3,4,5};//简单起见,权重=编码数据,升序排列
+        Integer[] huffmanArr = {1, 2, 3, 4, 5};//简单起见,权重=编码数据,升序排列
         BinaryNode<HuffmanModel> huffmanTree = BinaryTree.createHuffmanTree(huffmanArr);
         HashMap<String, Integer> huffmanEncodeTable = new HashMap<>();
         //赫夫曼编码huffmanEncodeTable保存赫夫曼编码
@@ -185,8 +187,26 @@ public class MainActivity extends AppCompatActivity {
 //        int[] height = {1,2,3,4,5,6,7};
 //        Log.e("TAG", Leetcode.maxArea(height)+"");
 
-        java.util.List<java.util.List<Integer>> res = Leetcode.threeSum(new int[]{-1,0,1,2,-1,-4});
-        int i = 0;
+//        java.util.List<java.util.List<Integer>> res = Leetcode.threeSum(new int[]{-1,0,1,2,-1,-4});
+//        int i = 0;
 
+        Vertex[] vertexes = new Vertex[]{
+                new Vertex(0),
+                new Vertex(1),
+                new Vertex(2),
+                new Vertex(3),
+                new Vertex(4)
+
+        };
+
+        int[][] edges = new int[][]{
+                new int[]{0, 0, 1, 0, 6},
+                new int[]{0, 0, 3, 0, 1},
+                new int[]{1, 3, 0, 5, 0},
+                new int[]{0, 0, 5, 0, 1},
+                new int[]{6, 1, 0, 1, 0},
+        };
+        MatrixGraph graph = new MatrixGraph(vertexes, edges);
+        graph.tranverseDfs();
     }
 }
