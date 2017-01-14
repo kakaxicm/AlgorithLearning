@@ -62,7 +62,7 @@ public class MatrixGraph {
     }
 
     /**
-     * 广度优先遍历,类似树的程序遍历,引入队列，保存每一层未遍历的顶点
+     * 广度优先遍历,类似树的层序遍历,引入队列，保存每一层未遍历的顶点
      */
     public void transverBfs(){
         boolean[] isVisiteds = new boolean[vertexes.length];
@@ -73,8 +73,7 @@ public class MatrixGraph {
 
         for(int i = 0; i < vertexes.length; i++){
             if(!isVisiteds[i]){
-                unVisitVertexQueue.enquene(i);
-                Integer headIndex = unVisitVertexQueue.dequeue();
+                Integer headIndex = i;//循环初始条件
                 while(headIndex != null){
                     //遍历当前节点
                     Log.e("TAG", "BFS:" + vertexes[headIndex].value);
