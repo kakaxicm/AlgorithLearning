@@ -214,7 +214,8 @@ public class MainActivity extends AppCompatActivity {
         MatrixGraph graph = new MatrixGraph(vertexes, edges);
         Log.e("TAG", "邻接矩阵深度遍历:");
         graph.transverseDfs();
-//        graph.transverBfs();
+        Log.e("TAG", "邻接矩阵广度遍历:");
+        graph.transverBfs();
 
         /**
          * 图的邻接表描述
@@ -261,7 +262,11 @@ public class MainActivity extends AppCompatActivity {
 
         EdgeListGraph edgeListGraph = new EdgeListGraph();
         edgeListGraph.vertexes = vertexForEdges;
-        Log.e("TAG", "邻接表深度遍历:");
+        Log.e("TAG", "邻接表递归深度遍历:");
         edgeListGraph.recursionDFS();
+        Log.e("TAG", "邻接表迭代深度遍历:");
+        edgeListGraph.iterationDFS();
+        Log.e("TAG", "邻接表迭代广度遍历:");
+        edgeListGraph.transverBfs();
     }
 }
