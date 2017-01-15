@@ -2,11 +2,15 @@ package com.qicode.algorithmlearning;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.HashMap;
 
+import map.Edge;
+import map.EdgeListGraph;
 import map.MatrixGraph;
 import map.Vertex;
+import map.VertexForEdge;
 import tree.BinaryNode;
 import tree.BinaryTree;
 import tree.HuffmanModel;
@@ -188,6 +192,9 @@ public class MainActivity extends AppCompatActivity {
 //        java.util.List<java.util.List<Integer>> res = Leetcode.threeSum(new int[]{-1,0,1,2,-1,-4});
 //        int i = 0;
 
+        /**
+         * 图的邻接矩阵描述
+         */
         Vertex[] vertexes = new Vertex[]{
                 new Vertex(0),
                 new Vertex(1),
@@ -205,7 +212,56 @@ public class MainActivity extends AppCompatActivity {
                 new int[]{6, 1, 0, 1, 0},
         };
         MatrixGraph graph = new MatrixGraph(vertexes, edges);
-//        graph.transverseDfs();
-        graph.transverBfs();
+        Log.e("TAG", "邻接矩阵深度遍历:");
+        graph.transverseDfs();
+//        graph.transverBfs();
+
+        /**
+         * 图的邻接表描述
+         */
+        VertexForEdge[] vertexForEdges = new VertexForEdge[]{
+                new VertexForEdge(0),
+                new VertexForEdge(1),
+                new VertexForEdge(2),
+                new VertexForEdge(3),
+                new VertexForEdge(4),
+        };
+
+        //0-> 2-4
+
+        int[][] edgesNodes = new int[][]{
+                new int[]{2, 4},
+                new int[]{2, 4},
+                new int[]{0, 1, 3},
+                new int[]{2, 4},
+                new int[]{0, 1, 3},
+        };
+
+        for (int i = 0; i < vertexForEdges.length; i++) {
+            VertexForEdge vertexForEdge = vertexForEdges[i];
+            Edge head = null, p = null;
+
+
+            int[] neighbours = edgesNodes[i];
+            for (int j = 0; j < neighbours.length; j++) {
+                Edge newNode = new Edge();
+                if(j == 0){//头结点初始化
+                    p = newNode;
+                    head = p;
+                }
+                newNode.weight = 1;
+                newNode.vertextIndex = neighbours[j];
+                if(j > 0) {
+                    p.next = newNode;
+                    p = p.next;
+                }
+            }
+            vertexForEdge.edgeHead = head;
+        }
+
+        EdgeListGraph edgeListGraph = new EdgeListGraph();
+        edgeListGraph.vertexes = vertexForEdges;
+        Log.e("TAG", "邻接表深度遍历:");
+        edgeListGraph.recursionDFS();
     }
 }
