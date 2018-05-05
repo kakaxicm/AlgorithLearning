@@ -6,9 +6,9 @@ import java.util.NoSuchElementException;
  * Created by chenming on 16/12/26.
  */
 
-public class ArrayList<T> implements List<T>{
+public class ArrayList<T> implements List<T> {
 
-    private static final int DEFAULT_SIZE = 10;
+    private static final int DEFAULT_SIZE = 2;
     private int mSize;
     private T[] mItems;
 
@@ -22,6 +22,11 @@ public class ArrayList<T> implements List<T>{
         ensureCapacity(DEFAULT_SIZE);
     }
 
+    /**
+     * 扩容操作
+     *
+     * @param newCapacity 目标容量
+     */
     private void ensureCapacity(int newCapacity) {
         if (newCapacity < mSize) {
             return;
@@ -70,22 +75,43 @@ public class ArrayList<T> implements List<T>{
 
     @Override
     public void add(int index, T item) {
+        //边界条件判断
+        if (item == null) {
+            return;
+        }
+        //插入下标的容错判断,插入在最前面
+        if (index < 0) {
+            index = 0;
+        }
+
+        //插入下标的容错判断,插入在最后面
+        if (index > size()) {
+            index = size();
+        }
+
         if (mItems.length == size()) {//当前容量已达上限,扩容
-            ensureCapacity(size() * 2 + 1);
+            ensureCapacity(size() * 2);
         }
 
         //index后的元素后移
         for (int i = mSize; i > index; i--) {
             mItems[i] = mItems[i - 1];
         }
+        //目标位置设置值
         mItems[index] = item;
-        mSize++;
+        mSize++;//size++
     }
 
     @Override
     public T remove(int index) {
+        //边界条件判断
+        if (index < 0 || index >= size()) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+
         T toRemoveItem = mItems[index];
-        for (int i = index; i < size(); i++) {
+        //删除位置后面的元素前移
+        for (int i = index; i < size() - 1; i++) {
             mItems[i] = mItems[i + 1];
         }
         mSize--;
@@ -100,9 +126,9 @@ public class ArrayList<T> implements List<T>{
     @Override
     public boolean contains(T item) {
         Iterator<T> iterator = iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             T obj = iterator.next();
-            if(obj.equals(item)){
+            if (obj.equals(item)) {
                 return true;
             }
         }
@@ -112,16 +138,16 @@ public class ArrayList<T> implements List<T>{
     @Override
     public boolean remove(T item) {
         Iterator<T> iterator = iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             T obj = iterator.next();
-            if(obj.equals(item)){
+            if (obj.equals(item)) {
                 iterator.remove();
             }
         }
         return false;
     }
 
-    private class ArrayListIterator implements Iterator<T>{
+    private class ArrayListIterator implements Iterator<T> {
         private int mCurrentPos;
 
         @Override
@@ -131,7 +157,7 @@ public class ArrayList<T> implements List<T>{
 
         @Override
         public T next() {
-            if(!hasNext()){
+            if (!hasNext()) {
                 throw new NoSuchElementException();
             }
             return mItems[mCurrentPos++];
