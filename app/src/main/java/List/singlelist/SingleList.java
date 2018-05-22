@@ -1,9 +1,5 @@
 package List.singlelist;
 
-
-import List.Iterator;
-import List.List;
-
 /**
  * Created by chenming on 2018/5/22
  */
@@ -169,7 +165,7 @@ public class SingleList<T> implements ISingleList<T> {
             headNode = headNode.next;
             return old;
         } else {
-            //中部或者尾部插入
+            //中部或者尾部删除
             SNode<T> prev = headNode;
             int scanIndex = 0;//扫描索引
             //查找目标位置的前一个节点
