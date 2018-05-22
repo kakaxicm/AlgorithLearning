@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import List.ArrayList;
 import List.Iterator;
+import List.singlelist.SingleList;
 import map.Edge;
 import map.EdgeListGraph;
 import map.MatrixGraph;
@@ -24,20 +25,39 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ArrayList<Integer> arrayList = new ArrayList();
-        arrayList.add(1);
-        arrayList.add(2);
-        arrayList.add(3);
-        arrayList.add(4);
-        arrayList.remove(2);
-        arrayList.add(1, 10);
-        //迭代器测试
-        Iterator<Integer> iterator = arrayList.iterator();
-        while (iterator.hasNext()) {
-            Log.e("TAG", iterator.next().toString());
-            iterator.remove();
+        //顺序表测试
+//        ArrayList<Integer> arrayList = new ArrayList();
+//        arrayList.add(1);
+//        arrayList.add(2);
+//        arrayList.add(3);
+//        arrayList.add(4);
+//        arrayList.remove(2);
+//        arrayList.add(1, 10);
+//        //迭代器测试
+//        Iterator<Integer> iterator = arrayList.iterator();
+//        while (iterator.hasNext()) {
+//            Log.e("TAG", iterator.next().toString());
+//            iterator.remove();
+//        }
+//        Log.e("TAG", arrayList.size() + "");
+
+        //单链表测试
+        SingleList<Integer> singleList = new SingleList<>();
+        Log.e("SingleList", singleList.isEmpty() + "");
+        singleList.add(1);
+        singleList.add(2);
+        singleList.add(3);
+        singleList.add(4);
+        singleList.add(2,4);
+        singleList.remove(0);
+        Log.e("SingleList", singleList.size() + "");
+        Log.e("SingleList", "===========");
+        for (int i = 0; i < singleList.size(); i++) {
+            Log.e("SingleList", singleList.get(i) + "");
         }
-        Log.e("TAG", arrayList.size() + "");
+        Log.e("SingleList", "===========");
+        Log.e("SingleList", singleList.contains(0)+"");
+
 //        Sort.bubbleSort(mArray);
 //        Sort.selectSort(mArray);
 //        Sort.insertSort(mArray);
