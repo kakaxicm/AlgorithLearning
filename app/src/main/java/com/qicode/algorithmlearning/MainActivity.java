@@ -48,8 +48,8 @@ public class MainActivity extends Activity {
         singleList.add(2);
         singleList.add(3);
         singleList.add(4);
-        singleList.add(2,4);
-        singleList.remove(0);
+//        singleList.add(2,4);
+//        singleList.remove(0);
         Log.e("SingleList", singleList.size() + "");
         Log.e("SingleList", "===========");
         for (int i = 0; i < singleList.size(); i++) {
@@ -57,7 +57,12 @@ public class MainActivity extends Activity {
         }
         Log.e("SingleList", "===========");
         Log.e("SingleList", singleList.contains(0)+"");
-
+        Log.e("SingleList", "===========");
+        singleList.reverse();
+        for (int i = 0; i < singleList.size(); i++) {
+            Log.e("SingleList", singleList.get(i) + "");
+        }
+        Log.e("SingleList", "===========");
 //        Sort.bubbleSort(mArray);
 //        Sort.selectSort(mArray);
 //        Sort.insertSort(mArray);

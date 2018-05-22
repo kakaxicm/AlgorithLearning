@@ -249,4 +249,23 @@ public class SingleList<T> implements ISingleList<T> {
         }
         return true;
     }
+
+    /**
+     * 单链表的逆序操作
+     */
+    public void reverse(){
+        //逆序操作只有在2个元素以上才有效
+        if(isEmpty() || headNode.next == null){
+            return;
+        }
+        SNode<T> curNode = headNode;//当前要逆序操作的节点
+        SNode<T> reversHead = null;//当前的逆序头节点
+        while (curNode != null){
+            SNode<T> nextNode = curNode.next;//保存下个操作节点
+            curNode.next = reversHead;//操作节点指向逆序列表头,做断裂操作
+            reversHead = curNode;//逆序列表头更新,操作节点做连接操作
+            curNode = nextNode;//下个节点
+        }
+        headNode = reversHead;
+    }
 }
