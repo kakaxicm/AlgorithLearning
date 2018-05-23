@@ -4,19 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-import java.util.HashMap;
-
-import List.ArrayList;
-import List.Iterator;
 import List.singlelist.SingleList;
-import map.Edge;
-import map.EdgeListGraph;
-import map.MatrixGraph;
-import map.Vertex;
-import map.VertexForEdge;
-import tree.BinaryNode;
-import tree.BinaryTree;
-import tree.HuffmanModel;
 
 public class MainActivity extends Activity {
     private int[] mArray = {5, 3, 4, 6, 2, 7, 10, 8, 12, 4, 1};
@@ -45,24 +33,48 @@ public class MainActivity extends Activity {
         SingleList<Integer> singleList = new SingleList<>();
         Log.e("SingleList", singleList.isEmpty() + "");
         singleList.add(1);
-        singleList.add(2);
+        singleList.add(1);
         singleList.add(3);
         singleList.add(4);
+        singleList.add(5);
+        singleList.add(6);
+        singleList.add(7);
+        singleList.add(7);
 //        singleList.add(2,4);
 //        singleList.remove(0);
-        Log.e("SingleList", singleList.size() + "");
-        Log.e("SingleList", "===========");
+//        Log.e("SingleList", singleList.size() + "");
+//        Log.e("SingleList", "===========");
+//        for (int i = 0; i < singleList.size(); i++) {
+//            Log.e("SingleList", singleList.get(i) + "");
+//        }
+//        Log.e("SingleList", "===========");
+//        Log.e("SingleList", singleList.contains(0)+"");
+//        Log.e("SingleList", "===========");
+////        singleList.reverse();
+//        for (int i = 0; i < singleList.size(); i++) {
+//            Log.e("SingleList", singleList.get(i) + "");
+//        }
+//        Log.e("SingleList", "===========");
+//        Log.e("SingleList", singleList.searchMid()+"");
+//        Log.e("SingleList", singleList.searchBackwardsElement(6)+"");
+//        Log.e("SingleList", "======递归逆序操作=====");
+//        singleList.reversListRecursion();
+////        singleList.sortList();
+//        for (int i = 0; i < singleList.size(); i++) {
+//            Log.e("SingleList", singleList.get(i) + "");
+//        }
+//        Log.e("SingleList", "======递归逆序操作=====");
+
+        Log.e("SingleList", "======删除重复元素=====");
+        singleList.removeAllDuplicateItems();
+//        singleList.sortList();
         for (int i = 0; i < singleList.size(); i++) {
             Log.e("SingleList", singleList.get(i) + "");
         }
-        Log.e("SingleList", "===========");
-        Log.e("SingleList", singleList.contains(0)+"");
-        Log.e("SingleList", "===========");
-        singleList.reverse();
-        for (int i = 0; i < singleList.size(); i++) {
-            Log.e("SingleList", singleList.get(i) + "");
-        }
-        Log.e("SingleList", "===========");
+        Log.e("SingleList", "======删除重复元素=====");
+
+        singleList.printListReversely();
+//        Log.e("SingleList", "===========");
 //        Sort.bubbleSort(mArray);
 //        Sort.selectSort(mArray);
 //        Sort.insertSort(mArray);
