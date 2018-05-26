@@ -403,6 +403,7 @@ public class SingleList<T extends Comparable> implements ISingleList<T> {
 
     /**
      * 逆序打印元素
+     *
      * @param head
      */
     public void printListReversely(SNode<T> head) {
@@ -410,5 +411,208 @@ public class SingleList<T extends Comparable> implements ISingleList<T> {
             printListReversely(head.next);
             Log.e("SingleList", head.data.toString());
         }
+    }
+
+    /**
+     * 首尾相连测试尾环问题
+     */
+    public void testLoop(int k) {
+        SNode<T> curNode = headNode;//大循环
+        while (curNode.next != null) {
+            curNode = curNode.next;
+        }
+        curNode.next = testSearchBackwardsElement(k);
+    }
+
+    /**
+     * 查找倒数第K个元素
+     *
+     * @param k
+     * @return
+     */
+    public SNode<T> testSearchBackwardsElement(int k) {
+        if (isEmpty()) {
+            return null;
+        }
+        if (k >= size()) {
+            return null;
+        }
+        SNode<T> leftNode = headNode;
+        SNode<T> rightNode = leftNode;
+        for (int i = 0; i < k; i++) {
+            rightNode = rightNode.next;
+        }
+        //右边的扫描节点到结尾
+        while (rightNode != null && rightNode.next != null) {
+            rightNode = rightNode.next;
+            leftNode = leftNode.next;
+        }
+
+        return leftNode;
+    }
+
+    public void printItems() {
+        SNode<T> curNode = headNode;//大循环
+        while (curNode.next != null) {
+            Log.e("SingleList", curNode.data + "");
+            curNode = curNode.next;
+        }
+    }
+
+    /**
+     * 判断是否有回环
+     *
+     * @return
+     */
+    public boolean isLoop() {
+        if (isEmpty()) {
+            return false;
+        }
+        SNode<T> slow = headNode;
+        SNode<T> fast = headNode;
+        while (slow != null && fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {//俩哥们相遇，则返回true
+                return true;
+            }
+        }
+        //如果是单链表，快指针肯定会走到结尾跳出循环
+        return false;
+    }
+
+    /**
+     * 查找环入口
+     *
+     * @return
+     */
+    public SNode<T> findLoopStartNode() {
+        if (isEmpty()) {
+            return null;
+        }
+        SNode<T> slow = headNode;
+        SNode<T> fast = headNode;
+        while (slow != null && fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {//俩哥们相遇，则返回true
+                break;
+            }
+        }
+
+        if (slow == null || fast == null || fast.next == null) return null;//没有环则返回空
+        SNode<T> p = headNode;//从头节点出发
+        SNode<T> q = slow;//从相遇点出发
+        while (p != q) {
+            p = p.next;
+            q = q.next;
+        }
+        return p;//相遇点为环入口
+    }
+
+    /**
+     * 获取环大小
+     *
+     * @return
+     */
+    public int getLoopSize() {
+
+        if (isEmpty()) {
+            return 0;
+        }
+        SNode<T> slow = headNode;
+        SNode<T> fast = headNode;
+        while (slow != null && fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {//俩哥们相遇，则返回true
+                break;
+            }
+        }
+
+        if (slow == null || fast == null || fast.next == null) return 0;//没有环则返0
+        int size = 1;//环size从1开始
+        SNode<T> temp = slow.next;//从相遇点出发
+        while (temp != slow) {
+            size++;
+            temp = temp.next;
+        }
+        return size;//相遇点为环入口
+
+    }
+
+    /**
+     * 获取头节点到入口的距离
+     *
+     * @return
+     */
+    public int getLoopEntryDistance() {
+        if (isEmpty()) {
+            return 0;
+        }
+        SNode<T> slow = headNode;
+        SNode<T> fast = headNode;
+        while (slow != null && fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {//俩哥们相遇，则返回true
+                break;
+            }
+        }
+
+        if (slow == null || fast == null || fast.next == null) return size();//没有环则返回单链表长度
+        SNode<T> p = headNode;//从头节点出发
+        SNode<T> q = slow;//从相遇点出发
+        int distance = 0;
+        while (p != q) {
+            distance++;
+            p = p.next;
+            q = q.next;
+        }
+        return distance;//相遇点为环入口
+
+    }
+
+    /**
+     * 获得带环链表大小
+     *
+     * @return
+     */
+    public int getLoopLinkedListSize() {
+        return getLoopSize() + getLoopEntryDistance();
+    }
+
+    /**
+     * 获得对面节点
+     *
+     * @return
+     */
+    public SNode<T> getOppositeNode(SNode<T> node) {
+        boolean isLoop = false;
+        if (isEmpty() || node == null) {
+            return null;
+        }
+        boolean isOnLoop = false;
+        //判断节点是否在环上
+        SNode<T> startNode = findLoopStartNode();
+        if (startNode == null) {//没有环，返回空
+            return null;
+        }
+        int loopSize = getLoopSize();
+        for (int i = 0; i < loopSize; i++) {
+            if (node == startNode) {
+                isOnLoop = true;
+                break;
+            }
+            startNode = startNode.next;
+        }
+        SNode<T> temp = node;
+        if (isOnLoop) {
+            for (int i = 0; i < loopSize / 2; i++) {
+                temp = temp.next;
+            }
+
+        }
+        return temp;
     }
 }

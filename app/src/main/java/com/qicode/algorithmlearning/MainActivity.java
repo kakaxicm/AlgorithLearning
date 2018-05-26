@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+import List.singlelist.SNode;
 import List.singlelist.SingleList;
 
 public class MainActivity extends Activity {
@@ -33,13 +34,14 @@ public class MainActivity extends Activity {
         SingleList<Integer> singleList = new SingleList<>();
         Log.e("SingleList", singleList.isEmpty() + "");
         singleList.add(1);
-        singleList.add(1);
+        singleList.add(2);
         singleList.add(3);
         singleList.add(4);
         singleList.add(5);
         singleList.add(6);
-        singleList.add(7);
-        singleList.add(7);
+//        singleList.add(5);
+//        singleList.add(6);
+//        singleList.add(7);
 //        singleList.add(2,4);
 //        singleList.remove(0);
 //        Log.e("SingleList", singleList.size() + "");
@@ -65,15 +67,38 @@ public class MainActivity extends Activity {
 //        }
 //        Log.e("SingleList", "======递归逆序操作=====");
 
-        Log.e("SingleList", "======删除重复元素=====");
-        singleList.removeAllDuplicateItems();
-//        singleList.sortList();
-        for (int i = 0; i < singleList.size(); i++) {
-            Log.e("SingleList", singleList.get(i) + "");
-        }
-        Log.e("SingleList", "======删除重复元素=====");
+//        Log.e("SingleList", "======删除重复元素=====");
+//        singleList.removeAllDuplicateItems();
+////        singleList.sortList();
+//        for (int i = 0; i < singleList.size(); i++) {
+//            Log.e("SingleList", singleList.get(i) + "");
+//        }
+//        Log.e("SingleList", "======删除重复元素=====");
 
-        singleList.printListReversely();
+        Log.e("SingleList", "======判断是否有环=====");
+        singleList.testLoop(5);
+        Log.e("SingleList", singleList.isLoop() + "");
+        Log.e("SingleList", "======判断是否有环=====");
+        Log.e("SingleList", "======环入口=====");
+        SNode<Integer> startNode = singleList.findLoopStartNode();
+        if(startNode != null){
+            Log.e("SingleList", startNode.data + "");
+        }
+        Log.e("SingleList", "======环入口=====");
+
+        Log.e("SingleList", "======环入口大小与距离=====");
+        Log.e("SingleList", singleList.getLoopSize() + "");
+        Log.e("SingleList", singleList.getLoopEntryDistance() + "");
+        Log.e("SingleList", singleList.getLoopLinkedListSize() + "");
+        Log.e("SingleList", "======环入口大小与距离=====");
+//        Log.e("SingleList", "======环对面节点=====");
+//        SNode node = singleList.testSearchBackwardsElement(2);
+//        singleList.testLoop(5);
+//        SNode<Integer> oppositeNode = singleList.getOppositeNode(node);
+//        Log.e("SingleList", oppositeNode.data + "");
+//        Log.e("SingleList", "======环对面节点=====");
+//
+//        singleList.printListReversely();
 //        Log.e("SingleList", "===========");
 //        Sort.bubbleSort(mArray);
 //        Sort.selectSort(mArray);
