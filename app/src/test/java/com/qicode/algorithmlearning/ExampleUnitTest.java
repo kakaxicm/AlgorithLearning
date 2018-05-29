@@ -2,9 +2,11 @@ package com.qicode.algorithmlearning;
 
 import org.junit.Test;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import List.dlinkedlist.DLinkedList;
 
-import static org.junit.Assert.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -30,5 +32,15 @@ public class ExampleUnitTest {
 //        dLinkedList.clear();
         System.out.println(dLinkedList.size());
         System.out.println(dLinkedList.contains(2));
+
+        LinkedList<Integer> list = new LinkedList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        Iterator<Integer> iterator = list.iterator();
+        while (iterator.hasNext()){
+            Integer i = iterator.next();
+            iterator.remove();
+        }
     }
 }
