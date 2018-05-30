@@ -9,7 +9,7 @@ import android.util.Log;
  */
 
 public class PostFixExpression {
-    private Stack<Character> mOperationsStack = new Stack<>();
+    private Stack<Character> mOperationsStack = new Stack<>();//操作符栈
     private StringBuilder mResult = new StringBuilder();
 
     private char[] OPERATIONS = {'+', '-', '*', '/'};
@@ -50,13 +50,13 @@ public class PostFixExpression {
                             }
                         }
 
-                        //舍弃左括号
+                        //弹出左括号
                         if (mOperationsStack.peek() != null && mOperationsStack.peek() == LEFT_BRACKET) {
                             mOperationsStack.pop();
                         }
                     } else {
                         int newCharPriority = getPriority(item);
-                        //遍历堆栈，高于等于新操作符优先级的符号输出
+                        //遍历操作符栈，高于等于新操作符优先级的符号输出
                         Character topOperation = mOperationsStack.peek();//查看当前栈顶的操作符
 
                         int topCharPriority = getPriority(topOperation);

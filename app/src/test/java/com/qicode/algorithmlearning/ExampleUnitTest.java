@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import List.dlinkedlist.DLinkedList;
+import stack.Stack;
 
 
 /**
@@ -42,5 +43,22 @@ public class ExampleUnitTest {
             Integer i = iterator.next();
             iterator.remove();
         }
+    }
+
+    @Test
+    public void testStack(){
+//        Stack测试
+        Stack<Integer> stack = new Stack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.pop();
+        stack.push(4);
+        System.out.println(stack.size()+"=="+stack.peek());
+//        stack.clear();
+        while (!stack.isEmpty()){
+            System.out.println(stack.pop()+"");
+        }
+        System.out.println(stack.size()+"==");
     }
 }

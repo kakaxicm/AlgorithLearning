@@ -5,7 +5,7 @@ import List.Node;
  * Created by chenming on 16/12/27.
  */
 
-public class Stack<T> {
+public class Stack<T> implements IStack<T>{
     public String ID;
     public Node<T> mTop;//栈顶指针
     private int mSize;
@@ -53,7 +53,7 @@ public class Stack<T> {
      * @return
      */
     public boolean isEmpty() {
-        return mTop == null;
+        return mTop == null || mTop.mData == null;
     }
 
     /**
