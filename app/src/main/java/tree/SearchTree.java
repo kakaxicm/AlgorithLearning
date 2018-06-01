@@ -1,5 +1,7 @@
 package tree;
 
+import stack.Stack;
+
 /**
  * Created by chenming on 2018/6/1
  * 排序二叉树树的复习,方法尽量提供循环和递归两种方式实现
@@ -159,7 +161,8 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
      */
     @Override
     public String preOrder() {
-        return preOrderByRecursion(mRoot);
+//        return preOrderByRecursion(mRoot);
+        return preOrderByTrans();
     }
 
     /**
@@ -176,6 +179,33 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
             sb.append(preOrderByRecursion(root.right));
         }
         return sb.toString();
+    }
+
+    /**
+     * 利用栈实现前序遍历,利用栈保存已经访问的节点，实现思想如下：
+     * 1.当前节点p不为空时,访问节点，并保存入栈
+     * 2.p节点向左遍历,执行1的操作,知道p为空
+     * 3.p为空时，表示一条完整的路径已经遍历完,栈顶存放的是上一个节点即当前的父节点,弹出这个父节点，向它的右子树遍历,执行
+     p=stack.pop,p = p.right,然后重复1.2.3操作。
+     *当p==null && 栈为空时表示遍历完，退出循环
+     * @return
+     */
+    private String preOrderByTrans(){
+        Stack<BinaryNode<T>> historyNodeStack = new Stack<>();
+        BinaryNode<T> p = mRoot;
+        StringBuilder result = new StringBuilder();
+        while (p != null || !historyNodeStack.isEmpty()){
+            if(p == null){//一条完整路径走到尽头,向父节点的右子树遍历
+                p = historyNodeStack.pop();
+                p = p.right;
+            }else{
+                //访问节点,保存路径,向左边遍历直到p=null
+                result.append(p.data+",");
+                historyNodeStack.push(p);
+                p = p.left;
+            }
+        }
+        return result.toString();
     }
 
     @Override
