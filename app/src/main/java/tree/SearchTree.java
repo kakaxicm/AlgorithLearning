@@ -1,5 +1,6 @@
 package tree;
 
+import queue.Queue;
 import stack.Stack;
 
 /**
@@ -313,9 +314,31 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
     }
 
 
+    /**
+     * 程序遍历:二叉树的兄弟节点没有直接联系，无法用递归实现,引入队列
+     * @return
+     */
     @Override
     public String levelOrder() {
-        return null;
+        Queue<BinaryNode<T>> queue = new Queue<>();
+        StringBuilder result = new StringBuilder();
+        BinaryNode<T> p = mRoot;
+        while (p != null){
+            result.append(p.data+",");
+            //左右子节点入队
+            if(p.left != null){
+                queue.enquene(p.left);
+            }
+
+            //左右子节点入队
+            if(p.right != null){
+                queue.enquene(p.right);
+            }
+
+            p = queue.dequeue();
+
+        }
+        return result.toString();
     }
 
     @Override

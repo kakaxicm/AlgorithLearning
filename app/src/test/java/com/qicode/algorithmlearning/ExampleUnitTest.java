@@ -74,11 +74,11 @@ public class ExampleUnitTest {
         for (int i = 0; i < nodes.length; i++) {
             BinaryNode<Integer> node = tree.findNode(nodes[i]);
             System.out.println(node.data);
-            if(node.left != null){
-                System.out.println("    --"+ node.left.data);
+            if (node.left != null) {
+                System.out.println("    --" + node.left.data);
             }
-            if(node.right != null){
-                System.out.println("    --"+ node.right.data);
+            if (node.right != null) {
+                System.out.println("    --" + node.right.data);
             }
         }
         System.out.println("=====先序遍历=====");
@@ -87,5 +87,7 @@ public class ExampleUnitTest {
         System.out.println(tree.inOrder());
         System.out.println("=====后序遍历=====");
         System.out.println(tree.postOrder());
+        System.out.println("=====层序遍历=====");
+        System.out.println(tree.levelOrder());
     }
 }
