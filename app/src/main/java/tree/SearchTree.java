@@ -186,21 +186,22 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
      * 1.当前节点p不为空时,访问节点，并保存入栈
      * 2.p节点向左遍历,执行1的操作,知道p为空
      * 3.p为空时，表示一条完整的路径已经遍历完,栈顶存放的是上一个节点即当前的父节点,弹出这个父节点，向它的右子树遍历,执行
-     p=stack.pop,p = p.right,然后重复1.2.3操作。
-     *当p==null && 栈为空时表示遍历完，退出循环
+     * p=stack.pop,p = p.right,然后重复1.2.3操作。
+     * 当p==null && 栈为空时表示遍历完，退出循环
+     *
      * @return
      */
-    private String preOrderByTrans(){
+    private String preOrderByTrans() {
         Stack<BinaryNode<T>> historyNodeStack = new Stack<>();
         BinaryNode<T> p = mRoot;
         StringBuilder result = new StringBuilder();
-        while (p != null || !historyNodeStack.isEmpty()){
-            if(p == null){//一条完整路径走到尽头,向父节点的右子树遍历
+        while (p != null || !historyNodeStack.isEmpty()) {
+            if (p == null) {//一条完整路径走到尽头,向父节点的右子树遍历
                 p = historyNodeStack.pop();
                 p = p.right;
-            }else{
+            } else {
                 //访问节点,保存路径,向左边遍历直到p=null
-                result.append(p.data+",");
+                result.append(p.data + ",");
                 historyNodeStack.push(p);
                 p = p.left;
             }
@@ -210,6 +211,7 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 中序遍历,遵从左中右的遍历顺序，实际上是按大小顺序输出！
+     *
      * @return
      */
     @Override
@@ -220,6 +222,7 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 递归中序遍历
+     *
      * @return
      */
     public String inOrderByRecursion(BinaryNode root) {
@@ -235,19 +238,20 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
     /**
      * 循环中序遍历,和前序引入栈存放经过的路径,这些路径没有被访问，当向左的路径走到尽头，弹栈访问节点，并向右遍历，
      * 如果p不为空，则存入stack，向左边遍历
+     *
      * @return
      */
     public String inOrderByTrans(BinaryNode root) {
         Stack<BinaryNode<T>> historyNodeStack = new Stack<>();
         BinaryNode<T> p = mRoot;
         StringBuilder result = new StringBuilder();
-        while (p != null || !historyNodeStack.isEmpty()){
-            if(p == null){//一条完整路径走到尽头,弹栈，并访问它
+        while (p != null || !historyNodeStack.isEmpty()) {
+            if (p == null) {//一条完整路径走到尽头,弹栈，并访问它
                 p = historyNodeStack.pop();
-                result.append(p.data+",");
+                result.append(p.data + ",");
                 p = p.right;
-            }else{
-                //访问节点,保存路径,向左边遍历直到p=null
+            } else {
+                //向左边遍历直到p=null
                 historyNodeStack.push(p);
                 p = p.left;
             }
@@ -257,8 +261,57 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     @Override
     public String postOrder() {
-        return null;
+//        return postOrderByRecursion(mRoot);
+        return postOrderByTrans();
     }
+
+    /**
+     * 递归后序遍历
+     *
+     * @return
+     */
+    public String postOrderByRecursion(BinaryNode root) {
+        StringBuilder sb = new StringBuilder();
+        if (root != null) {//递归结束条件
+            sb.append(postOrderByRecursion(root.left));//先访问左子树
+            sb.append(postOrderByRecursion(root.right));//最后访问右子树
+            sb.append(root.data + ", ");//访问根节点
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 循环实现后序遍历
+     * @return
+     */
+    public String postOrderByTrans() {
+        Stack<BinaryNode<T>> stack = new Stack<>();
+        BinaryNode<T> currentNode = mRoot;
+        BinaryNode<T> prev = mRoot;
+        StringBuilder result = new StringBuilder();
+        while (currentNode != null || !stack.isEmpty()) {
+            //把左子树加入栈中,直到叶子结点为止,这是左子树先遍历的前提
+            while (currentNode != null) {
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            }
+
+            if (!stack.isEmpty()) {//当前的栈顶节点未访问，先看看它的右节点是否被访问过或者是否为空，如果是则表示右子树遍历完，可以弹出访问
+                BinaryNode<T> rightNode = stack.peek().right;
+                if (rightNode == null || rightNode == prev) {//右子树访问完毕，才弹出父节点
+                    currentNode = stack.pop();//弹出父节点访问
+                    result.append(currentNode.data + ",");
+                    prev = currentNode;
+                    currentNode = null;//curnode=null，避免上面的while重复循环
+                } else {
+                    currentNode = rightNode;//向右遍历
+                }
+
+            }
+        }
+        return result.toString();
+    }
+
 
     @Override
     public String levelOrder() {
