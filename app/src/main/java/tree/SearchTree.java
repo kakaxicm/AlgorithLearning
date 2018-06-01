@@ -283,6 +283,7 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 循环实现后序遍历
+     *
      * @return
      */
     public String postOrderByTrans() {
@@ -316,6 +317,7 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 程序遍历:二叉树的兄弟节点没有直接联系，无法用递归实现,引入队列
+     *
      * @return
      */
     @Override
@@ -323,15 +325,15 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
         Queue<BinaryNode<T>> queue = new Queue<>();
         StringBuilder result = new StringBuilder();
         BinaryNode<T> p = mRoot;
-        while (p != null){
-            result.append(p.data+",");
+        while (p != null) {
+            result.append(p.data + ",");
             //左右子节点入队
-            if(p.left != null){
+            if (p.left != null) {
                 queue.enquene(p.left);
             }
 
             //左右子节点入队
-            if(p.right != null){
+            if (p.right != null) {
                 queue.enquene(p.right);
             }
 
@@ -343,15 +345,43 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     @Override
     public int size() {
-        return 0;
+        return size(mRoot);
+    }
+
+    /**
+     * 递归实现大小计算
+     *
+     * @param root
+     * @return
+     */
+    public int size(BinaryNode<T> root) {
+        if (root == null) {
+            return 0;
+        }
+
+        return size(root.left) + 1 + size(root.right);
     }
 
     @Override
     public int height() {
-        return 0;
+        return height(mRoot);
     }
 
+    /**
+     * 递归求高度
+     * @param root
+     * @return
+     */
+    public int height(BinaryNode<T> root) {
+        if (root == null) {
+            return 0;
+        }
+        int lh = height(root.left);
+        int rh = height(root.right);
+        return (lh > rh) ? lh + 1 : rh + 1;
+    }
 
+    //TODO 删除元素,相对复杂 明天写
     @Override
     public void remove(T data) {
 

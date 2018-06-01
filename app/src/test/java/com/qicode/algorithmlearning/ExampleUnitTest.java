@@ -89,5 +89,9 @@ public class ExampleUnitTest {
         System.out.println(tree.postOrder());
         System.out.println("=====层序遍历=====");
         System.out.println(tree.levelOrder());
+        System.out.println("=====大小=====");
+        System.out.println(tree.size()+"");
+        System.out.println("=====高度=====");
+        System.out.println(tree.height()+"");
     }
 }
