@@ -57,21 +57,22 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 递归插入元素
+     *
      * @param node 子树节点
      * @param data 插入数据
      */
     private BinaryNode<T> insertByRecursion(BinaryNode<T> node, T data) {
         //递归结束条件 node == null表示已经到叶子节点的下面一层了，挂载新节点,返回
-        if(node == null){
+        if (node == null) {
             node = new BinaryNode<>(data);//连接新节点返回给上一层链接
-        }else{//向左右子树递归
+        } else {//向左右子树递归
             //递归比较
             int compare = data.compareTo(node.data);
 
             if (compare < 0) {//左
-                node.left = insertByRecursion(node.left,data);//由于插入操作需要链接节点,所以需要将低层次的node返回给上一层次的rootNode
+                node.left = insertByRecursion(node.left, data);//由于插入操作需要链接节点,所以需要将低层次的node返回给上一层次的rootNode
             } else if (compare > 0) {//右
-                node.right = insertByRecursion(node.right,data);
+                node.right = insertByRecursion(node.right, data);
             } else {//相等
                 node.mDupCount++;//重复计数+1
             }
@@ -148,22 +149,33 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return mRoot == null;
     }
 
-    @Override
-    public int size() {
-        return 0;
-    }
-
-    @Override
-    public int height() {
-        return 0;
-    }
-
+    /**
+     * 前序遍历
+     *
+     * @return
+     */
     @Override
     public String preOrder() {
-        return null;
+        return preOrderByRecursion(mRoot);
+    }
+
+    /**
+     * 递归前序遍历：先访问根节点，在访问左右子树
+     *
+     * @param root
+     * @return
+     */
+    private String preOrderByRecursion(BinaryNode<T> root) {
+        StringBuilder sb = new StringBuilder();
+        if (root != null) {//递归结束条件
+            sb.append(root.data + ", ");//先访问根节点
+            sb.append(preOrderByRecursion(root.left));
+            sb.append(preOrderByRecursion(root.right));
+        }
+        return sb.toString();
     }
 
     @Override
@@ -180,6 +192,17 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
     public String levelOrder() {
         return null;
     }
+
+    @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
+    public int height() {
+        return 0;
+    }
+
 
     @Override
     public void remove(T data) {

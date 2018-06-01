@@ -66,7 +66,7 @@ public class ExampleUnitTest {
 
     @Test
     public void testSearchTree() {
-        int[] nodes = {8, 10, 6, 5, 7, 9, 11, 1, 2, 3};
+        int[] nodes = {8, 10, 6, 5, 7, 9, 11, 3, 1, 4};
         SearchTree<Integer> tree = new SearchTree<>();
         for (int i = 0; i < nodes.length; i++) {
             tree.insert(nodes[i]);
@@ -81,5 +81,7 @@ public class ExampleUnitTest {
                 System.out.println("    --"+ node.right.data);
             }
         }
+        System.out.println("=====先序遍历=====");
+        System.out.println(tree.preOrder());
     }
 }
