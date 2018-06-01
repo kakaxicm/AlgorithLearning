@@ -83,5 +83,7 @@ public class ExampleUnitTest {
         }
         System.out.println("=====先序遍历=====");
         System.out.println(tree.preOrder());
+        System.out.println("=====中序遍历=====");
+        System.out.println(tree.inOrder());
     }
 }

@@ -208,9 +208,27 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
         return result.toString();
     }
 
+    /**
+     * 中序遍历
+     * @return
+     */
     @Override
     public String inOrder() {
-        return null;
+        return inOrderByRecursion(mRoot);
+    }
+
+    /**
+     * 递归中序遍历
+     * @return
+     */
+    public String inOrderByRecursion(BinaryNode root) {
+        StringBuilder sb = new StringBuilder();
+        if (root != null) {//递归结束条件
+            sb.append(inOrderByRecursion(root.left));//先访问左子树
+            sb.append(root.data + ", ");//访问根节点
+            sb.append(inOrderByRecursion(root.right));//最后访问右子树
+        }
+        return sb.toString();
     }
 
     @Override
