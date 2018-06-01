@@ -209,12 +209,13 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
     }
 
     /**
-     * 中序遍历
+     * 中序遍历,遵从左中右的遍历顺序，实际上是按大小顺序输出！
      * @return
      */
     @Override
     public String inOrder() {
-        return inOrderByRecursion(mRoot);
+//        return inOrderByRecursion(mRoot);
+        return inOrderByTrans(mRoot);
     }
 
     /**
@@ -229,6 +230,29 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
             sb.append(inOrderByRecursion(root.right));//最后访问右子树
         }
         return sb.toString();
+    }
+
+    /**
+     * 循环中序遍历,和前序引入栈存放经过的路径,这些路径没有被访问，当向左的路径走到尽头，弹栈访问节点，并向右遍历，
+     * 如果p不为空，则存入stack，向左边遍历
+     * @return
+     */
+    public String inOrderByTrans(BinaryNode root) {
+        Stack<BinaryNode<T>> historyNodeStack = new Stack<>();
+        BinaryNode<T> p = mRoot;
+        StringBuilder result = new StringBuilder();
+        while (p != null || !historyNodeStack.isEmpty()){
+            if(p == null){//一条完整路径走到尽头,弹栈，并访问它
+                p = historyNodeStack.pop();
+                result.append(p.data+",");
+                p = p.right;
+            }else{
+                //访问节点,保存路径,向左边遍历直到p=null
+                historyNodeStack.push(p);
+                p = p.left;
+            }
+        }
+        return result.toString();
     }
 
     @Override
