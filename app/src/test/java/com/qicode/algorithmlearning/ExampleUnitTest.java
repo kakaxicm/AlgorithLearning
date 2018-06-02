@@ -93,5 +93,9 @@ public class ExampleUnitTest {
         System.out.println(tree.size()+"");
         System.out.println("=====高度=====");
         System.out.println(tree.height()+"");
+        System.out.println("=====最小值=====");
+        System.out.println(tree.findMin()+"");
+        System.out.println("=====最大值=====");
+        System.out.println(tree.findMax()+"");
     }
 }

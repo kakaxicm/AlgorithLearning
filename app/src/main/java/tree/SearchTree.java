@@ -389,12 +389,67 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     @Override
     public T findMin() {
-        return null;
+//        return findMinByTrans(mRoot);
+        return findMinRecursion(mRoot);
     }
+
+    /**
+     * 循环查找最小值
+     * @param root
+     * @return
+     */
+    public T findMinByTrans(BinaryNode<T> root){
+        BinaryNode<T> p = root;
+        while (p.left != null){
+            p = p.left;
+        }
+        return p.data;
+    }
+
+    /**
+     * 递归查找最小值
+     * @param root
+     * @return
+     */
+    public T findMinRecursion(BinaryNode<T> root){
+        if(root.left == null){
+            return root.data;
+        }
+
+        return findMinRecursion(root.left);
+    }
+
+    /**
+     * 循环查找最小值
+     * @param root
+     * @return
+     */
+    public T findMaxByTrans(BinaryNode<T> root){
+        BinaryNode<T> p = root;
+        while (p.right != null){
+            p = p.right;
+        }
+        return p.data;
+    }
+
+    /**
+     * 递归查找最小值
+     * @param root
+     * @return
+     */
+    public T findMaxRecursion(BinaryNode<T> root){
+        if(root.right == null){
+            return root.data;
+        }
+
+        return findMaxRecursion(root.right);
+    }
+
 
     @Override
     public T findMax() {
-        return null;
+        return findMaxRecursion(mRoot);
+//        return findMaxByTrans(mRoot);
     }
 
     /**
