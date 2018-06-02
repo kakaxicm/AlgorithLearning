@@ -461,40 +461,40 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
         //找到目标位置,判断它的挂载情况
         //删除叶子节点
-        if(current.left == null && current.right == null){
-            if(current == mRoot){
+        if (current.left == null && current.right == null) {
+            if (current == mRoot) {
                 mRoot = null;
-            }else if(isLeft){
+            } else if (isLeft) {
                 parent.left = null;
-            }else {
+            } else {
                 parent.right = null;
             }
 
-        }else if(current.left == null){//right不为空
-            if(current == mRoot){
+        } else if (current.left == null) {//right不为空
+            if (current == mRoot) {
                 mRoot = current.right;
-            }else if(isLeft){
+            } else if (isLeft) {
                 parent.left = current.right;
-            }else {
+            } else {
                 parent.right = current.right;
             }
-        }else if(current.right == null){//left不为空
-            if(current == mRoot){
+        } else if (current.right == null) {//left不为空
+            if (current == mRoot) {
                 mRoot = current.left;
-            }else if(isLeft){
+            } else if (isLeft) {
                 parent.left = current.left;
-            }else {
+            } else {
                 parent.right = current.left;
             }
-        }else {//带有俩孩子的节点
+        } else {//带有俩孩子的节点
             //找右边子树的最小节点（中继节点）
             //找到当前要删除结点current的右子树中的最小值元素
-            BinaryNode<T> successor= findRelayNode(current);//找到中继节点，并且中继节点的右边子树已经指向了要删除节点的右子树
-            if(current == mRoot) {
+            BinaryNode<T> successor = findRelayNode(current);//找到中继节点，并且中继节点的右边子树已经指向了要删除节点的右子树
+            if (current == mRoot) {
                 mRoot = successor;
-            } else if(isLeft) {
+            } else if (isLeft) {
                 parent.left = successor;//左子树连接中继节点
-            } else{
+            } else {
                 parent.right = successor;//右子树连接中继节点
             }
             //把当前要删除的结点的左子树赋值给successor的左子树
@@ -506,6 +506,7 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 查找中继节点
+     *
      * @param delNode 要删除的节点
      * @return
      */
@@ -513,13 +514,13 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
         BinaryNode<T> relayNode = delNode;//最小节点
         BinaryNode<T> relayParentNode = delNode;//父节点
         BinaryNode<T> curNode = delNode.right;//临时遍历变量
-        while (curNode != null){
+        while (curNode != null) {
             relayParentNode = relayNode;//保存父节点
             relayNode = curNode;
             curNode = curNode.left;
         }
 
-        if(relayNode != delNode.right){
+        if (relayNode != delNode.right) {
             //如果relayNode不是删除节点的直接子节点，relayNode就是要替换delNode的节点,
             // 第一步先处理好它的断开操作:relayNode是最小节点，所以它必然在父节点的左边，且没有左子节点
             // 所以relayParentNode的左子树指向relayNode的右子树,即可完成relayNode的断开操作
@@ -665,5 +666,69 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
     @Override
     public void clear() {
         mRoot = null;
+    }
+
+    /**
+     * 根据前序遍历和中序遍历数组构建二叉树
+     *
+     * @param preList
+     * @param inList
+     * @param preStart
+     * @param preEnd
+     * @param inStart
+     * @param inEnd
+     * @return
+     */
+    public BinaryNode<T> creatTreeByPreIn(
+            T[] preList,
+            T[] inList,
+            int preStart,
+            int preEnd,
+            int inStart,
+            int inEnd) {
+        BinaryNode<T> p = new BinaryNode<>(preList[preStart]);
+        if (preStart == preEnd && inStart == inEnd){
+            return p;
+        }
+        //找到根节点在中序列表中的位置
+        int rootIndex = 0;
+        for(rootIndex = inStart; rootIndex < inEnd; rootIndex ++ ){
+            if(preList[preStart].compareTo(inList[rootIndex]) == 0){
+                break;
+            }
+        }
+        int leftLen = rootIndex - inStart;
+        int rightLen = inEnd - rootIndex;
+        //递归构建
+        if(leftLen > 0){
+            //左子树的先根序列：preList[1] , ... , preList[i]
+            //左子树的中根序列：inList[0] , ... , inList[i-1]
+            p.left = creatTreeByPreIn(preList, inList,
+                    preStart+1,
+                    preStart+leftLen,
+                     inStart,
+                    rootIndex - 1);
+        }
+        if(rightLen > 0){
+            //右子树的先根序列：preList[preStart+1+leftLen] , ... , preList[n-1]
+            //右子树的中根序列：inList[i+1] , ... , inList[n-1]
+            p.right = creatTreeByPreIn(preList, inList,
+                    preStart+1+leftLen,
+                    preEnd, rootIndex+1, inEnd);
+        }
+        return p;
+    }
+
+    /**
+     * 构建树林
+     * @param preList
+     * @param inList
+     * @return
+     */
+    public SearchTree<T> buidTreeByPreIn( T[] preList,
+                                          T[] inList){
+        BinaryNode<T> root = creatTreeByPreIn(preList,inList, 0, preList.length -1, 0,inList.length-1);
+        mRoot = root;
+        return this;
     }
 }

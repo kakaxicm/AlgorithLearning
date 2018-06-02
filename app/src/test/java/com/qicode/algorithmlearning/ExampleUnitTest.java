@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import List.dlinkedlist.DLinkedList;
 import stack.Stack;
 import tree.BinaryNode;
+import tree.BinaryTree;
 import tree.SearchTree;
 
 
@@ -93,7 +94,18 @@ public class ExampleUnitTest {
         System.out.println("=====删除元素=====");
         tree.remove(6);
         dumpTree(nodes,tree);
-
+        System.out.println("=====根据前序和中序数组构建二叉树=====");
+        Integer[] preArr = {8,6,5,3,1,4,7,10,9,11};
+        Integer[] inArr = {1,3,4,5,6,7,8,9,10,11};
+        SearchTree<Integer> newTree = tree.buidTreeByPreIn(preArr, inArr);
+        System.out.println("=====先序遍历=====");
+        System.out.println(newTree.preOrder());
+        System.out.println("=====中序遍历=====");
+        System.out.println(newTree.inOrder());
+        System.out.println("=====后序遍历=====");
+        System.out.println(newTree.postOrder());
+        System.out.println("=====层序遍历=====");
+        System.out.println(tree.levelOrder());
     }
 
     private void dumpTree(int[] nodes, SearchTree<Integer> tree) {
