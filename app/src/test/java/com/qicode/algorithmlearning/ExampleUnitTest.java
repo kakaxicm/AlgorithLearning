@@ -71,16 +71,7 @@ public class ExampleUnitTest {
         for (int i = 0; i < nodes.length; i++) {
             tree.insert(nodes[i]);
         }
-        for (int i = 0; i < nodes.length; i++) {
-            BinaryNode<Integer> node = tree.findNode(nodes[i]);
-            System.out.println(node.data);
-            if (node.left != null) {
-                System.out.println("    --" + node.left.data);
-            }
-            if (node.right != null) {
-                System.out.println("    --" + node.right.data);
-            }
-        }
+        dumpTree(nodes, tree);
         System.out.println("=====先序遍历=====");
         System.out.println(tree.preOrder());
         System.out.println("=====中序遍历=====");
@@ -99,5 +90,25 @@ public class ExampleUnitTest {
         System.out.println(tree.findMax()+"");
         System.out.println("=====是否包含元素=====");
         System.out.println(tree.contains(1)+"");
+        System.out.println("=====删除元素=====");
+        tree.remove(8);
+        dumpTree(nodes,tree);
+
+    }
+
+    private void dumpTree(int[] nodes, SearchTree<Integer> tree) {
+        for (int i = 0; i < nodes.length; i++) {
+            BinaryNode<Integer> node = tree.findNode(nodes[i]);
+            if(node != null){
+                System.out.println(node.data);
+                if (node.left != null) {
+                    System.out.println("    --" + node.left.data);
+                }
+                if (node.right != null) {
+                    System.out.println("    --" + node.right.data);
+                }
+            }
+
+        }
     }
 }

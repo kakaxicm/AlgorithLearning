@@ -369,6 +369,7 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 递归求高度
+     *
      * @param root
      * @return
      */
@@ -384,7 +385,42 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
     //TODO 删除元素,相对复杂 明天写
     @Override
     public void remove(T data) {
+        removeByRecursion(data, mRoot);
+    }
 
+    /**
+     * 递归删除元素
+     * 1.当找到目标节点时，分三种情况删除元素
+     * 1>叶子节点，直接删除
+     * 2>带一个子节点,父节点指向它的子节点
+     * 3>带俩节点，找到右子树的最小元素(中继节点)，替换当前节点,并递归删除右子树的这个中继节点
+     *
+     * @param data
+     * @param p
+     * @return
+     */
+    public BinaryNode<T> removeByRecursion(T data, BinaryNode<T> p) {
+        if (p == null) {
+            return null;//没有找到元素,返回空
+        }
+
+        int compareResult = data.compareTo(p.data);
+        if (compareResult < 0) {//左边查找删除结点
+            //左边相当于父节点，右边相当于删除节点后的子节点
+            p.left = removeByRecursion(data, p.left);
+        } else if (compareResult > 0) {
+            p.right = removeByRecursion(data, p.right);
+        } else {
+            //找到目标节点，删除分三种情况
+            if (p.left != null && p.right != null) {
+                //TODO 情况3 找到中继节点,替换元素，删除它
+                p.data = findMinByTrans(p.right);//找到中继节点
+                p.right = removeByRecursion(p.data, p.right);//右子树删除这个中继节点
+            } else {//情况1和2，遍历到最下面了
+                p = (p.left != null) ? p.left : p.right;
+            }
+        }
+        return p;//返回删除后的子树节点,用于返回上层递归连接父节点
     }
 
     @Override
