@@ -91,7 +91,7 @@ public class ExampleUnitTest {
         System.out.println("=====是否包含元素=====");
         System.out.println(tree.contains(1)+"");
         System.out.println("=====删除元素=====");
-        tree.remove(8);
+        tree.remove(6);
         dumpTree(nodes,tree);
 
     }

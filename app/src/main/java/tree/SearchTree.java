@@ -382,10 +382,10 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
         return (lh > rh) ? lh + 1 : rh + 1;
     }
 
-    //TODO 删除元素,相对复杂 明天写
     @Override
     public void remove(T data) {
-        removeByRecursion(data, mRoot);
+//        removeByRecursion(data, mRoot);
+        removeByTrans(data);
     }
 
     /**
@@ -413,7 +413,7 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
         } else {
             //找到目标节点，删除分三种情况
             if (p.left != null && p.right != null) {
-                //TODO 情况3 找到中继节点,替换元素，删除它
+                //情况3 找到中继节点,替换元素，删除它
                 p.data = findMinByTrans(p.right);//找到中继节点
                 p.right = removeByRecursion(p.data, p.right);//右子树删除这个中继节点
             } else {//情况1和2，遍历到最下面了
@@ -421,6 +421,116 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
             }
         }
         return p;//返回删除后的子树节点,用于返回上层递归连接父节点
+    }
+
+    /**
+     * 循环删除
+     *
+     * @param data
+     * @return
+     */
+    public BinaryNode<T> removeByTrans(T data) {
+        //找到目标节点
+        if (data == null) {
+            return null;
+        }
+
+        BinaryNode<T> current = mRoot;
+        BinaryNode<T> parent = mRoot;//记录父节点
+        //判断左右孩子的flag
+        boolean isLeft = true;
+
+        //找到要删除的结点
+        while (data.compareTo(current.data) != 0) {
+            //更新父结点记录
+            parent = current;
+            int result = data.compareTo(current.data);
+
+            if (result < 0) {//从左子树查找
+                isLeft = true;
+                current = current.left;
+            } else if (result > 0) {//从右子树查找
+                isLeft = false;
+                current = current.right;
+            }
+            //如果没有找到,返回null
+            if (current == null) {
+                return null;
+            }
+        }
+
+        //找到目标位置,判断它的挂载情况
+        //删除叶子节点
+        if(current.left == null && current.right == null){
+            if(current == mRoot){
+                mRoot = null;
+            }else if(isLeft){
+                parent.left = null;
+            }else {
+                parent.right = null;
+            }
+
+        }else if(current.left == null){//right不为空
+            if(current == mRoot){
+                mRoot = current.right;
+            }else if(isLeft){
+                parent.left = current.right;
+            }else {
+                parent.right = current.right;
+            }
+        }else if(current.right == null){//left不为空
+            if(current == mRoot){
+                mRoot = current.left;
+            }else if(isLeft){
+                parent.left = current.left;
+            }else {
+                parent.right = current.left;
+            }
+        }else {//带有俩孩子的节点
+            //找右边子树的最小节点（中继节点）
+            //找到当前要删除结点current的右子树中的最小值元素
+            BinaryNode<T> successor= findRelayNode(current);//找到中继节点，并且中继节点的右边子树已经指向了要删除节点的右子树
+            if(current == mRoot) {
+                mRoot = successor;
+            } else if(isLeft) {
+                parent.left = successor;//左子树连接中继节点
+            } else{
+                parent.right = successor;//右子树连接中继节点
+            }
+            //把当前要删除的结点的左子树赋值给successor的左子树
+            successor.left = current.left;
+
+        }
+        return current;
+    }
+
+    /**
+     * 查找中继节点
+     * @param delNode 要删除的节点
+     * @return
+     */
+    private BinaryNode<T> findRelayNode(BinaryNode<T> delNode) {
+        BinaryNode<T> relayNode = delNode;//最小节点
+        BinaryNode<T> relayParentNode = delNode;//父节点
+        BinaryNode<T> curNode = delNode.right;//临时遍历变量
+        while (curNode != null){
+            relayParentNode = relayNode;//保存父节点
+            relayNode = curNode;
+            curNode = curNode.left;
+        }
+
+        if(relayNode != delNode.right){
+            //如果relayNode不是删除节点的直接子节点，relayNode就是要替换delNode的节点,
+            // 第一步先处理好它的断开操作:relayNode是最小节点，所以它必然在父节点的左边，且没有左子节点
+            // 所以relayParentNode的左子树指向relayNode的右子树,即可完成relayNode的断开操作
+            // 断开操作之后,relayNode需要替代delNode,需要把delNode的右边子树赋给relayNode.right
+            relayParentNode.left = relayNode.right;
+            //这种情况下relayNode和delNode至少隔了一层，所以需要将delNode的右边子树赋值给relayNode的右子树，
+            relayNode.right = delNode.right;
+        }//relayNode == delNode.right时候，说明delNode和relayNode是直接的父子关系，不用额外操作
+
+        return relayNode;
+
     }
 
     @Override
