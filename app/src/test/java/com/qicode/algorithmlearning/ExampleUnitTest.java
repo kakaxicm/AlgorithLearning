@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import List.dlinkedlist.DLinkedList;
 import stack.Stack;
 import tree.BinaryNode;
-import tree.BinaryTree;
 import tree.SearchTree;
 
 
@@ -97,7 +96,8 @@ public class ExampleUnitTest {
         System.out.println("=====根据前序和中序数组构建二叉树=====");
         Integer[] preArr = {8,6,5,3,1,4,7,10,9,11};
         Integer[] inArr = {1,3,4,5,6,7,8,9,10,11};
-        SearchTree<Integer> newTree = tree.buidTreeByPreIn(preArr, inArr);
+        Integer[] postArr = {1,4,3,5,7,6,9,11,10,8};
+        SearchTree<Integer> newTree = tree.buildTreeByPreIn(preArr, inArr);
         System.out.println("=====先序遍历=====");
         System.out.println(newTree.preOrder());
         System.out.println("=====中序遍历=====");
@@ -105,7 +105,18 @@ public class ExampleUnitTest {
         System.out.println("=====后序遍历=====");
         System.out.println(newTree.postOrder());
         System.out.println("=====层序遍历=====");
-        System.out.println(tree.levelOrder());
+        System.out.println(newTree.levelOrder());
+
+        System.out.println("=====根据后序和中序数组构建二叉树=====");
+        SearchTree<Integer> newTree2 = tree.buildTreeByPostIn(postArr, inArr);
+        System.out.println("=====先序遍历=====");
+        System.out.println(newTree2.preOrder());
+        System.out.println("=====中序遍历=====");
+        System.out.println(newTree2.inOrder());
+        System.out.println("=====后序遍历=====");
+        System.out.println(newTree2.postOrder());
+        System.out.println("=====层序遍历=====");
+        System.out.println(newTree2.levelOrder());
     }
 
     private void dumpTree(int[] nodes, SearchTree<Integer> tree) {

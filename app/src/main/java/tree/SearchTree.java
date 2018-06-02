@@ -720,15 +720,77 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
     }
 
     /**
-     * 构建树林
+     * 根据前序和中序构建二叉树
      * @param preList
      * @param inList
      * @return
      */
-    public SearchTree<T> buidTreeByPreIn( T[] preList,
+    public SearchTree<T> buildTreeByPreIn(T[] preList,
                                           T[] inList){
         BinaryNode<T> root = creatTreeByPreIn(preList,inList, 0, preList.length -1, 0,inList.length-1);
         mRoot = root;
         return this;
     }
+
+    /**
+     * 根据后序和中序遍历数组构建二叉树
+     * @param postList
+     * @param inList
+     * @param postStart
+     * @param postEnd
+     * @param inStart
+     * @param inEnd
+     * @return
+     */
+    public BinaryNode<T> createBinarySearchTreeByPostIn(T[] postList,T[] inList,int postStart,int postEnd,int inStart,int inEnd){
+
+        //构建根结点
+        BinaryNode<T> p=new BinaryNode<>(postList[postEnd]);
+
+        if(postStart==postEnd && inStart==inEnd){
+            return p;
+        }
+
+        //查找中根序列的根结点下标root
+        int root=0;
+
+        for (root=inStart;root<inEnd;root++){
+            //查找到
+            if (postList[postEnd].compareTo(inList[root])==0){
+                break;
+            }
+        }
+
+        //左子树的长度
+        int leftLenght=root-inStart;
+        //右子树的长度
+        int rightLenght=inEnd-root;
+
+        //递归构建左子树
+        if(leftLenght>0){
+            //postStart+leftLenght-1:后根左子树的结束下标
+            p.left=createBinarySearchTreeByPostIn(postList,inList,postStart,postStart+leftLenght-1,inStart,root-1);
+        }
+
+        //递归构建右子树
+        if(rightLenght>0){
+            p.right=createBinarySearchTreeByPostIn(postList,inList,postStart+leftLenght,postEnd-1,root+1,inEnd);
+        }
+
+        return p;
+    }
+
+    /**
+     * 根据后序和中序构建二叉树
+     * @param preList
+     * @param inList
+     * @return
+     */
+    public SearchTree<T> buildTreeByPostIn(T[] preList,
+                                          T[] inList){
+        BinaryNode<T> root = createBinarySearchTreeByPostIn(preList,inList, 0, preList.length -1, 0,inList.length-1);
+        mRoot = root;
+        return this;
+    }
+
 }
