@@ -97,5 +97,7 @@ public class ExampleUnitTest {
         System.out.println(tree.findMin()+"");
         System.out.println("=====最大值=====");
         System.out.println(tree.findMax()+"");
+        System.out.println("=====是否包含元素=====");
+        System.out.println(tree.contains(1)+"");
     }
 }

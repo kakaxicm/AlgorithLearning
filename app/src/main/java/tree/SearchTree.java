@@ -395,12 +395,13 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 循环查找最小值
+     *
      * @param root
      * @return
      */
-    public T findMinByTrans(BinaryNode<T> root){
+    public T findMinByTrans(BinaryNode<T> root) {
         BinaryNode<T> p = root;
-        while (p.left != null){
+        while (p.left != null) {
             p = p.left;
         }
         return p.data;
@@ -408,11 +409,12 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 递归查找最小值
+     *
      * @param root
      * @return
      */
-    public T findMinRecursion(BinaryNode<T> root){
-        if(root.left == null){
+    public T findMinRecursion(BinaryNode<T> root) {
+        if (root.left == null) {
             return root.data;
         }
 
@@ -421,12 +423,13 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 循环查找最小值
+     *
      * @param root
      * @return
      */
-    public T findMaxByTrans(BinaryNode<T> root){
+    public T findMaxByTrans(BinaryNode<T> root) {
         BinaryNode<T> p = root;
-        while (p.right != null){
+        while (p.right != null) {
             p = p.right;
         }
         return p.data;
@@ -434,11 +437,12 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
 
     /**
      * 递归查找最小值
+     *
      * @param root
      * @return
      */
-    public T findMaxRecursion(BinaryNode<T> root){
-        if(root.right == null){
+    public T findMaxRecursion(BinaryNode<T> root) {
+        if (root.right == null) {
             return root.data;
         }
 
@@ -460,12 +464,60 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
      * @throws Exception
      */
     @Override
-    public boolean contains(T data) throws Exception {
+    public boolean contains(T data) {
+//        return containsByRecursion(data, mRoot);
+        return containsByTrans(data);
+    }
+
+    /***
+     * 递归判断是否包含元素
+     * @param data
+     * @param tree
+     * @return
+     */
+    public boolean containsByRecursion(T data, BinaryNode<T> tree) {
+        if (data == null) {
+            return false;
+        }
+
+        if (tree == null) {//遍历到叶子节点的下一层，表示遍历完毕，递归结束
+            return false;
+        }
+
+        int compareResult = data.compareTo(tree.data);
+        if (compareResult == 0) {//相等则返回ture
+            return true;
+        } else if (compareResult > 0) {
+            return containsByRecursion(data, tree.right);//向右子树遍历
+        } else if (compareResult < 0) {
+            return containsByRecursion(data, tree.left);//向右左子树遍历
+        }
+        return false;
+    }
+
+    /**
+     * 循环判断是否包含某个元素
+     *
+     * @param data
+     * @return
+     */
+    public boolean containsByTrans(T data) {
+        BinaryNode<T> p = mRoot;
+        while (p != null) {
+            int compareResult = data.compareTo(p.data);
+            if (compareResult == 0) {
+                return true;
+            } else if (compareResult > 0) {
+                p = p.right;
+            } else {
+                p = p.left;
+            }
+        }
         return false;
     }
 
     @Override
     public void clear() {
-
+        mRoot = null;
     }
 }
