@@ -50,7 +50,7 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
                 curNode.mDupCount++;
             }
         }
-
+        //挂载新节点
         if (isLeft) {
             parentNode.left = newNode;
         } else {
@@ -185,7 +185,7 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
     /**
      * 利用栈实现前序遍历,利用栈保存已经访问的节点，实现思想如下：
      * 1.当前节点p不为空时,访问节点，并保存入栈
-     * 2.p节点向左遍历,执行1的操作,知道p为空
+     * 2.p节点向左遍历,执行1的操作,直到p为空
      * 3.p为空时，表示一条完整的路径已经遍历完,栈顶存放的是上一个节点即当前的父节点,弹出这个父节点，向它的右子树遍历,执行
      * p=stack.pop,p = p.right,然后重复1.2.3操作。
      * 当p==null && 栈为空时表示遍历完，退出循环
@@ -198,7 +198,7 @@ public class SearchTree<T extends Comparable> implements Tree<T> {
         StringBuilder result = new StringBuilder();
         while (p != null || !historyNodeStack.isEmpty()) {
             if (p == null) {//一条完整路径走到尽头,向父节点的右子树遍历
-                p = historyNodeStack.pop();
+                p = historyNodeStack.pop();//弹出当前的父节点
                 p = p.right;
             } else {
                 //访问节点,保存路径,向左边遍历直到p=null
