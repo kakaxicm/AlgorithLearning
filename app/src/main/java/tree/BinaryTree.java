@@ -443,7 +443,6 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
      * 根据优先级列表创建赫夫曼二叉树：
      * 根据前两个节点,构造子树，然后与后面的节点合并成新的子树,挂载节点原则:
      *
-     *
      * @param priorityArr 元素权重递减的数组
      * @return 赫夫曼根节点
      */
@@ -467,10 +466,10 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
             BinaryNode<HuffmanModel> tempRootNode = new BinaryNode<>(new HuffmanModel(0));//挂载叶子节点的新的根节点
             BinaryNode<HuffmanModel> currentSubTree = stack.pop();
             //合并节点
-            if(newNode.data.weight > currentSubTree.data.weight){
+            if (newNode.data.weight > currentSubTree.data.weight) {
                 tempRootNode.left = currentSubTree;
                 tempRootNode.right = newNode;
-            }else {
+            } else {
                 tempRootNode.left = newNode;
                 tempRootNode.right = currentSubTree;
             }
@@ -499,8 +498,8 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
      * 赫夫曼编码
      * 每一次递归都基于父节点的code
      */
-    public static void huffmanEnCodeNode(BinaryNode<HuffmanModel> node, HashMap<String, Integer> codeTable){
-        if(node.isLeaf()){//到叶子节点了，递归结束
+    public static void huffmanEnCodeNode(BinaryNode<HuffmanModel> node, HashMap<String, Integer> codeTable) {
+        if (node.isLeaf()) {//到叶子节点了，递归结束
             codeTable.put(node.data.code, node.data.data);//赫夫曼数的编码数据都在叶子节点, 保存编码表
             return;
         }
@@ -508,7 +507,7 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
          * 向左遍历
          */
 
-        if(node.left != null){
+        if (node.left != null) {
             StringBuilder sb = new StringBuilder();
             sb.append(node.data.code).append("0");
             node.left.data.code = sb.toString();//子节点编码
@@ -518,7 +517,7 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
         /**
          * 向右遍历
          */
-        if(node.right != null){
+        if (node.right != null) {
             StringBuilder sb = new StringBuilder();
             sb.append(node.data.code).append("1");
             node.right.data.code = sb.toString();//子节点编码
@@ -526,5 +525,36 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
         }
     }
 
+    /**
+     * 赫夫曼解码
+     *
+     * @param code
+     * @param node
+     * @return
+     */
+    public static int huffmanDecode(BinaryNode<HuffmanModel> node, String code) {
+        if (code == null || code.length() == 0) {
+            return -1;
+        }
+        BinaryNode<HuffmanModel> p = node;
+        char[] chars = code.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            int c = chars[i] - '0';
+            if (p != null) {
+                if (c == 0) {
+                    p = p.left;
+                } else if (c == 1) {
+                    p = p.right;
+                }
+            } else {
+                return -1;//没有查到
+            }
+
+        }
+        if (p != null && p.isLeaf()) {//必须是叶子节点
+            return p.data.data;
+        }
+        return -1;
+    }
 
 }

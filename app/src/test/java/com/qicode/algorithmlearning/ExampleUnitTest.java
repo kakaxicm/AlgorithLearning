@@ -2,12 +2,16 @@ package com.qicode.algorithmlearning;
 
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 
 import List.dlinkedlist.DLinkedList;
 import stack.Stack;
 import tree.BinaryNode;
+import tree.BinaryTree;
+import tree.HuffmanModel;
 import tree.SearchTree;
 
 
@@ -81,22 +85,22 @@ public class ExampleUnitTest {
         System.out.println("=====层序遍历=====");
         System.out.println(tree.levelOrder());
         System.out.println("=====大小=====");
-        System.out.println(tree.size()+"");
+        System.out.println(tree.size() + "");
         System.out.println("=====高度=====");
-        System.out.println(tree.height()+"");
+        System.out.println(tree.height() + "");
         System.out.println("=====最小值=====");
-        System.out.println(tree.findMin()+"");
+        System.out.println(tree.findMin() + "");
         System.out.println("=====最大值=====");
-        System.out.println(tree.findMax()+"");
+        System.out.println(tree.findMax() + "");
         System.out.println("=====是否包含元素=====");
-        System.out.println(tree.contains(1)+"");
+        System.out.println(tree.contains(1) + "");
         System.out.println("=====删除元素=====");
         tree.remove(6);
-        dumpTree(nodes,tree);
+        dumpTree(nodes, tree);
         System.out.println("=====根据前序和中序数组构建二叉树=====");
-        Integer[] preArr = {8,6,5,3,1,4,7,10,9,11};
-        Integer[] inArr = {1,3,4,5,6,7,8,9,10,11};
-        Integer[] postArr = {1,4,3,5,7,6,9,11,10,8};
+        Integer[] preArr = {8, 6, 5, 3, 1, 4, 7, 10, 9, 11};
+        Integer[] inArr = {1, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        Integer[] postArr = {1, 4, 3, 5, 7, 6, 9, 11, 10, 8};
         SearchTree<Integer> newTree = tree.buildTreeByPreIn(preArr, inArr);
         System.out.println("=====先序遍历=====");
         System.out.println(newTree.preOrder());
@@ -117,12 +121,13 @@ public class ExampleUnitTest {
         System.out.println(newTree2.postOrder());
         System.out.println("=====层序遍历=====");
         System.out.println(newTree2.levelOrder());
+
     }
 
     private void dumpTree(int[] nodes, SearchTree<Integer> tree) {
         for (int i = 0; i < nodes.length; i++) {
             BinaryNode<Integer> node = tree.findNode(nodes[i]);
-            if(node != null){
+            if (node != null) {
                 System.out.println(node.data);
                 if (node.left != null) {
                     System.out.println("    --" + node.left.data);
@@ -132,6 +137,29 @@ public class ExampleUnitTest {
                 }
             }
 
+        }
+    }
+
+    @Test
+    public void testHuffman() {
+        System.out.println("=====赫夫曼=====");
+        Integer[] huffmanArr = {1, 2, 3, 4, 5};//简单起见,权重=编码数据,升序排列
+        BinaryNode<HuffmanModel> huffmanTree = BinaryTree.createHuffmanTree(huffmanArr);
+        HashMap<String, Integer> huffmanEncodeTable = new HashMap<>();
+        //赫夫曼编码huffmanEncodeTable保存赫夫曼编码
+        BinaryTree.huffmanEnCodeNode(huffmanTree, huffmanEncodeTable);
+        System.out.println("=====赫夫曼编码输出=====");
+        Iterator<Map.Entry<String, Integer>> iterator = huffmanEncodeTable.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Integer> next = iterator.next();
+            System.out.println(next.getKey() + "==" + next.getValue());
+        }
+        System.out.println("=====赫夫曼解码输出=====");
+
+        iterator = huffmanEncodeTable.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Integer> next = iterator.next();
+            System.out.println(next.getKey() + "==" + BinaryTree.huffmanDecode(huffmanTree, next.getKey()));
         }
     }
 }
