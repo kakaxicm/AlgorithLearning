@@ -442,12 +442,15 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
     /**
      * 根据优先级列表创建赫夫曼二叉树：
      * 根据前两个节点,构造子树，然后与后面的节点合并成新的子树,挂载节点原则:
+     * 1.从底至上构建，
+     * 2.权重大的挂载右边，反之左边
+     * 3.根节点的权重为左右权重的和
      *
-     * @param priorityArr 元素权重递减的数组
+     * @param priorityArr 元素权重递增的数组
      * @return 赫夫曼根节点
      */
     public static BinaryNode<HuffmanModel> createHuffmanTree(Integer[] priorityArr) {
-        Stack<BinaryNode<HuffmanModel>> stack = new Stack<>();
+        Stack<BinaryNode<HuffmanModel>> stack = new Stack<>();//这里仅做暂存合并树节点的容器
         BinaryNode<HuffmanModel> newRootNode = null;//新建节点，连接新节点和之前生成的子树
         if (priorityArr == null || priorityArr.length == 0) {
             return newRootNode;
@@ -456,6 +459,7 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
         int i = 0;
         //两两合并节点，构建子树入栈
         while (i < priorityArr.length) {
+            //循环体做合并节点
             BinaryNode<HuffmanModel> newNode = new BinaryNode<>(new HuffmanModel(priorityArr[i]));//叶子节点
             if (i == 0) {//第一个节点,无法构建子树,直接入栈
                 stack.push(newNode);
@@ -464,8 +468,8 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
             }
             //每一次将上次构建的子树和新的节点合并成新子树入栈
             BinaryNode<HuffmanModel> tempRootNode = new BinaryNode<>(new HuffmanModel(0));//挂载叶子节点的新的根节点
-            BinaryNode<HuffmanModel> currentSubTree = stack.pop();
-            //合并节点
+            BinaryNode<HuffmanModel> currentSubTree = stack.pop();//目前已经合并的子树根节点
+            //判断权重，新节点和子树节点合并
             if (newNode.data.weight > currentSubTree.data.weight) {
                 tempRootNode.left = currentSubTree;
                 tempRootNode.right = newNode;
@@ -489,7 +493,7 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
             i++;
         }
 
-        newRootNode = stack.pop();
+        newRootNode = stack.pop();//最后取出合并完成的树
 
         return newRootNode;
     }
@@ -497,8 +501,10 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
     /**
      * 赫夫曼编码
      * 每一次递归都基于父节点的code
+     * @param node 赫夫曼树根节点
+     * @param codeTable 存放编码结果，key为赫夫曼编码，value为元素值
      */
-    public static void huffmanEnCodeNode(BinaryNode<HuffmanModel> node, HashMap<String, Integer> codeTable) {
+    public static void huffmanEncode(BinaryNode<HuffmanModel> node, HashMap<String, Integer> codeTable) {
         if (node.isLeaf()) {//到叶子节点了，递归结束
             codeTable.put(node.data.code, node.data.data);//赫夫曼数的编码数据都在叶子节点, 保存编码表
             return;
@@ -511,7 +517,7 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
             StringBuilder sb = new StringBuilder();
             sb.append(node.data.code).append("0");
             node.left.data.code = sb.toString();//子节点编码
-            huffmanEnCodeNode(node.left, codeTable);
+            huffmanEncode(node.left, codeTable);
         }
 
         /**
@@ -521,7 +527,7 @@ public class BinaryTree<T extends Comparable> implements Tree<T> {
             StringBuilder sb = new StringBuilder();
             sb.append(node.data.code).append("1");
             node.right.data.code = sb.toString();//子节点编码
-            huffmanEnCodeNode(node.right, codeTable);
+            huffmanEncode(node.right, codeTable);
         }
     }
 

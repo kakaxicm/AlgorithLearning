@@ -147,7 +147,7 @@ public class ExampleUnitTest {
         BinaryNode<HuffmanModel> huffmanTree = BinaryTree.createHuffmanTree(huffmanArr);
         HashMap<String, Integer> huffmanEncodeTable = new HashMap<>();
         //赫夫曼编码huffmanEncodeTable保存赫夫曼编码
-        BinaryTree.huffmanEnCodeNode(huffmanTree, huffmanEncodeTable);
+        BinaryTree.huffmanEncode(huffmanTree, huffmanEncodeTable);
         System.out.println("=====赫夫曼编码输出=====");
         Iterator<Map.Entry<String, Integer>> iterator = huffmanEncodeTable.entrySet().iterator();
         while (iterator.hasNext()) {
