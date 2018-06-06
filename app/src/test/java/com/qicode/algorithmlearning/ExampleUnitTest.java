@@ -167,15 +167,14 @@ public class ExampleUnitTest {
 
     @Test
     public void testAVLTree() {
-        Integer[] avlArr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        Integer[] avlArr = {9,8,7,6,5,4,3,2,1};
         AVLTree<Integer> avlTree = new AVLTree<>();
         for (int i = 0; i < avlArr.length; i++) {
             avlTree.insert(avlArr[i]);
         }
         System.out.println("=====平衡二叉树输出=====");
         dumpAvlTree(avlTree.mRoot);//树结构打印测试
-        avlTree.remove(1);
-        avlTree.remove(3);
+        avlTree.remove(4);
         System.out.println("=====平衡二叉树删除元素后输出=====");
         dumpAvlTree(avlTree.mRoot);
     }

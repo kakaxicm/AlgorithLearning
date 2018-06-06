@@ -152,10 +152,18 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
         } else if (compareResult > 0) {
             rootNode.right = TestRemove(data, rootNode.right);
         } else if (rootNode.left != null && rootNode.right != null) {//俩孩子节点
-            //右子树的最小值替换当前节点值
-            rootNode.data = findMin(rootNode.right).data;
-            //移除用于替换的点
-            rootNode.right = TestRemove(rootNode.data, rootNode.right);
+            //当待删除结点*T左子树的高度大于右子树的高度时，用*T的前驱结点pre代替*T，
+            //再将结点pre从树中删除。这样可以保证删除结点后的树仍为二叉平衡树。
+            if(height(rootNode.left) > height(rootNode.right)){//找前驱节点替换
+                rootNode.data = findMax(rootNode.left).data;
+                rootNode.left = TestRemove(rootNode.data, rootNode.left);
+            }else {//后继节点替换
+                //右子树的最小值替换当前节点值
+                rootNode.data = findMin(rootNode.right).data;
+                //移除用于替换的点
+                rootNode.right = TestRemove(rootNode.data, rootNode.right);
+            }
+
         } else {//只有一个孩子节点或者叶子节点的情况,次处返回的节点返回给上次递归，用于父节点链接该节点
             rootNode = (rootNode.left != null) ? rootNode.left : rootNode.right;
         }
