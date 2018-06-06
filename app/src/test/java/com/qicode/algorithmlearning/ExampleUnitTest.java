@@ -167,16 +167,21 @@ public class ExampleUnitTest {
 
     @Test
     public void testAVLTree() {
-        Integer[] avlArr = {9,8,7,6,5,4,3,2,1};
+        Integer[] avlArr = {9, 8, 7, 6, 5, 4, 3, 2, 1};
         AVLTree<Integer> avlTree = new AVLTree<>();
         for (int i = 0; i < avlArr.length; i++) {
             avlTree.insert(avlArr[i]);
         }
         System.out.println("=====平衡二叉树输出=====");
         dumpAvlTree(avlTree.mRoot);//树结构打印测试
-        avlTree.remove(4);
+        avlTree.remove(1);
+        avlTree.remove(3);
+        System.out.println("=====平衡二叉树深度=====");
+        System.out.println(avlTree.mRoot.height);
         System.out.println("=====平衡二叉树删除元素后输出=====");
         dumpAvlTree(avlTree.mRoot);
+        System.out.println("=====平衡二叉树深度=====");
+        System.out.println(avlTree.mRoot.height);
     }
 
     public void dumpAvlTree(AVLNode<Integer> root) {
@@ -186,16 +191,16 @@ public class ExampleUnitTest {
         StringBuilder sb = new StringBuilder();
         sb.append(root.data);
         sb.append("(");
-        if(root.left != null && root.right != null){
-            sb.append(root.left.data);
+        if (root.left != null && root.right != null) {
+            sb.append(root.left.data + "-" + root.left.height);
             sb.append(" , ");
-            sb.append(root.right.data);
+            sb.append(root.right.data + "-" + root.right.height);
         } else if (root.left != null) {
-            sb.append(root.left.data);
+            sb.append(root.left.data + "-" + root.left.height);
             sb.append(" , ");
         } else if (root.right != null) {
             sb.append(" , ");
-            sb.append(root.right.data);
+            sb.append(root.right.data + "-" + root.right.height);
         }
         sb.append(")");
         System.out.println(sb.toString());

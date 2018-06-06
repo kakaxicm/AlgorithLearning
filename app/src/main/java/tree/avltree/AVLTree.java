@@ -119,11 +119,11 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
     @Override
     public void remove(T data) {
 //        mRoot = remove(mRoot, data);
-        mRoot = TestRemove(data, mRoot);
+        mRoot = removeAvlNode(data, mRoot);
     }
 
     /**
-     * 删除步骤:
+     * 非平衡二叉树的删除步骤:
      * ① 如果要删除的结点q恰好是叶子结点，那么它可以立即被删除
      * ②如果要删除的结点q拥有一个孩子结点，则应该调整要被删除的
      * 父结点(p.left 或 p.right)指向被删除结点的孩子结点（q.left 或 q.right）
@@ -131,12 +131,14 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
      * 并递归删除用于替换的结点(此时该结点已为空)，此时二叉查找树的结构并不会被打乱，其特性仍旧生效。
      * 采用这样策略的主要原因是右子树的最小结点的数据替换要被删除的结点后可以满足维持二叉查找树的结构和特性，
      * 又因为右子树最小结点不可能有左孩子，删除起来也相对简单些。
-     *
+     *平衡二叉树的删除方法在之前的基础上需要考虑下面两点
+     * ① 当前待删除节点左子树高度小于右子树高度，则找在左子树中寻找前驱节点替换当前节点
+     * ② 删除操作执行后，别忘了重新更新根节点高度
      * @param data
      * @param rootNode 当前操作节点
      * @return
      */
-    public AVLNode<T> TestRemove(T data, AVLNode<T> rootNode) {
+    public AVLNode<T> removeAvlNode(T data, AVLNode<T> rootNode) {
         if (data == null) {
             throw new RuntimeException("data can\'Comparable be null !");
         }
@@ -146,85 +148,25 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
         }
 
         int compareResult = data.compareTo(rootNode.data);
-        if (compareResult < 0) {
-            rootNode.left = TestRemove(data, rootNode.left);
-            //TODO 高度计算
-        } else if (compareResult > 0) {
-            rootNode.right = TestRemove(data, rootNode.right);
-        } else if (rootNode.left != null && rootNode.right != null) {//俩孩子节点
-            //当待删除结点*T左子树的高度大于右子树的高度时，用*T的前驱结点pre代替*T，
-            //再将结点pre从树中删除。这样可以保证删除结点后的树仍为二叉平衡树。
-            if(height(rootNode.left) > height(rootNode.right)){//找前驱节点替换
-                rootNode.data = findMax(rootNode.left).data;
-                rootNode.left = TestRemove(rootNode.data, rootNode.left);
-            }else {//后继节点替换
-                //右子树的最小值替换当前节点值
-                rootNode.data = findMin(rootNode.right).data;
-                //移除用于替换的点
-                rootNode.right = TestRemove(rootNode.data, rootNode.right);
-            }
-
-        } else {//只有一个孩子节点或者叶子节点的情况,次处返回的节点返回给上次递归，用于父节点链接该节点
-            rootNode = (rootNode.left != null) ? rootNode.left : rootNode.right;
-        }
-        return rootNode;
-    }
-
-
-    public AVLNode<T> remove(AVLNode<T> rootNode, T data) {
-        if (rootNode == null) {
-            return null;
-        }
-        //前驱节点和后继节点
-        AVLNode<T> pre;
-        AVLNode<T> post;
-
-        int compareResult = data.compareTo(rootNode.data);
-        if (compareResult == 0) {//找到节点
-            //待删除为叶子节点
-            if (rootNode.isLeaf()) {//待删除节点为叶子节点
-                rootNode = null;
-            } else if (rootNode.left == null) {//只有右孩子
-                rootNode = rootNode.right;
-            } else if (rootNode.right == null) {//只有左孩子
-                rootNode = rootNode.left;
-            } else {//既有左孩子又有右孩子
-                //当待删除结点左子树的高度大于右子树的高度时，用它的前驱结点pre代替它，
-                //再将结点pre从树中删除。这样可以保证删除结点后的树仍为二叉平衡树。
-                if (height(rootNode.left) > height(rootNode.right)) {
-                    pre = findMax(rootNode.left);//在左子树中寻找最大值作为前驱节点
-                    //pre元素替换
-                    rootNode.data = pre.data;
-                    //递归删除前驱节点
-                    rootNode.left = remove(rootNode.left, pre.data);
-                }
-                //当待删除结点左子树的高度小于或者等于右子树的高度时，用它的后继结点post代替它，
-                //再将结点post从树中删除。这样可以保证删除结点后的树仍为二叉平衡树。
-                else {
-                    //寻找后继节点post。
-                    post = findMin(rootNode.right);
-                    rootNode.data = post.data;
-                    rootNode.right = remove(rootNode.right, post.data);
-                }
-            }
-            return rootNode;
-        } else if (compareResult < 0) {//左子树递归删除
-            rootNode.left = remove(rootNode.left, data);
-            //删除后，修改树的高度
+        if (compareResult < 0) {//左子树递归删除
+            rootNode.left = removeAvlNode(data, rootNode.left);
+            // 高度计算，判断是否失衡
+            //删除后，修改树的高度,左子树删除，
             rootNode.height = Math.max(height(rootNode.left), height(rootNode.right)) + 1;
             //左子树删除后，判断是否失衡
             if (height(rootNode.right) - height(rootNode.left) == 2) {
                 //调整右子树
                 if (height(rootNode.right.left) > height(rootNode.right.right)) {
                     //右子树的左子树导致失衡，则进行右左双旋转
-                    doubleRotateWithRight(rootNode);
+                    rootNode = doubleRotateWithRight(rootNode);
                 } else {
                     //右子树的右子树导致失衡，则进行右右单旋转
-                    singleRotateRight(rootNode);
+                    rootNode = singleRotateRight(rootNode);
                 }
             }
-        } else {//右子树递归删除
-            rootNode.right = remove(rootNode.right, data);
+        } else if (compareResult > 0) {//右子树递归删除
+            rootNode.right = removeAvlNode(data, rootNode.right);
+            //高度计算，判断是否失衡
             //删除后，修改树的高度
             rootNode.height = Math.max(height(rootNode.left), height(rootNode.right)) + 1;
             //右子树删除后，判断rootNode是否失衡
@@ -232,12 +174,27 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
                 //调整右子树
                 if (height(rootNode.left.left) > height(rootNode.left.right)) {
                     //左子树的左子树导致失衡，则进行左左单旋转
-                    singleRotateLeft(rootNode);
+                    rootNode = singleRotateLeft(rootNode);
                 } else {
                     //左子树的右子树导致失衡，则进行左右单旋转
-                    doubleRotateWithLeft(rootNode);
+                    rootNode = doubleRotateWithLeft(rootNode);
                 }
             }
+        } else if (rootNode.left != null && rootNode.right != null) {//俩孩子节点
+            //当待删除结点*T左子树的高度大于右子树的高度时，用*T的前驱结点pre代替*T，
+            //再将结点pre从树中删除。这样可以保证删除结点后的树仍为二叉平衡树。
+            if(height(rootNode.left) > height(rootNode.right)){//找前驱节点替换
+                rootNode.data = findMax(rootNode.left).data;
+                rootNode.left = removeAvlNode(rootNode.data, rootNode.left);
+            }else {//后继节点替换
+                //右子树的最小值替换当前节点值
+                rootNode.data = findMin(rootNode.right).data;
+                //移除用于替换的点
+                rootNode.right = removeAvlNode(rootNode.data, rootNode.right);
+            }
+
+        } else {//只有一个孩子节点或者叶子节点的情况,次处返回的节点返回给上次递归，用于父节点链接该节点
+            rootNode = (rootNode.left != null) ? rootNode.left : rootNode.right;
         }
         return rootNode;
     }
