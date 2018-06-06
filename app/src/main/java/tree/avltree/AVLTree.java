@@ -1,5 +1,6 @@
 package tree.avltree;
 
+import queue.Queue;
 import tree.BinaryNode;
 import tree.Tree;
 
@@ -133,7 +134,7 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
      * 又因为右子树最小结点不可能有左孩子，删除起来也相对简单些。
      * 平衡二叉树的删除方法在之前的基础上需要考虑下面两点
      * ① 当前待删除节点左子树高度小于右子树高度，则找在左子树中寻找前驱节点替换当前节点
-     * ② 删除操作执行后，别忘了重新更新根节点高度
+     * ② 删除操作执行后，别忘了重新更新根节点高度，然后根据左右子树的高度判断平衡性，根据前面分析的四种情况进行旋转
      *
      * @param data
      * @param rootNode 当前操作节点
@@ -141,7 +142,7 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
      */
     public AVLNode<T> removeAvlNode(T data, AVLNode<T> rootNode) {
         if (data == null) {
-            throw new RuntimeException("data can\'Comparable be null !");
+            return rootNode;
         }
 
         if (rootNode == null) {
@@ -269,46 +270,185 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
 
     @Override
     public String preOrder() {
-        return null;
+        return preOrder(mRoot);
+    }
+
+    /**
+     * 前序遍历,先遍历节点,再遍历左子树，最后遍历右子树
+     *
+     * @return
+     */
+    public String preOrder(AVLNode<T> root) {
+        StringBuilder sb = new StringBuilder();
+        if (root != null) {
+            sb.append(root.data + ", ");
+            sb.append(preOrder(root.left));
+            sb.append(preOrder(root.right));
+        }
+        return sb.toString();
     }
 
     @Override
     public String inOrder() {
-        return null;
+        return inOrder(mRoot);
     }
+
+    /**
+     * 递归中序遍历
+     *
+     * @param root
+     * @return
+     */
+    public String inOrder(AVLNode<T> root) {
+        StringBuilder sb = new StringBuilder();
+        if (root != null) {
+            sb.append(inOrder(root.left));
+            sb.append(root.data + ", ");
+            sb.append(inOrder(root.right));
+        }
+        return sb.toString();
+    }
+
 
     @Override
     public String postOrder() {
-        return null;
+        return postOrder(mRoot);
     }
 
+    /**
+     * 递归中序遍历
+     *
+     * @param root
+     * @return
+     */
+    public String postOrder(AVLNode<T> root) {
+        StringBuilder sb = new StringBuilder();
+        if (root != null) {
+            sb.append(postOrder(root.left));
+            sb.append(postOrder(root.right));
+            sb.append(root.data + ", ");
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 层遍历:关键在于队列保存节点的两个孩子节点,每次迭代做如下操作:
+     * 1.将非空子节点入队
+     * 2.输出队列头节点
+     *
+     * @return
+     */
     @Override
     public String levelOrder() {
-        return null;
+        return levelOrder(mRoot);
     }
+
+    /**
+     * 层遍历
+     *
+     * @param node
+     * @return
+     */
+    public String levelOrder(AVLNode<T> node) {
+        StringBuilder sb = new StringBuilder();
+        Queue<AVLNode<T>> queue = new Queue<>();
+        while (node != null) {
+            sb.append(node.data + ", ");
+            AVLNode<T> leftNode = node.left;
+            AVLNode<T> rightNode = node.right;
+            //同层的子节点入队
+            if (leftNode != null) {
+                queue.enquene(leftNode);
+            }
+            if (rightNode != null) {
+                queue.enquene(rightNode);
+            }
+
+            node = queue.dequeue();//遍历下个节点
+
+        }
+
+        return sb.toString();
+    }
+
 
     @Override
     public T findMin() {
-        return null;
+        return findMin(mRoot).data;
     }
 
     @Override
     public T findMax() {
-        return null;
+        return findMax(mRoot).data;
     }
 
     @Override
     public BinaryNode findNode(T data) {
+        //@see SearchTree中的实现
+        //return findNode(T data, mRoot)
         return null;
     }
 
+    /**
+     * 递归查找元素
+     *
+     * @param data
+     * @param currentNode
+     * @return
+     */
+    public AVLNode findNode(T data, AVLNode<T> currentNode) {
+        if (currentNode == null) {
+            return null;
+        }
+
+        int compareResult = data.compareTo(currentNode.data);
+        if (compareResult == 0) {
+            return currentNode;
+        }
+
+        if (compareResult > 0) {
+            currentNode = findNode(data, currentNode.right);//移动node指针
+        } else if (compareResult < 0) {
+            currentNode = findNode(data, currentNode.left);
+        }
+
+        return currentNode;
+    }
+
     @Override
-    public boolean contains(T data) throws Exception {
+    public boolean contains(T data) {
+        return contains(data, mRoot);
+    }
+
+    /**
+     * 递归实现包含
+     *
+     * @param data
+     * @param tree
+     * @return
+     */
+    public boolean contains(T data, AVLNode<T> tree) {
+        if (data == null) {
+            return false;
+        }
+
+        if (tree == null) {
+            return false;
+        }
+
+        int compareResult = data.compareTo(tree.data);
+        if (compareResult == 0) {
+            return true;
+        } else if (compareResult > 0) {
+            return contains(data, tree.right);
+        } else if (compareResult < 0) {
+            return contains(data, tree.left);
+        }
         return false;
     }
 
     @Override
     public void clear() {
-
+        mRoot = null;
     }
 }

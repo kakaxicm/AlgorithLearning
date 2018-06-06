@@ -1,5 +1,8 @@
 package tree.avltree;
 
+import tree.BinaryNode;
+import tree.BinaryTree;
+
 /**
  * Created by chenming on 2018/6/5
  * 平衡二叉树节点,多了高度字段
