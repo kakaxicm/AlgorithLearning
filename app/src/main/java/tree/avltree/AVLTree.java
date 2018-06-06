@@ -148,6 +148,7 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
         int compareResult = data.compareTo(rootNode.data);
         if (compareResult < 0) {
             rootNode.left = TestRemove(data, rootNode.left);
+            //TODO 高度计算
         } else if (compareResult > 0) {
             rootNode.right = TestRemove(data, rootNode.right);
         } else if (rootNode.left != null && rootNode.right != null) {//俩孩子节点
@@ -162,76 +163,76 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
     }
 
 
-//    public AVLNode<T> remove(AVLNode<T> rootNode, T data) {
-//        if (rootNode == null) {
-//            return null;
-//        }
-//        //前驱节点和后继节点
-//        AVLNode<T> pre;
-//        AVLNode<T> post;
-//
-//        int compareResult = data.compareTo(rootNode.data);
-//        if (compareResult == 0) {//找到节点
-//            //待删除为叶子节点
-//            if (rootNode.isLeaf()) {//待删除节点为叶子节点
-//                rootNode = null;
-//            } else if (rootNode.left == null) {//只有右孩子
-//                rootNode = rootNode.right;
-//            } else if (rootNode.right == null) {//只有左孩子
-//                rootNode = rootNode.left;
-//            } else {//既有左孩子又有右孩子
-//                //当待删除结点左子树的高度大于右子树的高度时，用它的前驱结点pre代替它，
-//                //再将结点pre从树中删除。这样可以保证删除结点后的树仍为二叉平衡树。
-//                if (height(rootNode.left) > height(rootNode.right)) {
-//                    pre = findMax(rootNode.left);//在左子树中寻找最大值作为前驱节点
-//                    //pre元素替换
-//                    rootNode.data = pre.data;
-//                    //递归删除前驱节点
-//                    rootNode.left = remove(rootNode.left, pre.data);
-//                }
-//                //当待删除结点左子树的高度小于或者等于右子树的高度时，用它的后继结点post代替它，
-//                //再将结点post从树中删除。这样可以保证删除结点后的树仍为二叉平衡树。
-//                else {
-//                    //寻找后继节点post。
-//                    post = findMin(rootNode.right);
-//                    rootNode.data = post.data;
-//                    rootNode.right = remove(rootNode.right, post.data);
-//                }
-//            }
-//            return rootNode;
-//        } else if (compareResult < 0) {//左子树递归删除
-//            rootNode = remove(rootNode.left, data);
-//            //删除后，修改树的高度
-//            rootNode.height = Math.max(height(rootNode.left), height(rootNode.right)) + 1;
-//            //左子树删除后，判断是否失衡
-//            if (height(rootNode.right) - height(rootNode.left) == 2) {
-//                //调整右子树
-//                if (height(rootNode.right.left) > height(rootNode.right.right)) {
-//                    //右子树的左子树导致失衡，则进行右左双旋转
-//                    doubleRotateWithRight(rootNode);
-//                } else {
-//                    //右子树的右子树导致失衡，则进行右右单旋转
-//                    singleRotateRight(rootNode);
-//                }
-//            }
-//        } else {//右子树递归删除
-//            rootNode = remove(rootNode.right, data);
-//            //删除后，修改树的高度
-//            rootNode.height = Math.max(height(rootNode.left), height(rootNode.right)) + 1;
-//            //右子树删除后，判断rootNode是否失衡
-//            if (height(rootNode.left) - height(rootNode.right) == 2) {
-//                //调整右子树
-//                if (height(rootNode.left.left) > height(rootNode.left.right)) {
-//                    //左子树的左子树导致失衡，则进行左左单旋转
-//                    singleRotateLeft(rootNode);
-//                } else {
-//                    //左子树的右子树导致失衡，则进行左右单旋转
-//                    doubleRotateWithLeft(rootNode);
-//                }
-//            }
-//        }
-//        return rootNode;
-//    }
+    public AVLNode<T> remove(AVLNode<T> rootNode, T data) {
+        if (rootNode == null) {
+            return null;
+        }
+        //前驱节点和后继节点
+        AVLNode<T> pre;
+        AVLNode<T> post;
+
+        int compareResult = data.compareTo(rootNode.data);
+        if (compareResult == 0) {//找到节点
+            //待删除为叶子节点
+            if (rootNode.isLeaf()) {//待删除节点为叶子节点
+                rootNode = null;
+            } else if (rootNode.left == null) {//只有右孩子
+                rootNode = rootNode.right;
+            } else if (rootNode.right == null) {//只有左孩子
+                rootNode = rootNode.left;
+            } else {//既有左孩子又有右孩子
+                //当待删除结点左子树的高度大于右子树的高度时，用它的前驱结点pre代替它，
+                //再将结点pre从树中删除。这样可以保证删除结点后的树仍为二叉平衡树。
+                if (height(rootNode.left) > height(rootNode.right)) {
+                    pre = findMax(rootNode.left);//在左子树中寻找最大值作为前驱节点
+                    //pre元素替换
+                    rootNode.data = pre.data;
+                    //递归删除前驱节点
+                    rootNode.left = remove(rootNode.left, pre.data);
+                }
+                //当待删除结点左子树的高度小于或者等于右子树的高度时，用它的后继结点post代替它，
+                //再将结点post从树中删除。这样可以保证删除结点后的树仍为二叉平衡树。
+                else {
+                    //寻找后继节点post。
+                    post = findMin(rootNode.right);
+                    rootNode.data = post.data;
+                    rootNode.right = remove(rootNode.right, post.data);
+                }
+            }
+            return rootNode;
+        } else if (compareResult < 0) {//左子树递归删除
+            rootNode.left = remove(rootNode.left, data);
+            //删除后，修改树的高度
+            rootNode.height = Math.max(height(rootNode.left), height(rootNode.right)) + 1;
+            //左子树删除后，判断是否失衡
+            if (height(rootNode.right) - height(rootNode.left) == 2) {
+                //调整右子树
+                if (height(rootNode.right.left) > height(rootNode.right.right)) {
+                    //右子树的左子树导致失衡，则进行右左双旋转
+                    doubleRotateWithRight(rootNode);
+                } else {
+                    //右子树的右子树导致失衡，则进行右右单旋转
+                    singleRotateRight(rootNode);
+                }
+            }
+        } else {//右子树递归删除
+            rootNode.right = remove(rootNode.right, data);
+            //删除后，修改树的高度
+            rootNode.height = Math.max(height(rootNode.left), height(rootNode.right)) + 1;
+            //右子树删除后，判断rootNode是否失衡
+            if (height(rootNode.left) - height(rootNode.right) == 2) {
+                //调整右子树
+                if (height(rootNode.left.left) > height(rootNode.left.right)) {
+                    //左子树的左子树导致失衡，则进行左左单旋转
+                    singleRotateLeft(rootNode);
+                } else {
+                    //左子树的右子树导致失衡，则进行左右单旋转
+                    doubleRotateWithLeft(rootNode);
+                }
+            }
+        }
+        return rootNode;
+    }
 
     /**
      * 查找最小值结点

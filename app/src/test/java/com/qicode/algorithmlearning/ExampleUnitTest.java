@@ -174,7 +174,8 @@ public class ExampleUnitTest {
         }
         System.out.println("=====平衡二叉树输出=====");
         dumpAvlTree(avlTree.mRoot);//树结构打印测试
-        avlTree.remove(8);
+        avlTree.remove(1);
+        avlTree.remove(3);
         System.out.println("=====平衡二叉树删除元素后输出=====");
         dumpAvlTree(avlTree.mRoot);
     }
