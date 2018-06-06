@@ -13,6 +13,7 @@ import tree.BinaryNode;
 import tree.BinaryTree;
 import tree.HuffmanModel;
 import tree.SearchTree;
+import tree.avltree.AVLTree;
 
 
 /**
@@ -161,5 +162,15 @@ public class ExampleUnitTest {
             Map.Entry<String, Integer> next = iterator.next();
             System.out.println(next.getKey() + "==" + BinaryTree.huffmanDecode(huffmanTree, next.getKey()));
         }
+    }
+
+    @Test
+    public void testAVLTree() {
+        Integer[] avlArr = {1, 2, 3, 4, 5, 6, 7};
+        AVLTree<Integer> avlTree = new AVLTree<>();
+        for (int i = 0; i < avlArr.length; i++) {
+            avlTree.insert(avlArr[i]);
+        }
+        System.out.println("1");
     }
 }
