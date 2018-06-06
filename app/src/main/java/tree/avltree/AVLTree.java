@@ -131,9 +131,10 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
      * 并递归删除用于替换的结点(此时该结点已为空)，此时二叉查找树的结构并不会被打乱，其特性仍旧生效。
      * 采用这样策略的主要原因是右子树的最小结点的数据替换要被删除的结点后可以满足维持二叉查找树的结构和特性，
      * 又因为右子树最小结点不可能有左孩子，删除起来也相对简单些。
-     *平衡二叉树的删除方法在之前的基础上需要考虑下面两点
+     * 平衡二叉树的删除方法在之前的基础上需要考虑下面两点
      * ① 当前待删除节点左子树高度小于右子树高度，则找在左子树中寻找前驱节点替换当前节点
      * ② 删除操作执行后，别忘了重新更新根节点高度
+     *
      * @param data
      * @param rootNode 当前操作节点
      * @return
@@ -183,10 +184,10 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
         } else if (rootNode.left != null && rootNode.right != null) {//俩孩子节点
             //当待删除结点*T左子树的高度大于右子树的高度时，用*T的前驱结点pre代替*T，
             //再将结点pre从树中删除。这样可以保证删除结点后的树仍为二叉平衡树。
-            if(height(rootNode.left) > height(rootNode.right)){//找前驱节点替换
+            if (height(rootNode.left) > height(rootNode.right)) {//找前驱节点替换
                 rootNode.data = findMax(rootNode.left).data;
                 rootNode.left = removeAvlNode(rootNode.data, rootNode.left);
-            }else {//后继节点替换
+            } else {//后继节点替换
                 //右子树的最小值替换当前节点值
                 rootNode.data = findMin(rootNode.right).data;
                 //移除用于替换的点
@@ -237,17 +238,33 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return mRoot == null;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size(mRoot);
     }
+
+    /**
+     * 递归计算左右子树的和,再加上当前节点
+     *
+     * @param currentNode
+     * @return
+     */
+    public int size(AVLNode<T> currentNode) {
+        if (currentNode == null) {
+            return 0;
+        }
+        int leftSize = size(currentNode.left);
+        int rightSize = size(currentNode.right);
+        return leftSize + rightSize + 1;
+    }
+
 
     @Override
     public int height() {
-        return height(mRoot);
+        return mRoot == null ? 0 : mRoot.height;
     }
 
     @Override

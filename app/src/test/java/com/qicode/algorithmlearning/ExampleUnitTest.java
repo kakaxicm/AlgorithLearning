@@ -174,16 +174,22 @@ public class ExampleUnitTest {
         }
         System.out.println("=====平衡二叉树输出=====");
         dumpAvlTree(avlTree.mRoot);//树结构打印测试
-        avlTree.remove(1);
-        avlTree.remove(3);
+        avlTree.remove(6);
         System.out.println("=====平衡二叉树深度=====");
-        System.out.println(avlTree.mRoot.height);
+        System.out.println(avlTree.height());
+        System.out.println("=====平衡二叉树大小=====");
+        System.out.println(avlTree.size());
         System.out.println("=====平衡二叉树删除元素后输出=====");
         dumpAvlTree(avlTree.mRoot);
         System.out.println("=====平衡二叉树深度=====");
-        System.out.println(avlTree.mRoot.height);
+        System.out.println(avlTree.height());
     }
 
+    /**
+     * 打印AVL树信息
+     *
+     * @param root
+     */
     public void dumpAvlTree(AVLNode<Integer> root) {
         if (root == null) {
             return;
