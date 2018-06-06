@@ -13,6 +13,7 @@ import tree.BinaryNode;
 import tree.BinaryTree;
 import tree.HuffmanModel;
 import tree.SearchTree;
+import tree.avltree.AVLNode;
 import tree.avltree.AVLTree;
 
 
@@ -166,11 +167,42 @@ public class ExampleUnitTest {
 
     @Test
     public void testAVLTree() {
-        Integer[] avlArr = {1, 2, 3, 4, 5, 6, 7};
+        Integer[] avlArr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         AVLTree<Integer> avlTree = new AVLTree<>();
         for (int i = 0; i < avlArr.length; i++) {
             avlTree.insert(avlArr[i]);
         }
-        System.out.println("1");
+        System.out.println("=====平衡二叉树输出=====");
+        dumpAvlTree(avlTree.mRoot);//树结构打印测试
+        avlTree.remove(8);
+        System.out.println("=====平衡二叉树删除元素后输出=====");
+        dumpAvlTree(avlTree.mRoot);
+    }
+
+    public void dumpAvlTree(AVLNode<Integer> root) {
+        if (root == null) {
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(root.data);
+        sb.append("(");
+        if(root.left != null && root.right != null){
+            sb.append(root.left.data);
+            sb.append(" , ");
+            sb.append(root.right.data);
+        } else if (root.left != null) {
+            sb.append(root.left.data);
+            sb.append(" , ");
+        } else if (root.right != null) {
+            sb.append(" , ");
+            sb.append(root.right.data);
+        }
+        sb.append(")");
+        System.out.println(sb.toString());
+
+
+        dumpAvlTree(root.left);
+        dumpAvlTree(root.right);
+
     }
 }

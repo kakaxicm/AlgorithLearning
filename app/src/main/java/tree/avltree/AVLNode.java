@@ -27,4 +27,13 @@ public class AVLNode<T extends Comparable> {
         this.data = data;
         this.height = height;
     }
+
+    /**
+     * 判断是否为叶子结点
+     *
+     * @return
+     */
+    public boolean isLeaf() {
+        return this.left == null && this.right == null;
+    }
 }
