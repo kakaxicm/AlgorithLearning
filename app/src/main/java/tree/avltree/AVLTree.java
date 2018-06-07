@@ -70,7 +70,6 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
 
     @Override
     public void insert(T data) {
-        //TODO
         mRoot = insert(data, mRoot);
     }
 
@@ -87,10 +86,10 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
         } else if (data.compareTo(p.data) < 0) {//向左子树寻找插入位置{
             p.left = insert(data, p.left);
             if (height(p.left) - height(p.right) == 2) {//子树高度差为2,需要平衡
-                if (data.compareTo(p.left.data) < 0) {//往左边插入LL单个旋转
+                if (data.compareTo(p.left.data) < 0) {//往左边插入LL单旋转
                     p = singleRotateLeft(p);
                 } else {
-                    p = doubleRotateWithLeft(p);
+                    p = doubleRotateWithLeft(p);//往左边插入LR双旋转
                 }
             }
         } else if (data.compareTo(p.data) > 0) {//向右子树寻找插入位置
@@ -98,9 +97,10 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
 
             if (height(p.right) - height(p.left) == 2) {
                 if (data.compareTo(p.right.data) < 0) {
-                    //进行右左旋转
+                    //进行RL双旋转
                     p = doubleRotateWithRight(p);
                 } else {
+                    //进行RR单旋
                     p = singleRotateRight(p);
                 }
             }
@@ -133,7 +133,7 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
      * 采用这样策略的主要原因是右子树的最小结点的数据替换要被删除的结点后可以满足维持二叉查找树的结构和特性，
      * 又因为右子树最小结点不可能有左孩子，删除起来也相对简单些。
      * 平衡二叉树的删除方法在之前的基础上需要考虑下面两点
-     * ① 当前待删除节点左子树高度小于右子树高度，则找在左子树中寻找前驱节点替换当前节点
+     * ① 当前待删除节点左子树高度大于右子树高度，则找在左子树中寻找前驱节点替换当前节点
      * ② 删除操作执行后，别忘了重新更新根节点高度，然后根据左右子树的高度判断平衡性，根据前面分析的四种情况进行旋转
      *
      * @param data
@@ -183,7 +183,7 @@ public class AVLTree<T extends Comparable> implements Tree<T> {
                 }
             }
         } else if (rootNode.left != null && rootNode.right != null) {//俩孩子节点
-            //当待删除结点*T左子树的高度大于右子树的高度时，用*T的前驱结点pre代替*T，
+            //当待删除结点左子树的高度大于右子树的高度时，用*T的前驱结点pre代替*T，
             //再将结点pre从树中删除。这样可以保证删除结点后的树仍为二叉平衡树。
             if (height(rootNode.left) > height(rootNode.right)) {//找前驱节点替换
                 rootNode.data = findMax(rootNode.left).data;
