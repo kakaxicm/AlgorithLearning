@@ -224,11 +224,19 @@ public class ExampleUnitTest {
     public void testHashHit() {
         HashA a = new HashA("ABC");
         HashB b = new HashB("ABC");
-        HashMap<Object, String> hashMap = new HashMap<>();
-        hashMap.put(a, "1");
-        hashMap.put(b, "2");
+//        HashMap<Object, String> hashMap = new HashMap<>();
+//        hashMap.put(a, "1");
+//        hashMap.put(b, "2");
+//        System.out.println("=====哈希冲突测试====");
+//        System.out.println(hashMap.get(a));
+//        System.out.println(hashMap.get(b));
+
+        hash.HashMap<Object, String> myHashMap = new hash.HashMap<>();
+        myHashMap.put(a, "1");
+        myHashMap.put(b, "2");
         System.out.println("=====哈希冲突测试====");
-        System.out.println(hashMap.get(a));
-        System.out.println(hashMap.get(b));
+        System.out.println(myHashMap.get(a));
+        System.out.println(myHashMap.get(b));
+
     }
 }
