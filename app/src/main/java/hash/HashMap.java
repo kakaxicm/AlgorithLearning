@@ -9,13 +9,11 @@ public class HashMap<K, V> implements Map<K, V> {
     static final int MAXIMUM_CAPACITY = 1 << 30;
     static final float DEFAULT_LOAD_FACTOR = 0.75f;
     private Node<K, V>[] table;//链表数组
-    private float loadFactor;
     private int threhold;
     private int size;
 
     public HashMap(int cap, float loadFactor) {
         table = new Node[cap];
-        this.loadFactor = loadFactor;
         this.threhold = (int) (cap * loadFactor);
     }
 
@@ -31,25 +29,23 @@ public class HashMap<K, V> implements Map<K, V> {
         if (first == null) {//空坑直接占上
             first = new Node(hash, key, value);
             table[index] = first;
-            if (size++ > threhold) {
-                resize();//扩容
-            }
-            return;
         } else {
             Node p = first;
 
             while (p.next != null) {
                 if (isNodesHit(key, p)) {//链表中存在hit的node
-                    //替换value
+                    //替换value,直接反馈
                     p.setValue(value);
                     return;
                 }
                 p = p.next;
             }
             p.next = new Node(hash, key, value);
-
-
         }
+        if (++size > threhold) {
+            resize();//扩容
+        }
+        return;
     }
 
 
@@ -74,7 +70,55 @@ public class HashMap<K, V> implements Map<K, V> {
      * TODO 扩容操作
      */
     private void resize() {
+        int oldCap = table.length;
+        int newCap = oldCap << 1;
+        threhold = (int) (newCap*DEFAULT_LOAD_FACTOR);
+        Node<K, V>[] newTable = new Node[newCap];
+        for(int i = 0; i < oldCap; i++){
+            Node<K,V> first = table[i];
 
+            if(first  != null){
+                int hash = first.getHash();
+                if(first.next == null){
+                    newTable[indexFromHash(hash, newCap)] = first;
+                }else{//拆分单链表成两个部分，一个挂载低索引，另外一个挂载高索引
+                    Node<K, V> next;//保存旧链表的后继节点
+                    //两个单链表的首尾指针
+                    Node<K,V> loHead = null, loTail = null;
+                    Node<K,V> hiHead = null, hiTail = null;
+                    Node<K, V> p = first;
+                    do{
+                        next = p.next;
+                        if((oldCap & p.getHash()) == 0){//低位索引
+                            if(loTail == null){
+                                loHead = p;
+                            }else{
+                                loTail.next = p;
+                            }
+                            loTail = p;
+                        }else{
+                            if(hiTail == null){
+                                hiHead = p;
+                            }else{
+                                hiTail.next = p;
+                            }
+                            hiTail = p;
+                        }
+                    }while ((p = next) != null);
+
+                    if(loHead != null){
+                        loTail.next = null;
+                        newTable[i] = loHead;
+                    }
+
+                    if(hiHead != null){
+                        hiTail.next = null;
+                        newTable[i + oldCap] = hiHead;
+                    }
+                }
+            }
+        }
+        table = newTable;//替换旧数组
     }
 
     /**

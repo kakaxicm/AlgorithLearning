@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import List.dlinkedlist.DLinkedList;
@@ -222,21 +223,34 @@ public class ExampleUnitTest {
      */
     @Test
     public void testHashHit() {
-        HashA a = new HashA("ABC");
-        HashB b = new HashB("ABC");
-//        HashMap<Object, String> hashMap = new HashMap<>();
-//        hashMap.put(a, "1");
-//        hashMap.put(b, "2");
-//        System.out.println("=====哈希冲突测试====");
-//        System.out.println(hashMap.get(a));
-//        System.out.println(hashMap.get(b));
-
+//        HashA a = new HashA("ABC");
+//        HashB b = new HashB("ABC");
+////        HashMap<Object, String> hashMap = new HashMap<>();
+////        hashMap.put(a, "1");
+////        hashMap.put(b, "2");
+////        System.out.println("=====哈希冲突测试====");
+////        System.out.println(hashMap.get(a));
+////        System.out.println(hashMap.get(b));
+//
         hash.HashMap<Object, String> myHashMap = new hash.HashMap<>();
-        myHashMap.put(a, "1");
-        myHashMap.put(b, "2");
-        System.out.println("=====哈希冲突测试====");
-        System.out.println(myHashMap.get(a));
-        System.out.println(myHashMap.get(b));
+//        myHashMap.put(a, "1");
+//        myHashMap.put(b, "2");
+//        System.out.println("=====哈希冲突测试====");
+//        System.out.println(myHashMap.get(a));
+//        System.out.println(myHashMap.get(b));
+        List<HashA> keys = new LinkedList<>();
+        for(int i = 0; i < 20; i++){
+            HashA hashObj = new HashA("ABC"+i);
+            keys.add(hashObj);
+            myHashMap.put(hashObj, ""+i);
+        }
 
+        System.out.println(myHashMap.size());
+        for(int i = 0; i < keys.size(); i++){
+            HashA hashObj = keys.get(i);
+            String v = myHashMap.get(hashObj);
+            System.out.println(v);
+
+        }
     }
 }
