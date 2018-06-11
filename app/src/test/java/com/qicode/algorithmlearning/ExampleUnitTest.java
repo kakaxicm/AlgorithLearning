@@ -219,33 +219,29 @@ public class ExampleUnitTest {
     }
 
     /**
-     * 测试哈希碰撞
+     * 测试哈希基本操作
      */
     @Test
-    public void testHashHit() {
-//        HashA a = new HashA("ABC");
-//        HashB b = new HashB("ABC");
+    public void testHashMap() {
+        HashA a = new HashA("ABC");
+        HashB b = new HashB("ABC");
         //HashMap的key可以为空
         hash.HashMap<Object, String> hashMap = new hash.HashMap<>();
         hashMap.put(null, "90");
         System.out.println(hashMap.get(null));
-////        hashMap.put(a, "1");
-////        hashMap.put(b, "2");
-////        System.out.println("=====哈希冲突测试====");
-////        System.out.println(hashMap.get(a));
-////        System.out.println(hashMap.get(b));
-//
+
         hash.HashMap<Object, String> myHashMap = new hash.HashMap<>();
-//        myHashMap.put(a, "1");
-//        myHashMap.put(b, "2");
-//        System.out.println("=====哈希冲突测试====");
-//        System.out.println(myHashMap.get(a));
-//        System.out.println(myHashMap.get(b));
+        hash.HashMap<Object, String> myHashCrashMp = new hash.HashMap<>();
+        System.out.println("=====哈希冲突测试====");
+        myHashCrashMp.put(a, "a");
+        myHashCrashMp.put(b, "b");
+        System.out.println(myHashCrashMp.get(a));
+        System.out.println(myHashCrashMp.get(b));
         List<HashA> keys = new LinkedList<>();
-        for(int i = 0; i < 13; i++){
-            HashA hashObj = new HashA("ABC"+i);
+        for (int i = 0; i < 13; i++) {
+            HashA hashObj = new HashA("ABC" + i);
             keys.add(hashObj);
-            myHashMap.put(hashObj, ""+i);
+            myHashMap.put(hashObj, "" + i);
         }
         System.out.println("=====哈希删除测试====");
         int delIndex = 4;
@@ -254,7 +250,7 @@ public class ExampleUnitTest {
         System.out.println("=====哈希大小====");
         System.out.println(myHashMap.size());
         System.out.println("=====哈希打印====");
-        for(int i = 0; i < keys.size(); i++){
+        for (int i = 0; i < keys.size(); i++) {
             HashA hashObj = keys.get(i);
             String v = myHashMap.get(hashObj);
             System.out.println(v);

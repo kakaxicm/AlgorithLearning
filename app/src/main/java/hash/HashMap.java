@@ -6,7 +6,6 @@ package hash;
 public class HashMap<K, V> implements Map<K, V> {
 
     static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; //默认大小16
-    static final int MAXIMUM_CAPACITY = 1 << 30;
     static final float DEFAULT_LOAD_FACTOR = 0.75f;
     private Node<K, V>[] table;//链表数组
     private int threhold;
@@ -21,6 +20,11 @@ public class HashMap<K, V> implements Map<K, V> {
         this(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR);
     }
 
+    /**
+     * put操作
+     * @param key
+     * @param value
+     */
     @Override
     public void put(K key, V value) {
         int hash = hash(key);
@@ -33,7 +37,7 @@ public class HashMap<K, V> implements Map<K, V> {
             Node p = first;
 
             while (p.next != null) {
-                if (isNodesHit(key, p)) {//链表中存在hit的node
+                if (isNodeHit(key, p)) {//链表中存在hit的node
                     //替换value,直接反馈
                     p.setValue(value);
                     return;
@@ -56,7 +60,7 @@ public class HashMap<K, V> implements Map<K, V> {
      * @param n
      * @return
      */
-    private boolean isNodesHit(K key, Node n) {
+    private boolean isNodeHit(K key, Node n) {
         int hash = hash(key);
         if (n.getHash() == hash) {
             if (key == n.getKey() || (key != null) && (key.equals(n.getKey()))) {
@@ -96,7 +100,7 @@ public class HashMap<K, V> implements Map<K, V> {
                                 loTail.next = p;
                             }
                             loTail = p;
-                        } else {
+                        } else {//高位索引
                             if (hiTail == null) {
                                 hiHead = p;
                             } else {
@@ -144,6 +148,11 @@ public class HashMap<K, V> implements Map<K, V> {
         return index;
     }
 
+    /**
+     * 获取方法
+     * @param key
+     * @return
+     */
     @Override
     public V get(K key) {
         int index = indexFromHash(hash(key), table.length);
@@ -153,7 +162,7 @@ public class HashMap<K, V> implements Map<K, V> {
         } else {
             Node<K, V> p = first;
             while (p != null) {
-                if (isNodesHit(key, p)) {//如果命中则返回节点值
+                if (isNodeHit(key, p)) {//如果命中则返回节点值
                     return p.getValue();
                 }
                 p = p.next;
@@ -162,26 +171,31 @@ public class HashMap<K, V> implements Map<K, V> {
         return null;
     }
 
+    /**
+     * 删除元素
+     * @param key
+     * @return
+     */
     @Override
     public V remove(K key) {
         int index = indexFromHash(hash(key), table.length);
         Node<K, V> first = table[index];
         V oldVal = null;
         if (first != null) {
-            if (first.next == null) {
+            if (first.next == null) {//桶里面只有一个元素，直接删除
                 oldVal = first.getValue();
                 //直接删除
                 table[index] = null;
             } else {
-                if (isNodesHit(key, first)) {
+                if (isNodeHit(key, first)) {//头结点命中，则删除头结点
                     //直接删除头结点
                     table[index] = first.next;
-                    first = null;
                 } else {
+                    //开始遍历，查找key命中的节点
                     Node<K, V> pre = first;
                     Node<K, V> p = pre.next;
                     while (p != null) {
-                        if (isNodesHit(key, p)) {//找到命中节点
+                        if (isNodeHit(key, p)) {//找到命中节点
                             oldVal = p.getValue();
                             pre.next = p.next;//删除操作
                             p.next = null;
