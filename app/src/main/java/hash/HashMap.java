@@ -166,7 +166,7 @@ public class HashMap<K, V> implements Map<K, V> {
     public V remove(K key) {
         int index = indexFromHash(hash(key), table.length);
         Node<K, V> first = table[index];
-        V oldVal;
+        V oldVal = null;
         if (first != null) {
             if (first.next == null) {
                 oldVal = first.getValue();
@@ -199,7 +199,7 @@ public class HashMap<K, V> implements Map<K, V> {
             }
         }
         size--;
-        return null;
+        return oldVal;
     }
 
     @Override
