@@ -225,7 +225,10 @@ public class ExampleUnitTest {
     public void testHashHit() {
 //        HashA a = new HashA("ABC");
 //        HashB b = new HashB("ABC");
-////        HashMap<Object, String> hashMap = new HashMap<>();
+        //HashMap的key可以为空
+        hash.HashMap<Object, String> hashMap = new hash.HashMap<>();
+        hashMap.put(null, "90");
+        System.out.println(hashMap.get(null));
 ////        hashMap.put(a, "1");
 ////        hashMap.put(b, "2");
 ////        System.out.println("=====哈希冲突测试====");
@@ -239,18 +242,24 @@ public class ExampleUnitTest {
 //        System.out.println(myHashMap.get(a));
 //        System.out.println(myHashMap.get(b));
         List<HashA> keys = new LinkedList<>();
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < 13; i++){
             HashA hashObj = new HashA("ABC"+i);
             keys.add(hashObj);
             myHashMap.put(hashObj, ""+i);
         }
-
+        System.out.println("=====哈希删除测试====");
+        int delIndex = 4;
+        myHashMap.remove(keys.get(delIndex));
+        keys.remove(delIndex);
+        System.out.println("=====哈希大小====");
         System.out.println(myHashMap.size());
+        System.out.println("=====哈希打印====");
         for(int i = 0; i < keys.size(); i++){
             HashA hashObj = keys.get(i);
             String v = myHashMap.get(hashObj);
             System.out.println(v);
 
         }
+
     }
 }
