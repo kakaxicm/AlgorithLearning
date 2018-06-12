@@ -263,10 +263,10 @@ public class ExampleUnitTest {
 
     @Test
     public void testSort(){
-        int[] arr = {12,11,10,9,8,7,6,5,4,111,123,233,212,113,156,3,2,1};
+        int[] arr = {1,3,2,12,11,10,9,8,7,6,5,4,111,123,233,212,113,156};
 //        Sort.heapSort(arr);
 //        Sort.puickSort(arr);
-        Sort.radixSort(arr);
+        Sort.binaryInsertSort(arr);
         printArray(arr);
     }
 

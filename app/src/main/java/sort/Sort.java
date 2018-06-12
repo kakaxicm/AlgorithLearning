@@ -72,6 +72,34 @@ public class Sort {
     }
 
     /**
+     * 和直接插入不同，插入排序时，二分法查找插入位置
+     * @param a
+     */
+    public static void binaryInsertSort(int [] a){
+        for(int i = 0;i<a.length;i++){
+            int temp = a[i];//´ý²åÈëµ½Ç°ÃæÓÐÐòÐòÁÐµÄÖµ
+            int left  = 0;
+            int right = i - 1;
+            int mid = 0;
+            while(left<=right){
+                mid = (left+right)/2;
+                if(temp<a[mid]){//往左边查找
+                    right = mid -1;
+                }else{//往右边查找
+                    left  = mid + 1;
+                }
+            }
+            for(int j = i-1;j>=left;j--){
+                //left及右边的元素右移
+                a[j+1] = a[j];
+            }
+            if(left!=i){//填坑
+                a[left] = temp;
+            }
+        }
+    }
+
+    /**
      * 快速排序,分治法:每一次划分，指定哨兵值，从两端向中间遍历,将大于它的元素放在右边,小于它的元素放在左边,然后将哨兵值填入中间位置
      *
      * @param arr
