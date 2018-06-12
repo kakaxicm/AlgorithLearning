@@ -326,7 +326,7 @@ public class Sort {
         if (arr == null || arr.length < 2) {
             return;
         }
-        buildMaxHeap(arr);//先构造最大堆，此时[0]为
+        buildMaxHeap(arr);//先构造最大堆，此时[0]为最大值
         for (int i = arr.length - 1; i >= 1; i--) {
             swap(arr, 0, i);//0位置是最大值，放到最后的位置
             maxHeap(arr, i, 0);//继续构造大堆
@@ -362,9 +362,10 @@ public class Sort {
                 largest = right;
             }
         }
-        if (i != largest) {
+        if (i != largest) {//堆发生变化，则将最大值上升到根节点，根节点下沉到叶子节点，
+
             swap(arr, i, largest);//一棵树的最大值放到堆顶
-            maxHeap(arr, len, largest);
+            maxHeap(arr, len, largest);// 此时根节点下沉到largest节点，此节点发生变化，因此将次子树构造最大堆
         }
 
     }
