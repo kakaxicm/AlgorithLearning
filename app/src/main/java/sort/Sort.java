@@ -63,7 +63,7 @@ public class Sort {
             int toInsertValue = arr[i];//新来的"牌"
             int j = i;//从右往左遍历
             while (j > 0 && arr[j - 1] > toInsertValue) {
-                arr[j] = arr[j - 1];//
+                arr[j] = arr[j - 1];//大的牌右移
                 j--;
             }
             arr[j] = toInsertValue;//合适位置
@@ -88,25 +88,34 @@ public class Sort {
      * @param right
      */
     private static void quickSort(int[] arr, int left, int right) {
-        if (left >= right)
+        if (left >= right) {//递归结束
             return;
+        }
         int pivotPos = partition(arr, left, right);
         quickSort(arr, left, pivotPos - 1);
         quickSort(arr, pivotPos + 1, right);
     }
 
 
+    /**
+     * 分治法
+     *
+     * @param arr
+     * @param left
+     * @param right
+     * @return
+     */
     private static int partition(int[] arr, int left, int right) {
-        int target = arr[left];
+        int target = arr[left];//哨兵值
         while (left < right) {
             while (left < right && arr[right] >= target) {
                 right--;
             }
-            arr[left] = arr[right];//挖坑，大值左移
+            arr[left] = arr[right];//挖坑，小值左移
             while (left < right && arr[left] <= target) {
                 left++;
             }
-            arr[right] = arr[left];//挖坑，小值右移
+            arr[right] = arr[left];//挖坑，大值右移
         }
         arr[left] = target;//填坑
         printArray(arr);
@@ -137,7 +146,7 @@ public class Sort {
             sb.append(item);
             sb.append(" ");
         }
-        Log.e("TAG", sb.toString());
+        System.out.println(sb.toString());
     }
 
     /**
@@ -191,10 +200,10 @@ public class Sort {
      * @param right
      */
     private static void mergeSort(int[] arr, int left, int right) {
-        if (arr == null || left >= right) {
+        if (arr == null || left >= right) {//递归结束
             return;
         }
-        int mid = (left + right) / 2;
+        int mid = (left + right) / 2;//数组一分为二
         mergeSort(arr, left, mid);
         mergeSort(arr, mid + 1, right);
         mergeArr(arr, left, mid, right);
@@ -214,14 +223,14 @@ public class Sort {
         int j = mid + 1;
         int index = 0;
 
-        while (i <= mid && j <= right) {
+        while (i <= mid && j <= right) {//俩数组索引均未越界
             if (arr[i] <= arr[j]) {
                 tmp[index++] = arr[i++];
             } else {
                 tmp[index++] = arr[j++];
             }
         }
-
+        //数组剩余部分
         while (i <= mid) {
             tmp[index++] = arr[i++];
         }
@@ -320,6 +329,7 @@ public class Sort {
 
     /**
      * 堆排序
+     *
      * @param arr
      */
     public static void heapSort(int[] arr) {
@@ -335,7 +345,7 @@ public class Sort {
 
     private static void buildMaxHeap(int[] arr) {
         int half = (arr.length - 1) / 2;
-        for (int i = half; i >=0; i--) {//从下往上构造最大堆,一直到根节点
+        for (int i = half; i >= 0; i--) {//从下往上构造最大堆,一直到根节点
             maxHeap(arr, arr.length, i);
         }
     }
@@ -366,6 +376,67 @@ public class Sort {
 
             swap(arr, i, largest);//一棵树的最大值放到堆顶
             maxHeap(arr, len, largest);// 此时根节点下沉到largest节点，此节点发生变化，因此将次子树构造最大堆
+        }
+
+    }
+
+    /**
+     * 基数排序(计数排序的拓展)，桶结构为二维数组,适用于大于0的整数组
+     * 第一次排序按个位数的索引放到桶中
+     * 第二次排序按照十位数索引放到桶中
+     * 第三次排序按照百威数索引放到桶中
+     * ...
+     * 每一次遍历就将同量级的数字排序。
+     * 步骤:
+     * 1>获取最大数的位数m,它决定了遍历次数
+     * 2>每一次遍历，取各个元素对应位数x，然后放到桶中
+     * 3>每一次遍历完成，按顺序搜集数据放到arr中
+     *
+     * @param arr
+     */
+    public static void radixSort(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+        //找到最大值
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+        //计算最大值的位数
+        int count = 0;
+        int tmp = max;
+        while (tmp > 0) {
+            tmp = tmp / 10;
+            count++;
+        }
+
+        ArrayList<ArrayList<Integer>> buckets = new ArrayList<>();
+        //初始化二维数组,大小为10
+        for (int i = 0; i < 10; i++) {
+            ArrayList<Integer> link = new ArrayList<>();
+            buckets.add(link);
+        }
+
+        for (int i = 0; i < count; i++) {//按位数从低到高遍历
+            //数据入桶
+            for (int j = 0; j < arr.length; j++) {
+                int x = (int) (arr[j] % Math.pow(10, i + 1) / Math.pow(10, i));//个位-十位-百位
+                ArrayList<Integer> link = buckets.get(x);
+                link.add(arr[j]);
+            }
+            //遍历桶数据，放到arr里
+            int index = 0;
+            for (int m = 0; m < buckets.size(); m++) {
+                ArrayList<Integer> link = buckets.get(m);
+                //取出桶中元素，放到arr里
+                while (link.size() > 0){
+                    int item = link.remove(0);
+                    arr[index++] = item;
+                }
+            }
         }
 
     }
