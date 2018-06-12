@@ -1,5 +1,7 @@
 package com.qicode.algorithmlearning;
 
+import android.util.Log;
+
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import List.dlinkedlist.DLinkedList;
+import sort.Sort;
 import stack.Stack;
 import tree.BinaryNode;
 import tree.BinaryTree;
@@ -254,8 +257,28 @@ public class ExampleUnitTest {
             HashA hashObj = keys.get(i);
             String v = myHashMap.get(hashObj);
             System.out.println(v);
-
         }
 
+    }
+
+    @Test
+    public void testSort(){
+        int[] arr = {12,2,1,3,4,5,8,9,7,6,11,0};
+        Sort.heapSort(arr);
+        printArray(arr);
+    }
+
+    /**
+     * 打印
+     *
+     * @param arr
+     */
+    private static void printArray(int[] arr) {
+        StringBuilder sb = new StringBuilder();
+        for (int item : arr) {
+            sb.append(item);
+            sb.append(" ");
+        }
+        System.out.println(sb.toString());
     }
 }

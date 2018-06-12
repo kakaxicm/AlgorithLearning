@@ -243,22 +243,23 @@ public class Sort {
      * 计数排序:找到数组最大值max, 创建引入数组tmp[max+1],
      * 然后遍历待排序数组arr[i],做tmp[arr[i]]++操作,这样
      * tmp每个位置就记录了arr的元素分布，最后从低到高，将元素还原，实现排序
-     *空间复杂度O(n),时间复杂度O(n)!
+     * 空间复杂度O(n),时间复杂度O(n)!
+     *
      * @param arr
      */
     public static void countSort(int[] arr) {
         int max = max(arr);
-        int[] countArr = new int[max+1];
+        int[] countArr = new int[max + 1];
         Arrays.fill(countArr, 0);
 
-        for(int i = 0; i < arr.length; i++){
+        for (int i = 0; i < arr.length; i++) {
             countArr[arr[i]]++;//相应的索引值+1
         }
         printArray(countArr);
         int scanIndex = 0;
         //还原数组
-        for(int i = 0; i < countArr.length; i++){
-            for(int j = 0; j < countArr[i]; j++){
+        for (int i = 0; i < countArr.length; i++) {
+            for (int j = 0; j < countArr[i]; j++) {
                 arr[scanIndex++] = i;
             }
         }
@@ -282,37 +283,89 @@ public class Sort {
      * 将数组划分M个桶，每个桶最多N个元素,两者关系 M = max/N+1,然后将每个元素根据索引映射函数确定属于哪个桶
      * 桶划分好之后，分别进行快速排序,空间复杂度M+N,时间复杂度:O(n+M*(N*logN)),最佳可以达到O(n)，
      * 弊端:数组的最大值对桶的个数有决定影响,当max和均值差距比较大时，会造成空间的急剧浪费
+     *
      * @param arr
      */
-    public static void bucketSort(int[] arr){
-        int bucketNum = max(arr)/10+1;//每个桶10个元素
+    public static void bucketSort(int[] arr) {
+        int bucketNum = max(arr) / 10 + 1;//每个桶10个元素
         List<List<Integer>> buckets = new LinkedList<>();
 
-        for(int i = 0; i < bucketNum; i++){
+        for (int i = 0; i < bucketNum; i++) {
             buckets.add(new ArrayList<Integer>());
         }
 
-        for(int i = 0; i<arr.length; i++){
-            int bucketIndex = arr[i]/10;
+        for (int i = 0; i < arr.length; i++) {
+            int bucketIndex = arr[i] / 10;
             buckets.get(bucketIndex).add(arr[i]);
         }
 
         //每个桶排序
-        for(int i = 0; i<buckets.size(); i++){
+        for (int i = 0; i < buckets.size(); i++) {
             List<Integer> integers = buckets.get(i);
-            if(!integers.isEmpty()){
+            if (!integers.isEmpty()) {
                 Collections.sort(integers);
             }
         }
 
         //还原排序数组
         int k = 0;
-        for(int i = 0; i<buckets.size(); i++){
-            for(Integer item: buckets.get(i)){
+        for (int i = 0; i < buckets.size(); i++) {
+            for (Integer item : buckets.get(i)) {
                 arr[k++] = item;
             }
         }
 
         printArray(arr);
+    }
+
+    /**
+     * 堆排序
+     * @param arr
+     */
+    public static void heapSort(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+        buildMaxHeap(arr);//先构造最大堆，此时[0]为
+        for (int i = arr.length - 1; i >= 1; i--) {
+            swap(arr, 0, i);//0位置是最大值，放到最后的位置
+            maxHeap(arr, i, 0);//继续构造大堆
+        }
+    }
+
+    private static void buildMaxHeap(int[] arr) {
+        int half = (arr.length - 1) / 2;
+        for (int i = half; i >=0; i--) {//从下往上构造最大堆,一直到根节点
+            maxHeap(arr, arr.length, i);
+        }
+    }
+
+    /**
+     * 构建最大堆
+     *
+     * @param arr 数组
+     * @param len 范围
+     * @param i   根节点索引
+     */
+    private static void maxHeap(int[] arr, int len, int i) {
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        int largest = i;
+        int tmp = arr[i];
+        if (left < len) {
+            if (tmp < arr[left]) {
+                largest = left;
+            }
+        }
+        if (right < len) {
+            if (arr[largest] < arr[right]) {
+                largest = right;
+            }
+        }
+        if (i != largest) {
+            swap(arr, i, largest);//一棵树的最大值放到堆顶
+            maxHeap(arr, len, largest);
+        }
+
     }
 }
