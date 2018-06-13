@@ -34,6 +34,49 @@ public class Sort {
     }
 
     /**
+     * 冒泡排序算法:
+     * 从头开始遍历, 每一次遍历都将最大值往后交换,n-1次循环，每次循环最小值会上浮
+     *
+     * @param arr
+     */
+    public static void bubbleSort2(int[] arr) {
+        int len = arr.length;
+        for (int i = 0; i < len; i++) {
+            for (int j = 0; j < len - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    swap(arr, j, j + 1);
+                }
+            }
+            printArray(arr);
+        }
+    }
+
+    /**
+     * 冒泡排序算法优化:
+     * 当没有发生遍历交换时，标书已经排好序，直接返回
+     *
+     * @param arr
+     */
+    public static void bubbleSort3(int[] arr) {
+        int len = arr.length;
+        boolean exFlag = true;//发生交换的标记,默认true
+        for (int i = 0; i < len; i++) {
+            if(!exFlag){//上一次遍历未发生过交换，退出循环
+                break;
+            }
+            exFlag = false;//重置flg,检测本次遍历交换
+            for (int j = 0; j < len - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    swap(arr, j, j + 1);
+                    exFlag = true;
+                }
+            }
+            printArray(arr);
+        }
+    }
+
+
+    /**
      * 选择排序, 冒泡排序优化,n-1次循环,每次找到最小值，与排头兵交换
      *
      * @param arr
@@ -73,27 +116,28 @@ public class Sort {
 
     /**
      * 和直接插入不同，插入排序时，二分法查找插入位置
+     *
      * @param a
      */
-    public static void binaryInsertSort(int [] a){
-        for(int i = 0;i<a.length;i++){
+    public static void binaryInsertSort(int[] a) {
+        for (int i = 0; i < a.length; i++) {
             int temp = a[i];//´ý²åÈëµ½Ç°ÃæÓÐÐòÐòÁÐµÄÖµ
-            int left  = 0;
+            int left = 0;
             int right = i - 1;
             int mid = 0;
-            while(left<=right){
-                mid = (left+right)/2;
-                if(temp<a[mid]){//往左边查找
-                    right = mid -1;
-                }else{//往右边查找
-                    left  = mid + 1;
+            while (left <= right) {
+                mid = (left + right) / 2;
+                if (temp < a[mid]) {//往左边查找
+                    right = mid - 1;
+                } else {//往右边查找
+                    left = mid + 1;
                 }
             }
-            for(int j = i-1;j>=left;j--){
+            for (int j = i - 1; j >= left; j--) {
                 //left及右边的元素右移
-                a[j+1] = a[j];
+                a[j + 1] = a[j];
             }
-            if(left!=i){//填坑
+            if (left != i) {//填坑
                 a[left] = temp;
             }
         }
@@ -135,7 +179,7 @@ public class Sort {
      */
     private static int partition(int[] arr, int left, int right) {
         int target = arr[left];//哨兵值
-        System.out.println("哨兵:"+target);
+        System.out.println("哨兵:" + target);
         while (left < right) {
             while (left < right && arr[right] >= target) {
                 right--;
@@ -461,7 +505,7 @@ public class Sort {
             for (int m = 0; m < buckets.size(); m++) {
                 ArrayList<Integer> link = buckets.get(m);
                 //取出桶中元素，放到arr里
-                while (link.size() > 0){
+                while (link.size() > 0) {
                     int item = link.remove(0);
                     arr[index++] = item;
                 }
