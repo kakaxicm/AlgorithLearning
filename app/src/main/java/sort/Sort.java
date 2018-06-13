@@ -135,6 +135,7 @@ public class Sort {
      */
     private static int partition(int[] arr, int left, int right) {
         int target = arr[left];//哨兵值
+        System.out.println("哨兵:"+target);
         while (left < right) {
             while (left < right && arr[right] >= target) {
                 right--;
