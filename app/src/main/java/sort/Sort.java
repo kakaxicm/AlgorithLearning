@@ -61,7 +61,7 @@ public class Sort {
         int len = arr.length;
         boolean exFlag = true;//发生交换的标记,默认true
         for (int i = 0; i < len; i++) {
-            if(!exFlag){//上一次遍历未发生过交换，退出循环
+            if (!exFlag) {//上一次遍历未发生过交换，退出循环
                 break;
             }
             exFlag = false;//重置flg,检测本次遍历交换
@@ -140,6 +140,7 @@ public class Sort {
             if (left != i) {//填坑
                 a[left] = temp;
             }
+            printArray(a);
         }
     }
 
@@ -223,6 +224,8 @@ public class Sort {
     }
 
     /**
+     * 每一组的插入排序
+     *
      * @param arr
      */
     private static void shellInsert(int[] arr, int d) {
@@ -325,7 +328,7 @@ public class Sort {
      * 计数排序:找到数组最大值max, 创建引入数组tmp[max+1],
      * 然后遍历待排序数组arr[i],做tmp[arr[i]]++操作,这样
      * tmp每个位置就记录了arr的元素分布，最后从低到高，将元素还原，实现排序
-     * 空间复杂度O(n),时间复杂度O(n)!
+     * 空间复杂度O(n),时间复杂度O(n)
      *
      * @param arr
      */
@@ -410,12 +413,16 @@ public class Sort {
             return;
         }
         buildMaxHeap(arr);//先构造最大堆，此时[0]为最大值
-        for (int i = arr.length - 1; i >= 1; i--) {
+        for (int i = arr.length - 1; i >= 1; i--) {//i确定了构造最大堆的范围,从len-1开始a
             swap(arr, 0, i);//0位置是最大值，放到最后的位置
-            maxHeap(arr, i, 0);//继续构造大堆
+            maxHeap(arr, i, 0);//[0...i]继续构造大堆
         }
     }
 
+    /**
+     * 整个数组构造最大堆
+     * @param arr
+     */
     private static void buildMaxHeap(int[] arr) {
         int half = (arr.length - 1) / 2;
         for (int i = half; i >= 0; i--) {//从下往上构造最大堆,一直到根节点
@@ -427,7 +434,7 @@ public class Sort {
      * 构建最大堆
      *
      * @param arr 数组
-     * @param len 范围
+     * @param len 树节点的索引范围
      * @param i   根节点索引
      */
     private static void maxHeap(int[] arr, int len, int i) {
@@ -435,6 +442,7 @@ public class Sort {
         int right = 2 * i + 2;
         int largest = i;
         int tmp = arr[i];
+        //寻找最大值
         if (left < len) {
             if (tmp < arr[left]) {
                 largest = left;
@@ -448,9 +456,10 @@ public class Sort {
         if (i != largest) {//堆发生变化，则将最大值上升到根节点，根节点下沉到叶子节点，
 
             swap(arr, i, largest);//一棵树的最大值放到堆顶
-            maxHeap(arr, len, largest);// 此时根节点下沉到largest节点，此节点发生变化，因此将次子树构造最大堆
+            maxHeap(arr, len, largest);// 此时根节点下沉到largest节点，此节点发生变化，子树堆结构可能被破坏，
+            // 因此子树也需要构造最大堆
         }
-
+        printArray(arr);
     }
 
     /**
@@ -510,6 +519,7 @@ public class Sort {
                     arr[index++] = item;
                 }
             }
+            printArray(arr);
         }
 
     }

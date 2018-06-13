@@ -268,8 +268,10 @@ public class ExampleUnitTest {
 //        Sort.puickSort(arr);
 //        Sort.binaryInsertSort(arr);
 //        Sort.bubbleSort(arr);
-        Sort.bubbleSort3(arr);
-        printArray(arr);
+//        Sort.bubbleSort3(arr);
+//        Sort.selectSort(arr);
+        Sort.radixSort(arr);
+//        printArray(arr);
     }
 
     /**
