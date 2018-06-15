@@ -24,11 +24,14 @@ public class MatrixGraph {
      */
     public void transverseDfs() {
         boolean[] isAccessedTable = new boolean[vertexes.length];
+        //初始化访问标记数组
         for (int i = 0; i < vertexes.length; i++) {
             isAccessedTable[i] = false;
         }
+
         for (int i = 0; i < vertexes.length; i++) {
             if (!isAccessedTable[i]) {
+                //递归深度优先遍历
                 dfsVertexes(i, isAccessedTable);
             }
         }
@@ -42,7 +45,7 @@ public class MatrixGraph {
      * @param isAccessedTable
      */
     private void dfsVertexes(int index, boolean[] isAccessedTable) {
-        isAccessedTable[index] = true;
+        isAccessedTable[index] = true;//访问节点
         System.out.println("深度优先遍历:" + vertexes[index]);//访问节点
         for (int i = 0; i < vertexes.length; i++) {
             //没有访问，且为连接顶点则递归遍历
@@ -63,13 +66,13 @@ public class MatrixGraph {
         }
         Integer headIndex;
         Queue<Integer> queue = new Queue<>();//也可以用LinkList代替
-        for (int i = 0; i < vertexes.length; i++) {
+        for (int i = 0; i < vertexes.length; i++) {//各顶点作为入口
             if (!isAccessedTable[i]) {
                 headIndex = i;//层序遍历起点
-                while (headIndex != null) {//一次层序遍历
+                while (headIndex != null) {//一次层序遍历,直到遍历完最后一层，队列为空
                     isAccessedTable[headIndex] = true;//遍历当前节点
                     System.out.println("广度优先遍历:" + vertexes[headIndex]);
-                    //查找未访问的连接点
+                    //查找未访问的连接点入队
                     for (int j = 0; j < vertexes.length; j++) {
                         int tmp = weightEdges[headIndex][j];
                         if (!isAccessedTable[j] && tmp > 0 && tmp < Integer.MAX_VALUE && !queue.contains(j)) {
@@ -77,7 +80,7 @@ public class MatrixGraph {
                             queue.enquene(j);
                         }
                     }
-                    headIndex = queue.dequeue();//取下一层的第一个顶点
+                    headIndex = queue.dequeue();//取未访问的节点
                 }
             }
         }
