@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import List.dlinkedlist.DLinkedList;
+import graphic.MatrixGraph;
 import sort.Sort;
 import stack.Stack;
 import tree.BinaryNode;
@@ -262,8 +263,8 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testSort(){
-        int[] arr = {1,3,2,12,11,10,9,8,7,6,5,4,111,123,233,212,113,156};
+    public void testSort() {
+        int[] arr = {1, 3, 2, 12, 11, 10, 9, 8, 7, 6, 5, 4, 111, 123, 233, 212, 113, 156};
 //        Sort.heapSort(arr);
 //        Sort.puickSort(arr);
 //        Sort.binaryInsertSort(arr);
@@ -286,5 +287,27 @@ public class ExampleUnitTest {
             sb.append(" ");
         }
         System.out.println(sb.toString());
+    }
+
+    @Test
+    public void testGraph() {
+        /**
+         * 图的邻接矩阵描述
+         */
+        int[] vertexes = new int[]{
+                0, 1, 2, 3, 4
+
+        };
+
+        int[][] edges = new int[][]{
+                new int[]{0, MatrixGraph.NO_WEIGHT_VALUE, MatrixGraph.NO_WEIGHT_VALUE, MatrixGraph.NO_WEIGHT_VALUE, 6},
+                new int[]{9, 0, 3, MatrixGraph.NO_WEIGHT_VALUE, MatrixGraph.NO_WEIGHT_VALUE},
+                new int[]{2, MatrixGraph.NO_WEIGHT_VALUE, 0, 5, MatrixGraph.NO_WEIGHT_VALUE},
+                new int[]{MatrixGraph.NO_WEIGHT_VALUE, MatrixGraph.NO_WEIGHT_VALUE, MatrixGraph.NO_WEIGHT_VALUE, 0, 1},
+                new int[]{MatrixGraph.NO_WEIGHT_VALUE, MatrixGraph.NO_WEIGHT_VALUE, MatrixGraph.NO_WEIGHT_VALUE, MatrixGraph.NO_WEIGHT_VALUE, 0},
+        };
+        MatrixGraph graph = new MatrixGraph(vertexes, edges);
+        System.out.println("邻接矩阵深度遍历:");
+        graph.transverseDfs();
     }
 }

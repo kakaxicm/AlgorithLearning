@@ -39,6 +39,10 @@ public class MatrixGraph {
         }
     }
 
+    /**
+     * 打印顶点访问情况
+     * @param isVisiteds
+     */
     private void printVisibles(boolean[] isVisiteds){
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < isVisiteds.length; i++){
@@ -47,7 +51,11 @@ public class MatrixGraph {
         Log.e("TAG",sb.toString());
     }
 
+    /**
+     * 深度优先遍历
+     */
     public void transverseDfs(){
+        //初始化访问标记数组
         boolean[] isVisiteds = new boolean[vertexes.length];
 
         for(int i = 0; i < vertexes.length; i++){
