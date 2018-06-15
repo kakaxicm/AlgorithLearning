@@ -307,7 +307,9 @@ public class ExampleUnitTest {
                 new int[]{MatrixGraph.NO_WEIGHT_VALUE, MatrixGraph.NO_WEIGHT_VALUE, MatrixGraph.NO_WEIGHT_VALUE, MatrixGraph.NO_WEIGHT_VALUE, 0},
         };
         MatrixGraph graph = new MatrixGraph(vertexes, edges);
-        System.out.println("邻接矩阵深度遍历:");
+        System.out.println("邻接矩阵深度优先遍历:");
         graph.transverseDfs();
+        System.out.println("邻接矩阵广度优先遍历:");
+        graph.transverseBfs();
     }
 }

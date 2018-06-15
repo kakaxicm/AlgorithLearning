@@ -1,5 +1,8 @@
 package graphic;
 
+
+import queue.Queue;
+
 /**
  * Created by chenming on 2018/6/15
  */
@@ -46,6 +49,36 @@ public class MatrixGraph {
             int temp = weightEdges[index][i];
             if (!isAccessedTable[i] && temp > 0 && temp < Integer.MAX_VALUE) {
                 dfsVertexes(i, isAccessedTable);
+            }
+        }
+    }
+
+    /**
+     * 广度遍历和二次树的层序遍历相似,引入队列，存放当前未访问的连接节点
+     */
+    public void transverseBfs() {
+        boolean[] isAccessedTable = new boolean[vertexes.length];
+        for (int i = 0; i < vertexes.length; i++) {
+            isAccessedTable[i] = false;
+        }
+        Integer headIndex;
+        Queue<Integer> queue = new Queue<>();//也可以用LinkList代替
+        for (int i = 0; i < vertexes.length; i++) {
+            if (!isAccessedTable[i]) {
+                headIndex = i;//层序遍历起点
+                while (headIndex != null) {//一次层序遍历
+                    isAccessedTable[headIndex] = true;//遍历当前节点
+                    System.out.println("广度优先遍历:" + vertexes[headIndex]);
+                    //查找未访问的连接点
+                    for (int j = 0; j < vertexes.length; j++) {
+                        int tmp = weightEdges[headIndex][j];
+                        if (!isAccessedTable[j] && tmp > 0 && tmp < Integer.MAX_VALUE && !queue.contains(j)) {
+                            //未访问的连接点j入队
+                            queue.enquene(j);
+                        }
+                    }
+                    headIndex = queue.dequeue();//取下一层的第一个顶点
+                }
             }
         }
     }
