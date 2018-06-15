@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import List.dlinkedlist.DLinkedList;
+import graphic.Dijkstra;
 import graphic.MatrixGraph;
 import sort.Sort;
 import stack.Stack;
@@ -311,5 +312,42 @@ public class ExampleUnitTest {
         graph.transverseDfs();
         System.out.println("邻接矩阵广度优先遍历:");
         graph.transverseBfs();
+    }
+
+    /**
+     * 创建路径图
+     */
+    public Dijkstra createGraph(){
+        int [] a1 = new int[]{0,1,5, Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF};
+        int [] a2 = new int[]{1,0,3,7,5,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF};
+        int [] a3 = new int[]{5,3,0,Dijkstra.INF,1,7,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF};
+        int [] a4 = new int[]{Dijkstra.INF,7,Dijkstra.INF,0,2,Dijkstra.INF,3,Dijkstra.INF,Dijkstra.INF};
+        int [] a5 = new int[]{Dijkstra.INF,5,1,2,0,3,6,9,Dijkstra.INF};
+        int [] a6 = new int[]{Dijkstra.INF,Dijkstra.INF,7,Dijkstra.INF,3,0,Dijkstra.INF,5,Dijkstra.INF};
+        int [] a7 = new int[]{Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,3,6,Dijkstra.INF,0,2,7};
+        int [] a8 = new int[]{Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,9,5,2,0,4};
+        int [] a9 = new int[]{Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,7,4,0};
+        int[][] matrix= new int[9][9];
+        matrix[0] = a1;
+        matrix[1] = a2;
+        matrix[2] = a3;
+        matrix[3] = a4;
+        matrix[4] = a5;
+        matrix[5] = a6;
+        matrix[6] = a7;
+        matrix[7] = a8;
+        matrix[8] = a9;
+
+        Dijkstra map = new Dijkstra(matrix);
+        return map;
+    }
+    @Test
+    public void testDijkstra(){
+        Dijkstra map = createGraph();
+        map.dijkstra(0);
+        for(int i = 0; i < 9; i++){
+            map.dumpShortestPatnToDist(i);
+        }
+
     }
 }
