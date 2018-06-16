@@ -13,6 +13,7 @@ import java.util.Map;
 import List.dlinkedlist.DLinkedList;
 import graphic.Dijkstra;
 import graphic.MatrixGraph;
+import graphic.TopologySort;
 import sort.Sort;
 import stack.Stack;
 import tree.BinaryNode;
@@ -317,17 +318,17 @@ public class ExampleUnitTest {
     /**
      * 创建路径图
      */
-    public Dijkstra createGraph(){
-        int [] a1 = new int[]{0,1,5, Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF};
-        int [] a2 = new int[]{1,0,3,7,5,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF};
-        int [] a3 = new int[]{5,3,0,Dijkstra.INF,1,7,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF};
-        int [] a4 = new int[]{Dijkstra.INF,7,Dijkstra.INF,0,2,Dijkstra.INF,3,Dijkstra.INF,Dijkstra.INF};
-        int [] a5 = new int[]{Dijkstra.INF,5,1,2,0,3,6,9,Dijkstra.INF};
-        int [] a6 = new int[]{Dijkstra.INF,Dijkstra.INF,7,Dijkstra.INF,3,0,Dijkstra.INF,5,Dijkstra.INF};
-        int [] a7 = new int[]{Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,3,6,Dijkstra.INF,0,2,7};
-        int [] a8 = new int[]{Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,9,5,2,0,4};
-        int [] a9 = new int[]{Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,Dijkstra.INF,7,4,0};
-        int[][] matrix= new int[9][9];
+    public Dijkstra createGraph() {
+        int[] a1 = new int[]{0, 1, 5, Dijkstra.INF, Dijkstra.INF, Dijkstra.INF, Dijkstra.INF, Dijkstra.INF, Dijkstra.INF};
+        int[] a2 = new int[]{1, 0, 3, 7, 5, Dijkstra.INF, Dijkstra.INF, Dijkstra.INF, Dijkstra.INF};
+        int[] a3 = new int[]{5, 3, 0, Dijkstra.INF, 1, 7, Dijkstra.INF, Dijkstra.INF, Dijkstra.INF};
+        int[] a4 = new int[]{Dijkstra.INF, 7, Dijkstra.INF, 0, 2, Dijkstra.INF, 3, Dijkstra.INF, Dijkstra.INF};
+        int[] a5 = new int[]{Dijkstra.INF, 5, 1, 2, 0, 3, 6, 9, Dijkstra.INF};
+        int[] a6 = new int[]{Dijkstra.INF, Dijkstra.INF, 7, Dijkstra.INF, 3, 0, Dijkstra.INF, 5, Dijkstra.INF};
+        int[] a7 = new int[]{Dijkstra.INF, Dijkstra.INF, Dijkstra.INF, 3, 6, Dijkstra.INF, 0, 2, 7};
+        int[] a8 = new int[]{Dijkstra.INF, Dijkstra.INF, Dijkstra.INF, Dijkstra.INF, 9, 5, 2, 0, 4};
+        int[] a9 = new int[]{Dijkstra.INF, Dijkstra.INF, Dijkstra.INF, Dijkstra.INF, Dijkstra.INF, Dijkstra.INF, 7, 4, 0};
+        int[][] matrix = new int[9][9];
         matrix[0] = a1;
         matrix[1] = a2;
         matrix[2] = a3;
@@ -341,13 +342,37 @@ public class ExampleUnitTest {
         Dijkstra map = new Dijkstra(matrix);
         return map;
     }
+
     @Test
-    public void testDijkstra(){
+    public void testDijkstra() {
         Dijkstra map = createGraph();
         map.dijkstra(0);
-        for(int i = 0; i < 9; i++){
+        for (int i = 0; i < 9; i++) {
             map.dumpShortestPatnToDist(i);
         }
 
+    }
+
+    @Test
+    public void testTopol() {
+        int INF = Integer.MAX_VALUE;
+        int[][] map = {
+                {0, INF, INF, INF, 1, 1, INF, INF, INF, INF, INF, 1, INF, INF},//0
+                {INF, 0, 1, INF, 1, INF, INF, INF, 1, INF, INF, INF, INF, INF},//1
+                {INF, INF, 0, INF, INF, 1, 1, INF, INF, 1, INF, INF, INF, INF},//2
+                {INF, INF, 1, 0, INF, INF, INF, INF, INF, INF, INF, INF, INF, 1},//3
+                {INF, INF, INF, INF, 0, INF, INF, 1, INF, INF, INF, INF, INF, INF},//4
+                {INF, INF, INF, INF, INF, 0, INF, INF, 1, INF, INF, INF, 1, INF},//5
+                {INF, INF, INF, INF, INF, 1, 0, INF, INF, INF, INF, INF, INF, INF},//6
+                {INF, INF, INF, INF, INF, INF, INF, 0, INF, INF, INF, INF, INF, INF},//7
+                {INF, INF, INF, INF, INF, INF, INF, 1, 0, INF, INF, INF, INF, INF},//8
+                {INF, INF, INF, INF, INF, INF, INF, INF, INF, 0, 1, 1, INF, INF},//9
+                {INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, 0, INF, INF, 1},//10
+                {INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, 0, INF, INF},//11
+                {INF, INF, INF, INF, INF, INF, INF, INF, INF, 1, INF, INF, 0, INF},//12
+                {INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, 0},//13
+        };
+        TopologySort ts = new TopologySort(map);
+        ts.topologySort();
     }
 }
