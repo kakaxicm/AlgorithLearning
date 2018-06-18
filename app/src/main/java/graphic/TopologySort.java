@@ -1,7 +1,6 @@
 package graphic;
 
 import queue.Queue;
-import stack.Stack;
 
 /**
  * Created by chenming on 2018/6/16
