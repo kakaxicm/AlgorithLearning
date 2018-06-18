@@ -3,6 +3,7 @@ package com.qicode.algorithmlearning;
 import android.util.Log;
 
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,6 +14,7 @@ import java.util.Map;
 import List.dlinkedlist.DLinkedList;
 import graphic.Dijkstra;
 import graphic.MatrixGraph;
+import graphic.Prim;
 import graphic.TopologySort;
 import sort.Sort;
 import stack.Stack;
@@ -374,5 +376,22 @@ public class ExampleUnitTest {
         };
         TopologySort ts = new TopologySort(map);
         ts.topologySort();
+    }
+
+    @Test
+    public void testPrim() {
+        int INF = Integer.MAX_VALUE;
+        int[][] map = {
+                {INF, 23, INF, INF, INF, 28, 36},
+                {23, INF, 20, INF, INF, INF, 1},
+                {INF, 20, INF, 15, INF, INF, 4},
+                {INF, INF, 15, INF, 3, INF, 9},
+                {INF, INF, INF, 3, INF, 17, 16},
+                {28, INF, INF, INF, 17, INF, 25},
+                {36, 1, 4, 9, 16, 25, INF}
+        };
+
+        Prim prim = new Prim(map);
+        prim.prim(0);
     }
 }
