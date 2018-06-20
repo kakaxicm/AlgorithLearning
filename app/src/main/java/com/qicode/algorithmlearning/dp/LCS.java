@@ -13,7 +13,7 @@ import stack.Stack;
 public class LCS {
     private char[] s1, s2;//俩序列
     private int len1, len2;
-    private int[][] c;//动态规划运算矩阵
+    private int[][] c;//动态规划运算记录表
     private int[][] b;//记录子序列生成路径,b[i][j] = 1表示情况1，来源于左上，b[i][j]=2，来源于左,b[i][j]=3来源于上
     private final int TYPE_LEFT_TOP = 1;//左上
     private final int TYPE_LEFT = 2;//左
@@ -189,5 +189,65 @@ public class LCS {
             }
             System.out.println("");
         }
+    }
+
+    /**
+     * 在最长公共子序列的基础上，实现最长公共字串
+     * <p>
+     * 递推公式
+     * 1.C(i, j) = C(i-1, j-1)+1  x[i] = y[j]
+     * 2.C(i, j) = 0 x[i] != y[j]
+     * 3.C(i, j) = 0 i=0或j=0
+     */
+    public void getLcss() {
+        //初始化第一行
+        int i, j;//行为s1,列为s2
+        int maxSubLen = 0;
+        int maxX = 0, maxY = 0;//记录最长子串的结束位置
+        for (i = 0; i < len1; i++) {
+            for (j = 0; j < len2; j++) {
+                if (s1[i] == s2[j]) {
+                    c[i][j] = itemWithBoundary(i - 1, j - 1) + 1;
+                } else {
+                    c[i][j] = 0;
+                }
+
+                if (maxSubLen < c[i][j]) {
+                    maxSubLen = c[i][j];
+                    maxX = i;
+                    maxY = j;
+                }
+            }
+        }
+        //打印迭代记录表C[][]
+        dumpMatrix();
+        System.out.println("最长公共子序列结束位置(x, y):" + maxX + ":" + maxY);
+        dumpMaxLenSubString(maxX, maxY);
+    }
+
+    /**
+     * 打印最长公共子串
+     * 从[x,y]位置开始向左上遍历直到c[i][j]越界，或者c[i][j]==0
+     *
+     * @param x
+     * @param y
+     */
+    private void dumpMaxLenSubString(int x, int y) {
+        Stack<Character> stack = new Stack<>();
+        int i = x;
+        int j = y;
+        while (i >= 0 && j >= 0 && c[i][j] > 0) {
+            stack.push(s1[i]);
+            i--;
+            j--;
+        }
+        //输出最长子串
+        StringBuilder result = new StringBuilder();
+        while (!stack.isEmpty()) {
+            Character pop = stack.pop();
+            result.append(pop);
+        }
+
+        System.out.println("最长公共子串为:" + result.toString());
     }
 }

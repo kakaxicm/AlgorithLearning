@@ -403,7 +403,7 @@ public class ExampleUnitTest {
     @Test
     public void testLcs(){
 //        LCS lcs = new LCS("eabcd", "efabcffffffd");
-        LCS lcs = new LCS("ABCBDAB", "BDCABA");
-        lcs.getLcs();
+        LCS lcs = new LCS("GHHABDCAB", "BDCABAE");
+        lcs.getLcss();
     }
 }
