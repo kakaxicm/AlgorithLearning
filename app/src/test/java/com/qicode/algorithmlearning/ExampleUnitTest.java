@@ -2,6 +2,8 @@ package com.qicode.algorithmlearning;
 
 import android.util.Log;
 
+import com.qicode.algorithmlearning.dp.LCS;
+
 import org.junit.Test;
 import org.junit.experimental.theories.suppliers.TestedOn;
 
@@ -393,5 +395,15 @@ public class ExampleUnitTest {
 
         Prim prim = new Prim(map);
         prim.prim(0);
+    }
+
+    /**
+     * 测试最长公共子序列
+     */
+    @Test
+    public void testLcs(){
+//        LCS lcs = new LCS("eabcd", "efabcffffffd");
+        LCS lcs = new LCS("ABCBDAB", "BDCABA");
+        lcs.getLcs();
     }
 }
