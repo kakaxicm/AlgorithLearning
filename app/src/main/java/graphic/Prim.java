@@ -72,6 +72,9 @@ public class Prim {
         dumpResult();
     }
 
+    /**
+     * 输出边和顶点即可
+     */
     private void dumpResult() {
         System.out.println("======最小树结构======");
         for (int i = 0; i < lowcost.length; i++) {

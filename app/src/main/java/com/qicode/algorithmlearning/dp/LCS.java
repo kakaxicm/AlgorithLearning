@@ -33,10 +33,9 @@ public class LCS {
      * 最长公共子序列迭代
      */
     public void getLcs() {
-        //初始化第一行
         int i, j;//行为s1,列为s2
 
-        //从第二行开始迭代
+        //开始迭代
         for (i = 0; i < len1; i++) {
             for (j = 0; j < len2; j++) {
                 if (s1[i] == s2[j]) {
@@ -80,17 +79,17 @@ public class LCS {
         int j = len2 - 1;
         Stack<Character> stack = new Stack<>();
         while (i >= 0 && j >= 0) {
-            if (b[i][j] == TYPE_LEFT_TOP) {
+            if (b[i][j] == TYPE_LEFT_TOP) {//方向左上
                 stack.push(s1[i]);
                 i--;
                 j--;
-            } else if (b[i][j] == TYPE_LEFT) {
+            } else if (b[i][j] == TYPE_LEFT) {//方向向左
                 j--;
-            } else if (b[i][j] == TYPE_TOP) {
+            } else if (b[i][j] == TYPE_TOP) {//方向向上
                 i--;
             }
         }
-
+        //输出最长子序列
         StringBuilder result = new StringBuilder();
         while (!stack.isEmpty()) {
             Character pop = stack.pop();

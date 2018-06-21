@@ -3,6 +3,7 @@ package com.qicode.algorithmlearning;
 import android.util.Log;
 
 import com.qicode.algorithmlearning.dp.LCS;
+import com.qicode.algorithmlearning.dp.StepCombination;
 
 import org.junit.Test;
 import org.junit.experimental.theories.suppliers.TestedOn;
@@ -402,8 +403,13 @@ public class ExampleUnitTest {
      */
     @Test
     public void testLcs(){
-//        LCS lcs = new LCS("eabcd", "efabcffffffd");
-        LCS lcs = new LCS("GHHABDCAB", "BDCABAE");
+        LCS lcs = new LCS("BDCABA", "ABCBDAB");
+//        lcs.getLcs();
         lcs.getLcss();
+    }
+
+    @Test
+    public void testStepCombination(){
+        StepCombination.stepCombination(5);
     }
 }
