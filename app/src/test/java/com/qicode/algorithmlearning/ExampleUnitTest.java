@@ -3,6 +3,7 @@ package com.qicode.algorithmlearning;
 import android.util.Log;
 
 import com.qicode.algorithmlearning.dp.LCS;
+import com.qicode.algorithmlearning.dp.Palindrome;
 import com.qicode.algorithmlearning.dp.StepCombination;
 
 import org.junit.Test;
@@ -410,6 +411,12 @@ public class ExampleUnitTest {
 
     @Test
     public void testStepCombination(){
-        StepCombination.stepCombination(5);
+        StepCombination.stepCombination(
+                5);
+    }
+
+    @Test
+    public void testPalindromeStr(){
+        Palindrome.longestPalindromeStr("badaaaadcab");
     }
 }
