@@ -4,8 +4,8 @@ package com.qicode.algorithmlearning.dp;
  * Created by chenming on 2018/6/23
  * 最小编辑距离
  * 迭代方程c[i][j]表示S1的字串S1[0-i]和S2[0-J]的编辑距离
- * 1.当S1[i]=S[j]时，c[i][j]=c[i-1][j-1]
- * 2.当S1[I]!=S[J]时,c[i][j]=min(c[i][j-1]+1,c[i-1][j]+1, c[i-1][j-1]),(来源左侧)取c[i][j-1]表示插入S2[j]，（来源上侧）取c[i-1][j]表示删除S1[i]
+ * 1.当S1[i]=S[j]时，c[i][j]=c[i-1][j-1],字符相等距离不变
+ * 2.当S1[i]!=S2[j]时,c[i][j]=min(c[i][j-1]+1,c[i-1][j]+1, c[i-1][j-1]+1),(来源左侧)取c[i][j-1]表示插入S2[j]，（来源上侧）取c[i-1][j]表示删除S1[i]
  */
 public class MinEditDistance {
     public static int getMinEditDistance(String s1, String s2) {
@@ -26,12 +26,12 @@ public class MinEditDistance {
         for (int i = 1; i <= len1; i++) {
             for (int j = 1; j <= len2; j++) {
                 if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
-                    dif = 0;
+                    c[i][j] = c[i - 1][j - 1];
                 } else {
-                    dif = 1;
+                    int temp = Math.min(c[i - 1][j], c[i][j - 1]) + 1;
+                    c[i][j] = Math.min(temp, c[i - 1][j - 1] + 1);
                 }
-                int temp = Math.min(c[i - 1][j], c[i][j - 1]) + 1;
-                c[i][j] = Math.min(temp, c[i - 1][j - 1] + dif);
+
             }
 
         }
