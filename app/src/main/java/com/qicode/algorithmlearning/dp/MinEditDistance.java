@@ -68,15 +68,5 @@ public class MinEditDistance {
         }
         return c[len1][len2];
     }
-
-    /**
-     * 输出编辑过程
-     *
-     * @param c    矩阵
-     * @param len1 行数
-     * @param len2 列数
-     */
-    private static void dumpEditProcess(int[][] c, int len1, int len2) {
-
-    }
+    
 }
