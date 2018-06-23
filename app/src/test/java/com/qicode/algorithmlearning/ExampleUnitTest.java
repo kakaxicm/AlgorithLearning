@@ -3,6 +3,7 @@ package com.qicode.algorithmlearning;
 import android.util.Log;
 
 import com.qicode.algorithmlearning.dp.LCS;
+import com.qicode.algorithmlearning.dp.MinEditDistance;
 import com.qicode.algorithmlearning.dp.Palindrome;
 import com.qicode.algorithmlearning.dp.StepCombination;
 
@@ -418,5 +419,10 @@ public class ExampleUnitTest {
     @Test
     public void testPalindromeStr(){
         Palindrome.longestPalindromeStr("badaaaadcab");
+    }
+
+    @Test
+    public void testMinEditDis(){
+        MinEditDistance.getMinEditDistance("family", "frame");
     }
 }
