@@ -423,6 +423,7 @@ public class ExampleUnitTest {
 
     @Test
     public void testMinEditDis(){
-        MinEditDistance.getMinEditDistance("family", "frame");
+//        MinEditDistance.getMinEditDistance("family", "frame");
+        MinEditDistance.getMinEditDistance("a", "ab");
     }
 }

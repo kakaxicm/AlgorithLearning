@@ -11,13 +11,21 @@ public class MinEditDistance {
     public static int getMinEditDistance(String s1, String s2) {
         int len1 = s1.length();
         int len2 = s2.length();
+        //极端条件限制
+        if (s1.length() == 0) {
+            return len2;
+        }
+        if (s2.length() == 0) {
+            return len1;
+        }
+
         int[][] c = new int[len1 + 1][len2 + 1];//初始化第0行为0-len2,0列为0-len1，这表示空串和它们的编辑距离,
         // 所以行列多一行,剩下的才是迭代矩阵
 
         for (int i = 0; i <= len2; i++) {
             c[0][i] = i;
         }
-        for (int j = 0; j < len1; j++) {
+        for (int j = 0; j <= len1; j++) {
             c[j][0] = j;
         }
         int dif = 0;
@@ -50,9 +58,9 @@ public class MinEditDistance {
                 startX--;
                 startY--;
             } else {
-                int upVal = c[startX - 1][startY] + 1;
-                int leftVal = c[startX][startY - 1] + 1;
-                int upLeft = c[startX - 1][startY - 1] + 1;
+                int upVal = c[startX - 1][startY] + 1;//上方的值
+                int leftVal = c[startX][startY - 1] + 1;//左边的值
+                int upLeft = c[startX - 1][startY - 1] + 1;//左上方的值
                 if (c[startX][startY] == upVal) {//来源上侧,取c[i-1][j]表示删除S1[i]
                     System.out.println("删除" + s1.charAt(startX - 1));
                     startX--;
@@ -68,5 +76,5 @@ public class MinEditDistance {
         }
         return c[len1][len2];
     }
-    
+
 }
